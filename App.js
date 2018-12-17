@@ -2,7 +2,6 @@ import React from 'react';
 import { Dimensions, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Provider } from 'react-redux';
-
 import store from './src/redux/store/store';
 
 import AppContainer from './src/navigation/navigators';

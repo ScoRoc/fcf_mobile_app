@@ -36,7 +36,6 @@ const WodToolsStack = createStackNavigator(
   }
 );
 
-
 const TabNav = createBottomTabNavigator(
   {
     Home: { screen: HomeScreen },
