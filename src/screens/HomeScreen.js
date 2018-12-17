@@ -32,7 +32,7 @@ export default HomeScreen = props => {
     <View style={styles.screen}>
       <Text style={styles.title}>Hello from HomeScreen</Text>
       <Button title='open drawer' onPress={() => props.navigation.openDrawer()} />
-      <PagingTitleBar pageTitles={getPageTitles} />
+      <PagingTitleBar pageTitles={getPageTitles} scrollEnabled={false} />
       <View style={styles.scrollViewWrap}>
         <ScrollView
           horizontal={true}

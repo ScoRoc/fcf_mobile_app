@@ -2,14 +2,19 @@ import React from 'react';
 import { Button, ScrollView, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import Touchable from './Touchable';
+
 export default PagingTitleBar = props => {
-  const { pageTitles } = props;
+  const { pageTitles, scrollEnabled } = props;
   const titles = pageTitles.map((title, i) => (
-    <Text key={i}>{title}</Text>
-  ))
+    <Touchable onPress={() => console.log('pressed')} iosType='opacity' key={i}>
+      <Text>{title}</Text>
+    </Touchable>
+  ));
   return (
     <View>
       <ScrollView
+        scrollEnabled={scrollEnabled}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}
