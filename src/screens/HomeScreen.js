@@ -27,7 +27,7 @@ const styles = EStyleSheet.create({
   $padding: '50rem',
   screen: {
     paddingTop: '$padding',
-    // flex: 1,
+    flex: 1,
     // justifyContent: 'space-between',
     // alignItems: 'center',
   },
