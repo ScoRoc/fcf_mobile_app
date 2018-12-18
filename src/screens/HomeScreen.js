@@ -7,60 +7,40 @@ import EventsSubScreen from '../sub-screens/EventsSubScreen';
 
 import PagingTitleBar from '../components/PagingTitleBar';
 
-const { height, width } = Dimensions.get('window');
-const firstPageX = 0;
-const secondPageX = width;
+import homeScreenPages, { firstPageX, secondPageX } from '../object-maps/home-screen-pages';
 
-const pages = () => {
-  const pages = {
-    announcements: {
-      title: 'Announcements',
-    },
-    events: {
-      title: 'Events',
-    },
-  };
-  return {
-    getPages: (() => pages)(),
-    getPageTitles: (() => Object.values(pages).map(page => page.title))(),
-    getPagesSpecifcValue: value => Object.values(pages).map(page => page[value]),
-  };
-};
-const { getPages, getPageTitles, getPagesSpecifcValue } = pages();
-console.log( getPageTitles );
-console.log( getPages );
-console.log( getPagesSpecifcValue('title') );
+const { height, width } = Dimensions.get('window');
+const {
+  getPages,
+  getPageByXValue,
+  getPageTitleByXValue,
+  getPageTitles,
+  getPagesSpecifcValue
+} = homeScreenPages();
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pressed: false,
+      scrolledViaPress: false,
       currentPage: 'Announcements',
     };
   }
 
   scrollToBeginning = () => {
     this.scrollView.scrollTo( {x: 0} );
-    this.setState({pressed: true, currentPage: 'Announcements'});
+    this.setState({scrolledViaPress: true, currentPage: 'Announcements'});
   }
 
   scrollToEnd = () => {
     this.scrollView.scrollToEnd();
-    this.setState({pressed: true, currentPage: 'Events'});
+    this.setState({scrolledViaPress: true, currentPage: 'Events'});
   }
 
   handleScroll = e => {
     const { x } = e.nativeEvent.contentOffset;
     const xPage = x < width / 2 ? firstPageX : secondPageX;
-    const findPage = x => {
-      const page = {
-        [firstPageX]: 'Announcements',
-        [secondPageX]: 'Events',
-      };
-      return page[x];
-    };
-    if (!this.state.pressed) this.setState({ currentPage: findPage(xPage) });
+    if (!this.state.scrolledViaPress) this.setState({ currentPage: getPageTitleByXValue(xPage) });
   }
 
   render() {
@@ -79,7 +59,7 @@ export default class HomeScreen extends React.Component {
           <ScrollView
             ref={scrollView => this.scrollView = scrollView}
             onScroll={e => this.handleScroll(e)}
-            onMomentumScrollEnd={() => this.setState({pressed: false})}
+            onMomentumScrollEnd={() => this.setState({scrolledViaPress: false})}
             scrollEventThrottle={5}
             horizontal={true}
             pagingEnabled={true}

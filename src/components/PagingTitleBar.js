@@ -7,10 +7,7 @@ import Touchable from './Touchable';
 export default PagingTitleBar = props => {
   const { currentPage, pageTitles, scrollEnabled } = props;
   const titles = pageTitles.map((title, i) => {
-    let color = currentPage === title ? 'limegreen' : 'white';
-    const getColor = pressed => {
-      return pressed ? 'limegreen' : color;
-    };
+    const color = currentPage === title ? 'limegreen' : 'white';
     const handlePress = i === 0
                       ? props.scrollToBeginning
                       : i === pageTitles.length - 1
