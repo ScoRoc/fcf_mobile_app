@@ -30,32 +30,40 @@ const allWodTools = () => {
 };
 const { getAllTools, getToolInfoByName } = allWodTools();
 
-export default WodToolsScreen = props => {
-  const onPress = screen => props.navigation.navigate(screen);
-  const wodTools = Object.keys(getAllTools).map((name, i) => {
-    const tool = getToolInfoByName(name);
-    const { iconName, library, screen, text } = tool;
+// export default WodToolsScreen = props => {
+export default class WodToolsScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  };
+  render() {
+    const onPress = screen => this.props.navigation.navigate(screen);
+    const wodTools = Object.entries(getAllTools).map((tool, i) => {
+      const [ key, value ] = tool;
+      const { iconName, library, screen, text } = value;
+      return (
+        <WodToolTile
+          iconName={iconName}
+          key={i}
+          library={library}
+          onPress={onPress}
+          screen={screen}
+          text={text}
+        />
+      );
+    });
     return (
-      <WodToolTile
-        iconName={iconName}
-        key={i}
-        library={library}
-        onPress={onPress}
-        screen={screen}
-        text={text}
-      />
+      <View style={styles.screen}>
+        <ImageBackground blurRadius={4} source={{uri: imgUri}} style={imgBgStyle}>
+          <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />
+          <View style={styles.outerGrid}>
+            <View style={styles.grid}>
+              {wodTools}
+            </View>
+          </View>
+        </ImageBackground>
+      </View>
     );
-  });
-  // const foo = Object.entries(getAllTools);
-  return (
-    <View style={styles.screen}>
-      <ImageBackground blurRadius={4} source={{uri: imgUri}} style={imgBgStyle}>
-        <Text style={styles.text}>Hello from WodToolsScreen</Text>
-        <Button title='open drawer' onPress={() => props.navigation.openDrawer()} />
-        {wodTools}
-      </ImageBackground>
-    </View>
-  )
+  };
 };
 
 const styles = EStyleSheet.create({
@@ -66,8 +74,13 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#333'
   },
-  text: {
-    color: '$pink',
-    fontSize: '22rem'
-  }
+  outerGrid: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: 'yellow',
+  },
+  grid: {
+
+  },
 });

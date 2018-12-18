@@ -64,9 +64,9 @@ const TabNav = createBottomTabNavigator(
       },
       safeAreaInset: {
         bottom: 'never'
-      }
-    }
-  }
+      },
+    },
+  },
 );
 
 const MainDrawer = createDrawerNavigator(
