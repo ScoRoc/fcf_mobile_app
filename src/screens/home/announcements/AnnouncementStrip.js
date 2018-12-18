@@ -24,19 +24,19 @@ export default AnnouncementStrip = props => {
 };
 
 const styles = EStyleSheet.create({
+  $spacing: '10rem',
   view: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 10,
-    paddingTop: 10,
-    paddingBottom: 10,
+    marginTop: '$spacing',
+    marginBottom: '$spacing',
+    paddingTop: '$spacing',
+    paddingBottom: '$spacing',
     backgroundColor: 'grey',
   },
   textWrap: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    // backgroundColor: 'blue',
   },
 });

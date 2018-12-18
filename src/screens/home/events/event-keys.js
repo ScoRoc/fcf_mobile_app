@@ -19,5 +19,3 @@ export default eventKeys = () => {
     getKeysText: (() => Object.values(keys).map(key => key.text))(),
   }
 };
-
-console.log(eventKeys().getKeysText)

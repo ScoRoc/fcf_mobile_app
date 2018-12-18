@@ -73,14 +73,8 @@ export default AnnouncementsSubScreen = props => {
 
 const styles = EStyleSheet.create({
   $padding: '50rem',
-  screen: {
-    // paddingTop: '$padding',
-    // flex: 1,
-    // justifyContent: 'space-between',
-    // alignItems: 'center',
-  },
   text: {
     color: '$pink',
     fontSize: '22rem'
-  }
+  },
 });
