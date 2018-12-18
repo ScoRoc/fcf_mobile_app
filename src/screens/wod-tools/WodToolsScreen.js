@@ -1,10 +1,11 @@
 import React from 'react';
-import { Button, Dimensions, ImageBackground, Text, View } from 'react-native';
+import { Button, ImageBackground, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+
+import { height, tabHeight, width } from '../../variables/variables';
 
 import WodToolTile from './WodToolTile';
 
-const { height, width } = Dimensions.get('window');
 const imgUri = `https://www.placecage.com/c/${width}/${height}`;
 const imgBgStyle = {height, width};
 
@@ -22,6 +23,30 @@ const allWodTools = () => {
       screen: 'PercentTable',
       text: 'Percent Table',
     },
+    // percentTable2: {
+    //   iconName: 'percent',
+    //   library: 'Feather',
+    //   screen: 'PercentTable',
+    //   text: 'Percent Table',
+    // },
+    // percentTable3: {
+    //   iconName: 'percent',
+    //   library: 'Feather',
+    //   screen: 'PercentTable',
+    //   text: 'Percent Table',
+    // },
+    // percentTable4: {
+    //   iconName: 'percent',
+    //   library: 'Feather',
+    //   screen: 'PercentTable',
+    //   text: 'Percent Table',
+    // },
+    // percentTable5: {
+    //   iconName: 'percent',
+    //   library: 'Feather',
+    //   screen: 'PercentTable',
+    //   text: 'Percent Table',
+    // },
   };
   return {
     getAllTools: (() => wodTools)(),
@@ -66,6 +91,8 @@ export default class WodToolsScreen extends React.Component {
   };
 };
 
+console.log('tabHeight: ', tabHeight)
+
 const styles = EStyleSheet.create({
   $padding: '50rem',
   screen: {
@@ -75,12 +102,17 @@ const styles = EStyleSheet.create({
     backgroundColor: '#333'
   },
   outerGrid: {
+    paddingBottom: tabHeight,
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'yellow',
+    // backgroundColor: 'yellow',
   },
   grid: {
-
+    width,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    // backgroundColor: 'red'
   },
 });

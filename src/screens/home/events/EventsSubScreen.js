@@ -1,11 +1,13 @@
 import React from 'react';
-import { Button, Dimensions, ScrollView, Text, View } from 'react-native';
+import { Button, ScrollView, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import eventKeys from './event-keys';
 
 import EventsKey from './EventsKey';
 import EventStrip from './EventStrip';
+
+import { height, width } from '../../../variables/variables';
 
 const date = new Date();
 const month = date.toLocaleString('en-us', {month: 'long'});
@@ -60,7 +62,6 @@ const { getDateByTitle, getEventTitles, getThroughDateByTitle, getTypeByTitle } 
 //////////////////////////////
 
 export default EventsSubScreen = props => {
-  const { height, width } = Dimensions.get('window');
   ///////
   const events = getEventTitles.map((title, i) => {
     return (

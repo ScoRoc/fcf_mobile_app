@@ -5,7 +5,6 @@ import {
   createStackNavigator
 } from 'react-navigation';
 
-
 import MainScreen from '../screens/MainScreen';
 import IAPScreen from '../screens/IAPScreen';
 
@@ -15,6 +14,8 @@ import WodScreen from '../screens/wod/WodScreen';
 import WodToolsScreen from '../screens/wod-tools/WodToolsScreen';
 import UnitConverterScreen from '../screens/wod-tools/unit-converter/UnitConverterScreen';
 import PercentTableScreen from '../screens/wod-tools/percent-table/PercentTableScreen';
+
+import { tabHeight } from '../variables/variables';
 
 const WodToolsStack = createStackNavigator(
   {
@@ -53,7 +54,7 @@ const TabNav = createBottomTabNavigator(
       activeBackgroundColor: '#4fd',
       inactiveBackgroundColor: '#053',
       style: {
-        height: 80,
+        height: tabHeight,
       },
       tabStyle: {
         // paddingBottom: 35

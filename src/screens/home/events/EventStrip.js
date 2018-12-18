@@ -1,8 +1,9 @@
 import React from 'react';
-import { Dimensions, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-const { height, width } = Dimensions.get('window');
+import { height, width } from '../../../variables/variables';
+
 const date = new Date();
 const month = date.toLocaleString('en-us', {month: 'short'});
 

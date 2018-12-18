@@ -3,7 +3,8 @@ import {
   Platform,
   TouchableHighlight,
   TouchableOpacity,
-  TouchableNativeFeedback
+  TouchableNativeFeedback,
+  View
 } from 'react-native';
 
 export default Touchable = props => {
@@ -17,7 +18,9 @@ export default Touchable = props => {
   // console.log( Platform.OS );
   return (
     <OSSpecificTouchable {...props}>
-      {props.children}
+      <View style={props.style}>
+        {props.children}
+      </View>
     </OSSpecificTouchable>
   );
 };

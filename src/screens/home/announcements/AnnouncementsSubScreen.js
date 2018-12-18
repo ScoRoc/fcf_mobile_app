@@ -1,11 +1,12 @@
 import React from 'react';
-import { Button, Dimensions, Image, ScrollView, View } from 'react-native';
+import { Button, Image, ScrollView, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import AnnouncementStrip from './AnnouncementStrip';
 
+import { height, width } from '../../../variables/variables';
+
 //////////////////////////////
-const { height, width } = Dimensions.get('window');
 const imgHeight = height / 8.5;
 const imgWidth = width * .4;
 const leftoverSpace = width - imgWidth;

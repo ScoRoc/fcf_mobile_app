@@ -1,6 +1,4 @@
-import { Dimensions } from 'react-native';
-
-const { height, width } = Dimensions.get('window');
+import { height, width } from '../../variables/variables';
 
 export const firstPageX = 0;
 export const secondPageX = width;

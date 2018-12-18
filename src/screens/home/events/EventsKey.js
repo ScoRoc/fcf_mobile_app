@@ -1,12 +1,12 @@
 import React from 'react';
-import { Dimensions, View } from 'react-native';
+import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import EventKey from './EventKey';
 
 import eventKeys from './event-keys';
+import { height, width } from '../../../variables/variables';
 
-const { height, width } = Dimensions.get('window');
 const { getKeyColorByText, getKeysText } = eventKeys();
 const numOfKeys = getKeysText.length;
 
