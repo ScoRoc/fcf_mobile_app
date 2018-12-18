@@ -8,17 +8,16 @@ export default PagingTitleBar = props => {
   const { currentPage, pageTitles, scrollEnabled } = props;
   const titles = pageTitles.map((title, i) => {
     let color = currentPage === title ? 'limegreen' : 'white';
+    const getColor = pressed => {
+      return pressed ? 'limegreen' : color;
+    };
     const handlePress = i === 0
                       ? props.scrollToBeginning
                       : i === pageTitles.length - 1
                       ? props.scrollToEnd
                       : () => console.log('pressed');
-    const foo = () => {
-      color = 'limegreen';
-      handlePress();
-    };
     return (
-      <Touchable onPress={foo} iosType='opacity' key={i}>
+      <Touchable onPress={handlePress} iosType='opacity' key={i}>
         <Text style={[styles.text, {color}]}>{title}</Text>
       </Touchable>
     )
@@ -39,6 +38,7 @@ export default PagingTitleBar = props => {
 
 const styles = EStyleSheet.create({
   text: {
+    color: 'white',
     fontSize: 30,
   },
   scrollView: {

@@ -8,6 +8,8 @@ import EventsSubScreen from '../sub-screens/EventsSubScreen';
 import PagingTitleBar from '../components/PagingTitleBar';
 
 const { height, width } = Dimensions.get('window');
+const firstPageX = 0;
+const secondPageX = width;
 
 const pages = () => {
   const pages = {
@@ -33,24 +35,23 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      pressed: false,
       currentPage: 'Announcements',
     };
   }
 
   scrollToBeginning = () => {
     this.scrollView.scrollTo( {x: 0} );
-    this.setState({currentPage: 'Announcements'});
+    this.setState({pressed: true, currentPage: 'Announcements'});
   }
 
   scrollToEnd = () => {
     this.scrollView.scrollToEnd();
-    this.setState({currentPage: 'Events'});
+    this.setState({pressed: true, currentPage: 'Events'});
   }
 
   handleScroll = e => {
     const { x } = e.nativeEvent.contentOffset;
-    const firstPageX = 0;
-    const secondPageX = width;
     const xPage = x < width / 2 ? firstPageX : secondPageX;
     const findPage = x => {
       const page = {
@@ -59,7 +60,7 @@ export default class HomeScreen extends React.Component {
       };
       return page[x];
     };
-    this.setState({ currentPage: findPage(xPage) });
+    if (!this.state.pressed) this.setState({ currentPage: findPage(xPage) });
   }
 
   render() {
@@ -78,6 +79,7 @@ export default class HomeScreen extends React.Component {
           <ScrollView
             ref={scrollView => this.scrollView = scrollView}
             onScroll={e => this.handleScroll(e)}
+            onMomentumScrollEnd={() => this.setState({pressed: false})}
             scrollEventThrottle={5}
             horizontal={true}
             pagingEnabled={true}
