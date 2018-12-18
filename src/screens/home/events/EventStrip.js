@@ -28,14 +28,6 @@ export default EventStrip = props => {
 };
 
 const styles = EStyleSheet.create({
-  // $titleTilePadding: '25rem',
-  dateThrough: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    backgroundColor: 'lightgrey',
-    borderTopLeftRadius: '6rem',
-  },
   strip: {
     height: height / 9.5,
     flexDirection: 'row',
@@ -52,8 +44,6 @@ const styles = EStyleSheet.create({
     fontSize: '50rem',
   },
   titleTile: {
-    // paddingTop: '$titleTilePadding',
-    // paddingBottom: '$titleTilePadding',
     flex: 1,
     paddingLeft: '5%',
     justifyContent: 'center',
@@ -61,5 +51,12 @@ const styles = EStyleSheet.create({
   },
   titleText: {
     fontSize: '23rem',
+  },
+  dateThrough: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    backgroundColor: 'lightgrey',
+    borderTopLeftRadius: '6rem',
   },
 })

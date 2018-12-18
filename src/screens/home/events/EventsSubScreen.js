@@ -72,11 +72,10 @@ export default EventsSubScreen = props => {
         key={i}
       />
     )
-  })
+  });
   ///////
   return (
     <View style={[styles.screen, {width}]}>
-      <Text>Events sub screen</Text>
       <EventsKey />
       <View style={styles.monthWrapper}>
         <Text style={styles.monthText}>{month} {year}</Text>

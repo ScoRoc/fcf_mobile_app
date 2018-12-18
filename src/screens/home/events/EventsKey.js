@@ -28,9 +28,11 @@ export default EventsKey = props => {
 };
 
 const styles = EStyleSheet.create({
+  $padding: '14rem',
   view: {
+    paddingTop: '$padding',
+    paddingBottom: '$padding',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    // paddingRight: '15rem',
   },
 })
