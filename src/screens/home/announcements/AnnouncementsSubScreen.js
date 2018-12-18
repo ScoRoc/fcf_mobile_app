@@ -1,37 +1,42 @@
 import React from 'react';
-import { Button, Dimensions, Image, ScrollView, Text, View } from 'react-native';
+import { Button, Dimensions, Image, ScrollView, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+
+import AnnouncementStrip from './AnnouncementStrip';
 
 //////////////////////////////
 const { height, width } = Dimensions.get('window');
-const ih = height / 10;
-const iw = width * .4;
+const imgHeight = height / 8.5;
+const imgWidth = width * .4;
+const leftoverSpace = width - imgWidth;
+const paddedSpace = leftoverSpace * .9;
+const padding = leftoverSpace * .1 / 2;
 
 const fakeAnnouncements = () => {
   const fakeAnnouncementsObj = {
     one: {
       text: 'Drinks at Optimism',
-      image: `https://www.placecage.com/c/${iw}/${ih}`,
+      image: `https://www.placecage.com/c/${imgWidth}/${imgHeight}`,
     },
     two: {
       text: 'Cancer Drive',
-      image: `https://www.placecage.com/c/${iw}/${ih}`,
+      image: `https://www.placecage.com/c/${imgWidth}/${imgHeight}`,
     },
     three: {
       text: '5k Run for ABC',
-      image: `https://www.placecage.com/c/${iw}/${ih}`,
+      image: `https://www.placecage.com/c/${imgWidth}/${imgHeight}`,
     },
     four: {
       text: 'Another Comp Event',
-      image: `https://www.placecage.com/c/${iw}/${ih}`,
+      image: `https://www.placecage.com/c/${imgWidth}/${imgHeight}`,
     },
     five: {
       text: 'Another Social Event',
-      image: `https://www.placecage.com/c/${iw}/${ih}`,
+      image: `https://www.placecage.com/c/${imgWidth}/${imgHeight}`,
     },
     six: {
-      text: 'Another Community Event',
-      image: `https://www.placecage.com/c/${iw}/${ih}`,
+      text: 'Another Community Event word words words words words words',
+      image: `https://www.placecage.com/c/${imgWidth}/${imgHeight}`,
     },
   };
   return {
@@ -43,43 +48,22 @@ const { getAllAnnouncements } = fakeAnnouncements();
 
 export default AnnouncementsSubScreen = props => {
   const announcements = Object.keys(getAllAnnouncements).map((announcement, i) => {
-    const position  = i % 2 === 0
-                    ? (
-                      <View style={{flexDirection: 'row'}}>
-                        <Image style={{height: ih, width: iw, marginLeft: 10}} source={{uri: getAllAnnouncements[announcement].image}} />
-                        <Text style={{alignSelf: 'center', marginLeft: 10}}>{getAllAnnouncements[announcement].text}</Text>
-                      </View>
-                      )
-                    : (
-                      <View style={{flexDirection: 'row', height: ih}}>
-                        <Text style={{alignSelf: 'center'}}>{getAllAnnouncements[announcement].text}</Text>
-                        <Image
-                          style={{height: ih, width: iw, marginLeft: 10, position: 'absolute', right: 10}}
-                          source={{uri: getAllAnnouncements[announcement].image}}
-                        />
-                      </View>
-                      )
+    const imgLeft = i % 2 === 0 ? true : false;
     return (
-      <View
-        style={{
-          // flexDirection: 'row',
-          marginTop: 10,
-          marginBottom: 10,
-          paddingTop: 10,
-          paddingBottom: 10,
-          backgroundColor: 'grey',
-        }}
+      <AnnouncementStrip
+        img={getAllAnnouncements[announcement].image}
+        text={getAllAnnouncements[announcement].text}
+        imgHeight={imgHeight}
+        imgLeft={imgLeft}
+        imgWidth={imgWidth}
+        padding={padding}
+        textWrapWidth={leftoverSpace}
         key={i}
-      >
-        {/* <Image style={{height: ih, width: iw}} source={{uri: getAllAnnouncements[announcement].image}} />
-        <Text style={{alignSelf: 'center', marginLeft: 10}}>{getAllAnnouncements[announcement].text}</Text> */}
-        {position}
-      </View>
+      />
     );
   });
   return (
     <View style={[styles.screen, {width}]}>
-      <Text>Announcements sub screen</Text>
       <ScrollView>
         {announcements}
       </ScrollView>
