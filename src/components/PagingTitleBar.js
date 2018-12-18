@@ -37,12 +37,12 @@ export default PagingTitleBar = props => {
 
 const styles = EStyleSheet.create({
   view: {
-    paddingBottom: 3,
-    borderBottomWidth: 2,
+    paddingBottom: '3rem',
+    borderBottomWidth: '2rem',
   },
   text: {
     color: 'white',
-    fontSize: 30,
+    fontSize: '30rem',
   },
   scrollView: {
     flex: 1,

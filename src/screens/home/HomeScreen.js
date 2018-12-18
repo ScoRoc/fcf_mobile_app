@@ -2,12 +2,12 @@ import React from 'react';
 import { Button, Dimensions, ScrollView, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import AnnouncementsSubScreen from '../sub-screens/AnnouncementsSubScreen';
-import EventsSubScreen from '../sub-screens/EventsSubScreen';
+import AnnouncementsSubScreen from './announcements/AnnouncementsSubScreen';
+import EventsSubScreen from './events/EventsSubScreen';
 
-import PagingTitleBar from '../components/PagingTitleBar';
+import PagingTitleBar from '../../components/PagingTitleBar';
 
-import homeScreenPages, { firstPageX, secondPageX } from '../object-maps/home-screen-pages';
+import homeScreenPages, { firstPageX, secondPageX } from './home-screen-pages';
 
 const { height, width } = Dimensions.get('window');
 const {
@@ -82,7 +82,7 @@ const styles = EStyleSheet.create({
     flex: 1,
   },
   title: {
-    height: 100,
+    height: '100rem',
     backgroundColor: 'yellow',
     color: '$pink',
     fontSize: '22rem'

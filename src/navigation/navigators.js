@@ -9,12 +9,12 @@ import {
 import MainScreen from '../screens/MainScreen';
 import IAPScreen from '../screens/IAPScreen';
 
-import HomeScreen from '../screens/HomeScreen';
-import BlogScreen from '../screens/BlogScreen';
-import WodScreen from '../screens/WodScreen';
-import WodToolsScreen from '../screens/WodToolsScreen';
-import UnitConverterScreen from '../screens/UnitConverterScreen';
-import PercentTableScreen from '../screens/PercentTableScreen';
+import HomeScreen from '../screens/home/HomeScreen';
+import BlogScreen from '../screens/blog/BlogScreen';
+import WodScreen from '../screens/wod/WodScreen';
+import WodToolsScreen from '../screens/wod-tools/WodToolsScreen';
+import UnitConverterScreen from '../screens/wod-tools/unit-converter/UnitConverterScreen';
+import PercentTableScreen from '../screens/wod-tools/percent-table/PercentTableScreen';
 
 const WodToolsStack = createStackNavigator(
   {
