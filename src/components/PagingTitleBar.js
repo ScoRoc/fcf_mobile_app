@@ -15,7 +15,9 @@ export default PagingTitleBar = props => {
                       : () => console.log('pressed');
     return (
       <Touchable onPress={handlePress} iosType='opacity' key={i}>
-        <Text style={[styles.text, {color}]}>{title}</Text>
+        <View style={[styles.view, {borderBottomColor: color}]}>
+          <Text style={[styles.text, {color}]}>{title}</Text>
+        </View>
       </Touchable>
     )
   });
@@ -34,6 +36,10 @@ export default PagingTitleBar = props => {
 };
 
 const styles = EStyleSheet.create({
+  view: {
+    paddingBottom: 3,
+    borderBottomWidth: 2,
+  },
   text: {
     color: 'white',
     fontSize: 30,
