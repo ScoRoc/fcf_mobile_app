@@ -33,7 +33,7 @@ const WodToolsStack = createStackNavigator(
       headerTintStyle: {
         fontWeight: 'bold'
       }
-    }
+    },
   }
 );
 
@@ -48,6 +48,7 @@ const TabNav = createBottomTabNavigator(
     defaultNavigationOptions: ({ navigation }) => ({
       // stuff here
     }),
+    initialRouteName: 'WodTools', //////////// FIX THIS
     tabBarOptions: {
       activeTintColor: 'tomato',
       inactiveTintColor: 'grey',

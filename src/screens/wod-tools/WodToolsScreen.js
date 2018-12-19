@@ -60,6 +60,13 @@ export default class WodToolsScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
+  ////////////////
+  componentDidMount() {
+    this.props.navigation.navigate('UnitConverter'); ////// CHANGE
+  }
+  ////////////////
+
   render() {
     const onPress = screen => this.props.navigation.navigate(screen);
     const wodTools = Object.entries(getAllTools).map((tool, i) => {
@@ -90,8 +97,6 @@ export default class WodToolsScreen extends React.Component {
     );
   };
 };
-
-console.log('tabHeight: ', tabHeight)
 
 const styles = EStyleSheet.create({
   $padding: '50rem',

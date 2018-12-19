@@ -2,23 +2,32 @@ import React from 'react';
 import { Button, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-export default UnitConverterScreen = props => {
-  return (
-    <View style={styles.screen}>
-      <Text style={styles.text}>Hello from UnitConverterScreen</Text>
-      <Button title='open drawer' onPress={() => props.navigation.openDrawer()} />
-    </View>
-  )
+import Calc from './Calc';
+
+export default class UnitConverterScreen extends React.Component {
+
+  static navigationOptions = {
+    title: 'Unit Coverter',
+    headerTitleStyle: {
+      fontSize: 22,
+      // fontWeight: 'bold',
+    },
+  }
+
+  render() {
+    return (
+      <View style={styles.screen}>
+        <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />
+        <Calc />
+      </View>
+    );
+  }
 };
 
 const styles = EStyleSheet.create({
-  $padding: '50rem',
   screen: {
-    paddingTop: '$padding',
     flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#333'
+    // backgroundColor: '#333'
   },
   text: {
     color: '$pink',
