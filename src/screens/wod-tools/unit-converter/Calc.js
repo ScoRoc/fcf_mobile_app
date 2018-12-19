@@ -10,15 +10,18 @@ const col = width / 4;
 export default Calc = props => {
   return (
     <View style={styles.view}>
-      <CalcTile col={col} />
-      <CalcTile col={col} />
-      <CalcTile col={col} />
-      <CalcTile col={col} />
-      <CalcTile col={col} />
-      <CalcTile col={col} />
-      <CalcTile col={col} />
-      <CalcTile col={col} />
-      <CalcTile col={col} />
+      <CalcTile updateInput={props.updateInput} type='add' value={1} col={col} />
+      <CalcTile updateInput={props.updateInput} type='add' value={2} col={col} />
+      <CalcTile updateInput={props.updateInput} type='add' value={3} col={col} />
+      <CalcTile updateInput={props.updateInput} type='add' value={4} col={col} />
+      <CalcTile updateInput={props.updateInput} type='add' value={5} col={col} />
+      <CalcTile updateInput={props.updateInput} type='add' value={6} col={col} />
+      <CalcTile updateInput={props.updateInput} type='add' value={7} col={col} />
+      <CalcTile updateInput={props.updateInput} type='add' value={8} col={col} />
+      <CalcTile updateInput={props.updateInput} type='add' value={9} col={col} />
+      <CalcTile updateInput={props.updateInput} type='add' value={'.'} col={col} />
+      <CalcTile updateInput={props.updateInput} type='add' value={0} col={col} />
+      <CalcTile updateInput={props.updateInput} type='delete' value={'<--'} col={col} />
     </View>
   );
 }
