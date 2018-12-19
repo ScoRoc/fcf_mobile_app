@@ -8,9 +8,10 @@ export default class UnitConverterScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      convertTo: 'LB',
-      input: '0',
-      converted: '',
+      convertTo: 'lb',
+      update: false,
+      input: '',
+      converted: '0',
     };
   }
   static navigationOptions = {
@@ -21,24 +22,37 @@ export default class UnitConverterScreen extends React.Component {
     },
   }
 
+  flipUnits = () => {
+    const changeTo = {
+      lb: 'kg',
+      kg: 'lb',
+    };
+    this.setState({convertTo: changeTo[this.state.convertTo]})
+  }
+
   updateInput = (digit, type) => {
     const input = this.state.input === '0' ? '' : this.state.input;
     const types = {
       add: () => `${input}${digit}`,
       delete: () => input.substring(0, input.length - 1),
     };
-    const newInput = types[type]();
-    this.setState({input: types[type]()});
+    this.setState({input: types[type](), update: true});
   }
 
   convert = str => {
-    console.log('str: ', str);
-    return this.state.input;
+    console.log('str * 2', str * 2);
+    const convertTo = {
+      lb: () => str * 2.20462,
+      kg: () => str * 0.453592,
+    }
+    const converted = convertTo[this.state.convertTo]().toFixed(2);
+    console.log('converted: ', typeof converted)
+    return converted;
   }
 
   componentDidUpdate() {
-    if (this.state.converted !== this.state.input) {
-      this.setState({converted: this.convert(this.state.input)});
+    if (this.state.update) {
+      this.setState({converted: this.convert(this.state.input), update: false});
     }
   }
 
@@ -50,6 +64,11 @@ export default class UnitConverterScreen extends React.Component {
           <Text>input value: </Text>
           <Text>{this.state.input}</Text>
         </View>
+        <View>
+          <Text>output value: </Text>
+          <Text>{this.state.converted}</Text>
+        </View>
+        <Button title={this.state.convertTo} onPress={this.flipUnits} />
         <Calc updateInput={this.updateInput} />
       </View>
     );
