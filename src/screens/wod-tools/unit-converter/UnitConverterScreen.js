@@ -31,11 +31,11 @@ export default class UnitConverterScreen extends React.Component {
     };
     const newInput = types[type]();
     let returnedInput = newInput[0] === '.'
-                        ? newInput.length > 7
-                          ? `0${newInput}`.substring(0, 8)
+                        ? newInput.length > 4
+                          ? `0${newInput}`.substring(0, 4)
                           : `0${newInput}`
-                        : newInput.length > 7
-                          ? newInput.substring(0, 7)
+                        : newInput.length > 4
+                          ? newInput.substring(0, 4)
                           : newInput;
     this.setState({input: returnedInput, update: true});
   }
@@ -63,23 +63,26 @@ export default class UnitConverterScreen extends React.Component {
   }
 
   render() {
+    const { input, outputKG, outputLB } = this.state;
     return (
       <View style={styles.screen}>
-        <View>
-          <Text>input value: </Text>
-          <Text>{this.state.input}</Text>
-        </View>
-        <ArrowIO kg={this.state.outputKG} lb={this.state.outputLB} />
+        <ArrowIO input={input} kg={outputKG} lb={outputLB} />
         <Calc updateInput={this.updateInput} />
         <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />
+        <View>
+          <Text>input value: </Text>
+          <Text>{input}</Text>
+        </View>
       </View>
     );
   }
 };
 
 const styles = EStyleSheet.create({
+  $blue: 'blue',
   screen: {
     flex: 1,
+    justifyContent: 'space-evenly',
     // backgroundColor: '#333'
   },
   text: {
