@@ -69,7 +69,6 @@ export default class UnitConverterScreen extends React.Component {
   render() {
     return (
       <View style={styles.screen}>
-        <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />
         <View>
           <Text>input value: </Text>
           <Text>{this.state.input}</Text>
@@ -80,6 +79,7 @@ export default class UnitConverterScreen extends React.Component {
         </View>
         <Button title={`to ${this.state.convertTo}`} onPress={this.flipUnits} />
         <Calc updateInput={this.updateInput} />
+        <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />
       </View>
     );
   }

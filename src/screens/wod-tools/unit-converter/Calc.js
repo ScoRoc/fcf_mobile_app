@@ -1,27 +1,27 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import CalcTile from './CalcTile';
 
+import { allTiles } from './tile-info';
 import { height, width } from '../../../variables/variables';
 const col = width / 4;
 
 export default Calc = props => {
+  const calcTiles = Object.entries(allTiles).map((tile, i) => {
+    const [key, value] = tile;
+    return  <CalcTile
+              updateInput={props.updateInput}
+              type={value.type}
+              value={value.value}
+              col={col}
+              key={i}
+            />
+  });
   return (
     <View style={styles.view}>
-      <CalcTile updateInput={props.updateInput} type='add' value={1} col={col} />
-      <CalcTile updateInput={props.updateInput} type='add' value={2} col={col} />
-      <CalcTile updateInput={props.updateInput} type='add' value={3} col={col} />
-      <CalcTile updateInput={props.updateInput} type='add' value={4} col={col} />
-      <CalcTile updateInput={props.updateInput} type='add' value={5} col={col} />
-      <CalcTile updateInput={props.updateInput} type='add' value={6} col={col} />
-      <CalcTile updateInput={props.updateInput} type='add' value={7} col={col} />
-      <CalcTile updateInput={props.updateInput} type='add' value={8} col={col} />
-      <CalcTile updateInput={props.updateInput} type='add' value={9} col={col} />
-      <CalcTile updateInput={props.updateInput} type='add' value={'.'} col={col} />
-      <CalcTile updateInput={props.updateInput} type='add' value={0} col={col} />
-      <CalcTile updateInput={props.updateInput} type='delete' value={'<--'} col={col} />
+      {calcTiles}
     </View>
   );
 }
@@ -29,17 +29,13 @@ export default Calc = props => {
 const styles = EStyleSheet.create({
   $sideSpace: col / 2,
   view: {
-    // width: '$col',
-    // height: '$col',
-    marginLeft: '$sideSpace',
-    marginRight: '$sideSpace',
+    width,
+    paddingLeft: '$sideSpace',
+    paddingRight: '$sideSpace',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'center',
     flexWrap: 'wrap',
     backgroundColor: 'darkcyan'
   },
-  // text: {
-  //
-  // },
 });
