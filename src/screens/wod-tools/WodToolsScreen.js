@@ -62,7 +62,7 @@ export default class WodToolsScreen extends React.Component {
 
   ////////////////
   componentDidMount() {
-    this.props.navigation.navigate('UnitConverter'); ////// CHANGE
+    this.props.navigation.navigate('PercentTable'); ////// CHANGE
   }
   ////////////////
 
@@ -85,7 +85,7 @@ export default class WodToolsScreen extends React.Component {
     return (
       <View style={styles.screen}>
         <ImageBackground blurRadius={4} source={{uri: imgUri}} style={imgBgStyle}>
-          <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />
+          {/* <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} /> */}
           <View style={styles.outerGrid}>
             <View style={styles.grid}>
               {wodTools}

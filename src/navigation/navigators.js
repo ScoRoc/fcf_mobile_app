@@ -80,11 +80,16 @@ const ModalStack = createStackNavigator(
   {
     headerMode: 'none',
     mode: 'modal',
-    transparentCard: true,
-    cardStyle: {
-      backgroundColor: 'transparent',
-      // opacity: .9,
-    },
+    // transparentCard: true,
+    // cardStyle: {
+    //   backgroundColor: 'transparent',
+    //   opacity: 1,
+    // },
+    // transitionConfig: () => ({
+    //   containerStyle: {
+    //     backgroundColor: 'transparent',
+    //   },
+    // }),
   }
 );
 
@@ -98,6 +103,11 @@ const MainDrawer = createDrawerNavigator(
     Logout: ModalStack, // FINISH THIS COMPONENTS
   },
   {
+    // transparentCard: true,
+    // cardStyle: {
+    //   backgroundColor: 'transparent',
+    //   opacity: 1,
+    // },
     // drawerWidth: 250,
     drawerPosition: 'right',
     drawerBackgroundColor: '#411',

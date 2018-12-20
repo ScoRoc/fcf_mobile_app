@@ -1,27 +1,63 @@
 import React from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, Picker, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-export default PercentTableScreen = props => {
-  return (
-    <View style={styles.screen}>
-      <Text style={styles.text}>Hello from PercentTableScreen</Text>
-      <Button title='open drawer' onPress={() => props.navigation.openDrawer()} />
-    </View>
-  )
+import { height, width } from '../../../variables/variables';
+
+export default class PercentTableScreen extends React.Component {
+
+  static navigationOptions = {
+    title: 'Load % Calculator',
+    headerTitleStyle: {
+      fontSize: 22,
+      // fontWeight: 'bold',
+    },
+  }
+
+  render() {
+    return (
+      <View style={styles.screen}>
+        <View>
+          <Text>input here</Text>
+        </View>
+        <View style={styles.outputWrapper}>
+          <Picker>
+            <Picker.Item label='one' value='one' />
+            <Picker.Item label='two' value='two' />
+          </Picker>
+          <View style={styles.output}>
+            <Text style={styles.text}>999</Text>
+          </View>
+        </View>
+        <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />
+      </View>
+    );
+  }
 };
 
 const styles = EStyleSheet.create({
-  $padding: '50rem',
+  $padding: '8rem',
+  $paddingLR: '$padding * 1.3',
   screen: {
-    paddingTop: '$padding',
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#333'
+    // backgroundColor: '#333'
+  },
+  outputWrapper: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: 'darkslategrey',
+  },
+  output: {
+    padding: '$padding',
+    paddingLeft: '$paddingLR',
+    paddingRight: '$paddingLR',
+    backgroundColor: 'lightseagreen',
+    borderRadius: '10rem',
   },
   text: {
-    color: '$pink',
-    fontSize: '22rem'
+    fontSize: '50rem'
   }
 });
