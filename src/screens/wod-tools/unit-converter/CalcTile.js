@@ -12,7 +12,7 @@ export default CalcTile = props => {
   return (
     <Touchable onPress={() => props.updateInput(value, type)} iosType='opacity'>
       <View style={[styles.view, {height: col, width: col}]}>
-        <Text>{value}</Text>
+        <Text style={styles.text}>{value}</Text>
     </View>
   </Touchable>
   );
@@ -23,11 +23,13 @@ const styles = EStyleSheet.create({
   view: {
     // width: '$col',
     // height: '$col',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'coral',
     borderWidth: '2rem',
     borderColor: 'darkmagenta',
   },
-  // text: {
-  //
-  // },
+  text: {
+    fontSize: '30rem',
+  },
 });

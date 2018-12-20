@@ -38,13 +38,13 @@ export default class UnitConverterScreen extends React.Component {
       delete: () => input.substring(0, input.length - 1),
     };
     const newInput = types[type]();
-    const returnedInput = newInput[0] !== '.'
+    let returnedInput = newInput[0] === '.'
                         ? newInput.length > 7
-                          ? newInput.substring(0, 7)
-                          : newInput
+                          ? `0${newInput}`.substring(0, 8)
+                          : `0${newInput}`
                         : newInput.length > 7
-                          ? `0${newInput}`.substring(0, 7)
-                          : `0${newInput}`;
+                          ? newInput.substring(0, 7)
+                          : newInput;
     this.setState({input: returnedInput, update: true});
   }
 
@@ -57,7 +57,7 @@ export default class UnitConverterScreen extends React.Component {
       kg: () => str * 0.453592,
     }
     const converted = convertTo[this.state.convertTo]().toFixed(2);
-    return converted;
+    return converted === '0.00' ? '0' : converted;
   }
 
   componentDidUpdate() {
