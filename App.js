@@ -10,6 +10,8 @@ const { height, width } = Dimensions.get('window');
 const baseScreenWidth = 375; // from iPhoneX vertical
 
 EStyleSheet.build({
+  $height: height,
+  $width: width,
   $rem: width / baseScreenWidth,
   $orange: '#ff8e18',
   $darkGray: '#333',

@@ -3,7 +3,7 @@ import { Button, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import ArrowIO from './ArrowIO';
-import Calc from './Calc';
+import Calc from '../calc/Calc';
 
 export default class UnitConverterScreen extends React.Component {
   constructor(props) {
