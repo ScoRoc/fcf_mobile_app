@@ -27,7 +27,8 @@ export default class UnitConverterScreen extends React.Component {
       lb: 'kg',
       kg: 'lb',
     };
-    this.setState({convertTo: changeTo[this.state.convertTo]})
+    const convertTo = changeTo[this.state.convertTo];
+    this.setState({convertTo, update: true})
   }
 
   updateInput = (digit, type) => {
@@ -36,17 +37,26 @@ export default class UnitConverterScreen extends React.Component {
       add: () => `${input}${digit}`,
       delete: () => input.substring(0, input.length - 1),
     };
-    this.setState({input: types[type](), update: true});
+    const newInput = types[type]();
+    const returnedInput = newInput[0] !== '.'
+                        ? newInput.length > 7
+                          ? newInput.substring(0, 7)
+                          : newInput
+                        : newInput.length > 7
+                          ? `0${newInput}`.substring(0, 7)
+                          : `0${newInput}`;
+    this.setState({input: returnedInput, update: true});
   }
 
   convert = str => {
-    console.log('str * 2', str * 2);
+    if (str === '.') {
+      return '0';
+    }
     const convertTo = {
       lb: () => str * 2.20462,
       kg: () => str * 0.453592,
     }
     const converted = convertTo[this.state.convertTo]().toFixed(2);
-    console.log('converted: ', typeof converted)
     return converted;
   }
 
@@ -66,9 +76,9 @@ export default class UnitConverterScreen extends React.Component {
         </View>
         <View>
           <Text>output value: </Text>
-          <Text>{this.state.converted}</Text>
+          <Text>{this.state.converted || '0'}</Text>
         </View>
-        <Button title={this.state.convertTo} onPress={this.flipUnits} />
+        <Button title={`to ${this.state.convertTo}`} onPress={this.flipUnits} />
         <Calc updateInput={this.updateInput} />
       </View>
     );
