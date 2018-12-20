@@ -21,12 +21,12 @@ export default class ArrowIO extends React.Component {
 
   slideInput = () => {
     const { animatedX, toUnit } = this.state;
-    const toValue = toUnit === 'lb' ? 0 : col * 7.5;
+    const toValue = toUnit === 'lb' ? col * 8 : 0;
     Animated.timing(
       animatedX,
       {
         toValue: toValue,
-        duration: 350,
+        duration: 250,
       },
     ).start();
     const newUnit = toUnit === 'lb' ? 'kg' : 'lb';
@@ -79,10 +79,14 @@ const styles = EStyleSheet.create({
     height: '100%',
     width: '$col * 4.5',
     position: 'absolute',
-    left: '$pad',
+    // left: '$pad',
+    paddingLeft: '$pad',
     justifyContent: 'center',
     backgroundColor: 'pink',
     borderTopLeftRadius: '$borderRadius',
+    borderBottomRightRadius: '$borderRadius',
+    borderWidth: '6rem',
+    borderColor: 'mediumorchid',
   },
   arrowInput: {
     //
@@ -92,7 +96,7 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'green'
+    // backgroundColor: 'green'
   },
   text: {
     fontSize: '23rem',

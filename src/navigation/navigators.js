@@ -15,6 +15,8 @@ import WodToolsScreen from '../screens/wod-tools/WodToolsScreen';
 import UnitConverterScreen from '../screens/wod-tools/unit-converter/UnitConverterScreen';
 import PercentTableScreen from '../screens/wod-tools/percent-table/PercentTableScreen';
 
+import Logout from '../screens/auth/Logout';
+
 import { tabHeight } from '../variables/variables';
 
 const WodToolsStack = createStackNavigator(
@@ -71,10 +73,29 @@ const TabNav = createBottomTabNavigator(
   },
 );
 
+const ModalStack = createStackNavigator(
+  {
+    Logout: { screen: Logout },
+  },
+  {
+    headerMode: 'none',
+    mode: 'modal',
+    transparentCard: true,
+    cardStyle: {
+      backgroundColor: 'transparent',
+      // opacity: .9,
+    },
+  }
+);
+
 const MainDrawer = createDrawerNavigator(
   {
     Tabs: TabNav,
     IPP: IAPScreen,
+    // Schedule: Schedule, // MAKE THESE COMPONENTS
+    // MyProfile: MyProfile, // MAKE THESE COMPONENTS
+    // ContactUs: ContactUs, // MAKE THESE COMPONENTS
+    Logout: ModalStack, // FINISH THIS COMPONENTS
   },
   {
     // drawerWidth: 250,
