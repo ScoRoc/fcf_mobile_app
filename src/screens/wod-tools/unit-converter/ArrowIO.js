@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Animated, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Icon from '../../../components/Icon';
@@ -8,43 +8,46 @@ import ArrowInput from './ArrowInput';
 import ArrowOutput from './ArrowOutput';
 
 import { height, width } from '../../../variables/variables';
-
-// export default ArrowIO = props => {
-//   const { input, kg, lb } = props;
-//   return (
-//     <View style={styles.outerWrap}>
-//       <View style={styles.ioWrap}>
-//         <ArrowOutput value={lb} unit='lb' styles={{view: styles.output, text: styles.text}} />
-//         <Touchable style={styles.btn} iosType='opacity'>
-//           <Icon color='black' library='AntDesign' name='swap' size={45} />
-//         </Touchable>
-//         <ArrowOutput value={kg} unit='kg' styles={{view: styles.output, text: styles.text}} />
-//         <ArrowInput value={input || '0'} styles={{view: styles.input, text: styles.text}} />
-//       </View>
-//     </View>
-//   );
-// };
+const col = width / 16;
 
 export default class ArrowIO extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      animatedX: new Animated.Value(0),
+      toUnit: 'lb',
+    }
+  }
 
-  setInputWidth = e => {
-    console.log('e: ', e)
+  slideInput = () => {
+    const { animatedX, toUnit } = this.state;
+    const toValue = toUnit === 'lb' ? 0 : col * 7.5;
+    Animated.timing(
+      animatedX,
+      {
+        toValue: toValue,
+        duration: 350,
+      },
+    ).start();
+    const newUnit = toUnit === 'lb' ? 'kg' : 'lb';
+    this.setState({toUnit: newUnit});
   }
 
   render() {
     const { input, kg, lb } = this.props;
-    const setInputWidth = e => {
-      console.log('e: ', e);
-    }
+    const { animatedX } = this.state;
     return (
       <View style={styles.outerWrap}>
         <View style={styles.ioWrap}>
-          <ArrowOutput setInputWidth={this.setInputWidth} value={lb} unit='lb' styles={{view: styles.output, text: styles.text}} />
-          <Touchable style={styles.btn} iosType='opacity'>
+          <ArrowOutput value={kg} unit='kg' styles={{view: styles.output, text: styles.text}} />
+          <Touchable onPress={this.slideInput} style={styles.btn} iosType='opacity'>
             <Icon color='black' library='AntDesign' name='swap' size={45} />
           </Touchable>
-          <ArrowOutput setInputWidth={this.setInputWidth} value={kg} unit='kg' styles={{view: styles.output, text: styles.text}} />
-          <ArrowInput value={input || '0'} styles={{view: styles.input, text: styles.text}} />
+          <ArrowOutput value={lb} unit='lb' styles={{view: styles.output, text: styles.text}} />
+          <Animated.View style={[ styles.input, {transform: [{translateX: animatedX}]} ]}>
+            {/* <ArrowInput value={input || '0'} styles={{view: styles.arrowInput, text: styles.text}} /> */}
+            <Text style={styles.text}>{input || '0'}</Text>
+          </Animated.View>
         </View>
       </View>
     );
@@ -52,12 +55,11 @@ export default class ArrowIO extends React.Component {
 };
 
 const styles = EStyleSheet.create({
-  $col: width / 16,
+  $col: col,
   $pad: '10rem',
+  $borderRadius: '25rem',
   // $marg: height * .05,
   outerWrap: {
-    // marginTop: '$marg',
-    // marginBottom: '$marg',
     backgroundColor: 'darkseagreen',
   },
   ioWrap: {
@@ -70,11 +72,20 @@ const styles = EStyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: 'mediumorchid',
+    borderTopLeftRadius: '$borderRadius',
+    borderBottomRightRadius: '$borderRadius',
   },
   input: {
+    height: '100%',
+    width: '$col * 4.5',
     position: 'absolute',
     left: '$pad',
+    justifyContent: 'center',
     backgroundColor: 'pink',
+    borderTopLeftRadius: '$borderRadius',
+  },
+  arrowInput: {
+    //
   },
   output: {
     flex: 1,

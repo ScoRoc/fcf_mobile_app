@@ -69,10 +69,6 @@ export default class UnitConverterScreen extends React.Component {
         <ArrowIO input={input} kg={outputKG} lb={outputLB} />
         <Calc updateInput={this.updateInput} />
         <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />
-        <View>
-          <Text>input value: </Text>
-          <Text>{input}</Text>
-        </View>
       </View>
     );
   }
