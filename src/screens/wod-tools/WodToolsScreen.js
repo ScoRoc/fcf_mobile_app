@@ -55,7 +55,6 @@ const allWodTools = () => {
 };
 const { getAllTools, getToolInfoByName } = allWodTools();
 
-// export default WodToolsScreen = props => {
 export default class WodToolsScreen extends React.Component {
   static navigationOptions = {
     header: null,

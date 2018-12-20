@@ -2,16 +2,17 @@ import React from 'react';
 import { Button, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import ArrowIO from './ArrowIO';
 import Calc from './Calc';
 
 export default class UnitConverterScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      convertTo: 'lb',
       update: false,
       input: '',
-      converted: '0',
+      outputLB: '0',
+      outputKG: '0',
     };
   }
   static navigationOptions = {
@@ -20,15 +21,6 @@ export default class UnitConverterScreen extends React.Component {
       fontSize: 22,
       // fontWeight: 'bold',
     },
-  }
-
-  flipUnits = () => {
-    const changeTo = {
-      lb: 'kg',
-      kg: 'lb',
-    };
-    const convertTo = changeTo[this.state.convertTo];
-    this.setState({convertTo, update: true})
   }
 
   updateInput = (digit, type) => {
@@ -48,21 +40,25 @@ export default class UnitConverterScreen extends React.Component {
     this.setState({input: returnedInput, update: true});
   }
 
-  convert = str => {
+  convert = (str, unit) => {
     if (str === '.') {
       return '0';
     }
     const convertTo = {
       lb: () => str * 2.20462,
       kg: () => str * 0.453592,
-    }
-    const converted = convertTo[this.state.convertTo]().toFixed(2);
+    };
+    const converted = convertTo[unit]().toFixed(2);
     return converted === '0.00' ? '0' : converted;
   }
 
   componentDidUpdate() {
     if (this.state.update) {
-      this.setState({converted: this.convert(this.state.input), update: false});
+      this.setState({
+        outputLB: this.convert(this.state.input, 'lb'),
+        outputKG: this.convert(this.state.input, 'kg'),
+        update: false
+      });
     }
   }
 
@@ -73,11 +69,7 @@ export default class UnitConverterScreen extends React.Component {
           <Text>input value: </Text>
           <Text>{this.state.input}</Text>
         </View>
-        <View>
-          <Text>output value: </Text>
-          <Text>{this.state.converted || '0'}</Text>
-        </View>
-        <Button title={`to ${this.state.convertTo}`} onPress={this.flipUnits} />
+        <ArrowIO kg={this.state.outputKG} lb={this.state.outputLB} />
         <Calc updateInput={this.updateInput} />
         <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />
       </View>
