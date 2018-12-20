@@ -8,7 +8,7 @@ import ArrowInput from './ArrowInput';
 import ArrowOutput from './ArrowOutput';
 
 import { height, width } from '../../../variables/variables';
-const col = width / 16;
+const col = width / 18;
 
 export default class ArrowIO extends React.Component {
   constructor(props) {
@@ -21,7 +21,7 @@ export default class ArrowIO extends React.Component {
 
   slideInput = () => {
     const { animatedX, toUnit } = this.state;
-    const toValue = toUnit === 'lb' ? col * 8 : 0;
+    const toValue = toUnit === 'lb' ? col * 9 : 0;
     Animated.timing(
       animatedX,
       {
@@ -33,6 +33,11 @@ export default class ArrowIO extends React.Component {
     this.setState({toUnit: newUnit});
   }
 
+  handleLongPress = () => {
+    this.slideInput();
+    this.props.clearInput();
+  }
+
   render() {
     const { input, kg, lb } = this.props;
     const { animatedX } = this.state;
@@ -40,7 +45,7 @@ export default class ArrowIO extends React.Component {
       <View style={styles.outerWrap}>
         <View style={styles.ioWrap}>
           <ArrowOutput value={kg} unit='kg' styles={{view: styles.output, text: styles.text}} />
-          <Touchable onPress={this.slideInput} style={styles.btn} iosType='opacity'>
+          <Touchable onPress={this.slideInput} onLongPress={this.handleLongPress} style={styles.btn} iosType='opacity'>
             <Icon color='black' library='AntDesign' name='swap' size={45} />
           </Touchable>
           <ArrowOutput value={lb} unit='lb' styles={{view: styles.output, text: styles.text}} />
@@ -63,7 +68,7 @@ const styles = EStyleSheet.create({
     backgroundColor: 'darkseagreen',
   },
   ioWrap: {
-    width: '$col * 14',
+    width: '$col * 16',
     marginLeft: '$col',
     marginRight: '$col',
     paddingLeft: '$pad',
@@ -77,7 +82,7 @@ const styles = EStyleSheet.create({
   },
   input: {
     height: '100%',
-    width: '$col * 4.5',
+    width: '$col * 5.5',
     position: 'absolute',
     // left: '$pad',
     paddingLeft: '$pad',
@@ -85,7 +90,7 @@ const styles = EStyleSheet.create({
     backgroundColor: 'pink',
     borderTopLeftRadius: '$borderRadius',
     borderBottomRightRadius: '$borderRadius',
-    borderWidth: '6rem',
+    borderWidth: '7rem',
     borderColor: 'mediumorchid',
   },
   arrowInput: {
@@ -99,7 +104,7 @@ const styles = EStyleSheet.create({
     // backgroundColor: 'green'
   },
   text: {
-    fontSize: '23rem',
+    fontSize: '22rem',
   },
   btn: {
     width: '$col * 2',

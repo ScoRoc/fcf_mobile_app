@@ -12,6 +12,7 @@ export default Calc = props => {
   const calcTiles = Object.entries(allTiles).map((tile, i) => {
     const [key, value] = tile;
     return  <CalcTile
+              clearInput={props.clearInput}
               updateInput={props.updateInput}
               type={value.type}
               value={value.value}

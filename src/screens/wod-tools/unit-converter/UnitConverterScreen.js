@@ -23,6 +23,10 @@ export default class UnitConverterScreen extends React.Component {
     },
   }
 
+  clearInput = () => {
+    this.setState({input: '', outputLB: '0', outputKG: '0',});
+  }
+
   updateInput = (digit, type) => {
     const input = this.state.input === '0' ? '' : this.state.input;
     const types = {
@@ -31,11 +35,11 @@ export default class UnitConverterScreen extends React.Component {
     };
     const newInput = types[type]();
     let returnedInput = newInput[0] === '.'
-                        ? newInput.length > 4
-                          ? `0${newInput}`.substring(0, 4)
+                        ? newInput.length > 5
+                          ? `0${newInput}`.substring(0, 5)
                           : `0${newInput}`
-                        : newInput.length > 4
-                          ? newInput.substring(0, 4)
+                        : newInput.length > 5
+                          ? newInput.substring(0, 5)
                           : newInput;
     this.setState({input: returnedInput, update: true});
   }
@@ -66,8 +70,8 @@ export default class UnitConverterScreen extends React.Component {
     const { input, outputKG, outputLB } = this.state;
     return (
       <View style={styles.screen}>
-        <ArrowIO input={input} kg={outputKG} lb={outputLB} />
-        <Calc updateInput={this.updateInput} />
+        <ArrowIO clearInput={this.clearInput} input={input} kg={outputKG} lb={outputLB} />
+        <Calc clearInput={this.clearInput} updateInput={this.updateInput} />
         <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />
       </View>
     );

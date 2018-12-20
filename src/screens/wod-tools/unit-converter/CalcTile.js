@@ -7,9 +7,12 @@ import Touchable from '../../../components/Touchable';
 // import { height, width } from '../../../variables/variables';
 
 export default CalcTile = props => {
-  const { col, type, value } = props;
+  const { clearInput, col, type, value } = props;
+  const handleLongPress = () => {
+    if (type === 'delete') clearInput();
+  }
   return (
-    <Touchable onPress={() => props.updateInput(value, type)} iosType='opacity'>
+    <Touchable onLongPress={handleLongPress} onPress={() => props.updateInput(value, type)} iosType='opacity'>
       {/* <View style={[styles.view]}> */}
       <View style={[styles.view, {height: col, width: col}]}>
         <Text style={styles.text}>{value}</Text>
