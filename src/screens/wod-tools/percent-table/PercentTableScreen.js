@@ -1,10 +1,19 @@
 import React from 'react';
-import { Button, Picker, Text, View } from 'react-native';
+import { Button, Picker, Text, TextInput, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { height, width } from '../../../variables/variables';
+import percents from './percents';
 
 export default class PercentTableScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      input: '0',
+      output: '0',
+      percent: '',
+    };
+  }
 
   static navigationOptions = {
     title: 'Load % Calculator',
@@ -14,19 +23,36 @@ export default class PercentTableScreen extends React.Component {
     },
   }
 
+  handlePickerChange = (percent, i) => {
+    const output = this.state.input * percent;
+    this.setState({percent, output});
+  }
+
   render() {
+    const { input, output, percent } = this.state;
+    const pickerItems = percents.map((n, i) => <Picker.Item label={n.toString()} value={n / 100} key={i} />)
     return (
       <View style={styles.screen}>
         <View>
           <Text>input here</Text>
+          <Text>{input}</Text>
+          <TextInput
+            value={input}
+            onChangeText={input => this.setState({input})}
+            keyboardType='numeric'
+            maxLength={3}
+          />
         </View>
         <View style={styles.outputWrapper}>
-          <Picker>
-            <Picker.Item label='one' value='one' />
-            <Picker.Item label='two' value='two' />
+          <Picker
+            selectedValue={percent}
+            onValueChange={(percent, i) => this.handlePickerChange(percent, i)}
+            style={styles.picker}
+          >
+            {pickerItems}
           </Picker>
           <View style={styles.output}>
-            <Text style={styles.text}>999</Text>
+            <Text style={styles.text}>{output}</Text>
           </View>
         </View>
         <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />
@@ -48,7 +74,12 @@ const styles = EStyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: 'darkslategrey',
+    alignItems: 'center',
+    backgroundColor: 'lightslategrey',
+  },
+  picker: {
+    // height: 250,
+    width: '30%',
   },
   output: {
     padding: '$padding',
