@@ -8,7 +8,7 @@ export default WodCardWrapper = props => {
   return (
     <View style={styles.view}>
       <View style={styles.titleView}>
-        <Text style={styles.title}>Day</Text>
+        <Text style={styles.title}>{props.day}</Text>
       </View>
       <View style={styles.cardWrapper}>
         <WodCard />
