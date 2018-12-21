@@ -61,7 +61,7 @@ export default class PercentTableScreen extends React.Component {
     return (
       <View style={styles.screen}>
         <View style={styles.input}>
-          <Text>input here</Text>
+          <Text>Your load</Text>
           <Text style={styles.inputText}>{input}</Text>
         </View>
         <View style={styles.outputWrapper}>
@@ -134,7 +134,7 @@ const styles = EStyleSheet.create({
     // backgroundColor: 'yellow',
   },
   inBetweenText: {
-    fontSize: '20rem',
+    fontSize: '24rem',
   },
   output: {
     // height: '60%',
