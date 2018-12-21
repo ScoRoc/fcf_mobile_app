@@ -43,14 +43,14 @@ const TabNav = createBottomTabNavigator(
   {
     Home: { screen: HomeScreen },
     Blog: { screen: BlogScreen },
-    WOD: { screen: WodScreen },
+    Wod: { screen: WodScreen },
     WodTools: { screen: WodToolsStack },
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
       // stuff here
     }),
-    initialRouteName: 'WodTools', //////////// FIX THIS
+    initialRouteName: 'Wod', //////////// FIX THIS
     tabBarOptions: {
       activeTintColor: 'tomato',
       inactiveTintColor: 'grey',

@@ -60,12 +60,6 @@ export default class WodToolsScreen extends React.Component {
     header: null,
   };
 
-  ////////////////
-  componentDidMount() {
-    this.props.navigation.navigate('PercentTable'); ////// CHANGE
-  }
-  ////////////////
-
   render() {
     const onPress = screen => this.props.navigation.navigate(screen);
     const wodTools = Object.entries(getAllTools).map((tool, i) => {
