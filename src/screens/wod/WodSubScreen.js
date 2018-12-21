@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, ScrollView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import WodTile from './WodTile';
+import WodCardWrapper from './WodCardWrapper';
 
 import { height, width } from '../../variables/variables';
 const interval = width * .75;
@@ -18,13 +18,13 @@ export default WodSubScreen = props => {
       horizontal={true}
       style={styles.view}
     >
-      <WodTile />
-      <WodTile />
-      <WodTile />
-      <WodTile />
-      <WodTile />
-      <WodTile />
-      <WodTile />
+      <WodCardWrapper />
+      <WodCardWrapper />
+      <WodCardWrapper />
+      <WodCardWrapper />
+      <WodCardWrapper />
+      <WodCardWrapper />
+      <WodCardWrapper />
     </ScrollView>
   );
 };

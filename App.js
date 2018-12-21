@@ -6,12 +6,14 @@ import store from './src/redux/store/store';
 
 import AppContainer from './src/navigation/navigators';
 
-const { height, width } = Dimensions.get('window');
+import { height, tabHeight, width } from './src/variables/variables';
+
 const baseScreenWidth = 375; // from iPhoneX vertical
 
 EStyleSheet.build({
   $height: height,
   $width: width,
+  $tabHeight: tabHeight,
   $rem: width / baseScreenWidth,
   $orange: '#ff8e18',
   $darkGray: '#333',
