@@ -46,7 +46,9 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.screen}>
-        <Text style={styles.title}>Hello from HomeScreen</Text>
+        <View style={styles.title}>
+          <Text style={styles.titleText}>Hello from HomeScreen</Text>
+        </View>
         <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />
         <PagingTitleBar
           currentPage={this.state.currentPage}
@@ -84,6 +86,8 @@ const styles = EStyleSheet.create({
   title: {
     height: '100rem',
     backgroundColor: 'yellow',
+  },
+  titleText: {
     color: '$pink',
     fontSize: '22rem'
   },
