@@ -4,8 +4,13 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default WodCard = props => {
   return (
-    <View style={styles.view}>
-      <Text style={styles.text}>{`work up to a heavy snatch,
+    <View style={styles.cardWrapper}>
+      <View style={styles.titleView}>
+        <Text style={styles.title}>{props.day}</Text>
+        <Text style={styles.title}>12/23</Text>
+      </View>
+      <View style={styles.textWrapper}>
+        <Text style={styles.text}>{`work up to a heavy snatch,
 then
 
 "Amanda"
@@ -14,22 +19,44 @@ ring muscle-ups
 (squat) snatches, 61/43kg
 
 Post time to whiteboard`}
-      </Text>
+        </Text>
+      </View>
     </View>
   );
 };
 
 const styles = EStyleSheet.create({
   $padding: '7%',
-  view: {
+  $borderRadius: '25rem',
+  cardWrapper: {
     flex: 1,
-    padding: '$padding',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'flex-start',
-    backgroundColor: 'skyblue',
-    borderRadius: '25rem',
+    backgroundColor: '$greyDark',
+    borderRadius: '$borderRadius',
+  },
+  titleView: {
+    height: '12%',
+    width: '100%',
+    padding: '5rem',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: '$greyMedium',
+    borderTopLeftRadius: '$borderRadius',
+    borderTopRightRadius: '$borderRadius',
+  },
+  title: {
+    color: '$white',
+    fontSize: '30rem'
+  },
+  textWrapper: {
+    padding: '$padding',
+    flex: 1,
+    justifyContent: 'center',
   },
   text: {
+    color: '$white',
     fontSize: '17rem'
   },
 });

@@ -34,7 +34,6 @@ const styles = EStyleSheet.create({
     backgroundColor: '#333'
   },
   text: {
-    color: '$pink',
     fontSize: '22rem'
   }
 });

@@ -17,7 +17,7 @@ import PercentTableScreen from '../screens/wod-tools/percent-table/PercentTableS
 
 import Logout from '../screens/auth/Logout';
 
-import { tabHeight } from '../variables/variables';
+import { black, blackBG, greyDark, greyMedium, greyMediumDark, tabHeight, yellow, white } from '../variables/variables';
 
 const WodToolsStack = createStackNavigator(
   {
@@ -29,9 +29,9 @@ const WodToolsStack = createStackNavigator(
     initialRouteName: 'WodTools',
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: '#f4511e'
+        backgroundColor: greyDark
       },
-      headerTintColor: '#fff',
+      headerTintColor: white,
       headerTintStyle: {
         fontWeight: 'bold'
       }
@@ -50,12 +50,13 @@ const TabNav = createBottomTabNavigator(
     defaultNavigationOptions: ({ navigation }) => ({
       // stuff here
     }),
-    initialRouteName: 'Wod', //////////// FIX THIS
+    initialRouteName: 'Home', //////////// FIX THIS
     tabBarOptions: {
-      activeTintColor: 'tomato',
-      inactiveTintColor: 'grey',
-      activeBackgroundColor: '#4fd',
-      inactiveBackgroundColor: '#053',
+      activeTintColor: white,
+      inactiveTintColor: greyMedium,
+      activeBackgroundColor: greyMediumDark,
+      // activeBackgroundColor: blackBG,
+      inactiveBackgroundColor: blackBG,
       style: {
         height: tabHeight,
       },

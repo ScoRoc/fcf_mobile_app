@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ScrollView, Text, View } from 'react-native';
+import { Button, ImageBackground, ScrollView, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import AnnouncementsSubScreen from './announcements/AnnouncementsSubScreen';
@@ -17,6 +17,8 @@ const {
   getPageTitles,
   getPagesSpecifcValue
 } = homeScreenPages();
+
+const uri = 'https://www.placecage.com/c/375/100';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -46,9 +48,11 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.screen}>
-        <View style={styles.title}>
-          <Text style={styles.titleText}>Hello from HomeScreen</Text>
-        </View>
+        <ImageBackground source={{uri}} style={styles.imgBg}>
+          <View style={styles.imgView}>
+            <Text style={styles.titleText}>Welcome to FCF</Text>
+          </View>
+        </ImageBackground>
         <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />
         <PagingTitleBar
           currentPage={this.state.currentPage}
@@ -82,19 +86,27 @@ const styles = EStyleSheet.create({
   screen: {
     paddingTop: '$padding',
     flex: 1,
+    backgroundColor: '$blackBG',
   },
-  title: {
+  imgBg: {
     height: '100rem',
-    backgroundColor: 'yellow',
+    width: '$width',
+  },
+  imgView: {
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,.3)',
   },
   titleText: {
-    color: '$pink',
-    fontSize: '22rem'
+    color: 'white',
+    fontSize: '45rem',
   },
   scrollViewWrap: {
     flex: 1,
   },
   scrollView: {
-    backgroundColor: 'orange',
+    // backgroundColor: '$blackBG',
   },
 });

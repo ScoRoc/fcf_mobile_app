@@ -30,7 +30,7 @@ const wodsObj = () => {
       day: 'Saturday',
     },
     sunday: {
-      day: 'Sunday',
+      day: 'Sunday 12/23',
     },
   };
   return {
@@ -57,8 +57,8 @@ export default class WodSubScreen extends React.Component {
   }
 
   componentDidMount() {
-    // const date = new Date();
-    const today = new Date().toLocaleString('en-us', {weekday: 'long'});
+    const date = new Date();
+    const today = date.toLocaleString('en-us', {weekday: 'long'});
     this.scrollView.scrollTo({x: this.findScrollTo(today)});
   }
 
@@ -87,6 +87,5 @@ const styles = EStyleSheet.create({
   view: {
     paddingLeft: '$width * .15',
     paddingRight: '$width * .15',
-    backgroundColor: 'slateblue',
   },
 });

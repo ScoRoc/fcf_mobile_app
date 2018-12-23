@@ -81,6 +81,7 @@ export default EventsSubScreen = props => {
       <View style={styles.monthWrapper}>
         <Text style={styles.monthText}>{month} {year}</Text>
       </View>
+      {/* MAKE FLAT LIST FOR EACH MONTH SO ITS SCROLLABLE LIST DOWN TO EACH MONTH */}
       <ScrollView>
         {events}
       </ScrollView>
@@ -100,11 +101,11 @@ const styles = EStyleSheet.create({
   monthWrapper: {
     paddingTop: '$monthPadding',
     paddingBottom: '$monthPadding',
-    backgroundColor: 'pink',
+    backgroundColor: '$greyMedium',
     alignItems: 'center',
   },
   monthText: {
-    // color: '$pink',
+    color: '$white',
     fontSize: '30rem'
   }
 });

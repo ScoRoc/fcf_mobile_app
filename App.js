@@ -15,10 +15,13 @@ EStyleSheet.build({
   $width: width,
   $tabHeight: tabHeight,
   $rem: width / baseScreenWidth,
-  $orange: '#ff8e18',
-  $darkGray: '#333',
-  $pink: '#f3a',
-  $brightBlue: '#3ee'
+  $black: '#000',
+  $blackBG: '#141414',
+  $blueAccent: '#88BBC8',
+  $greyDark: '#333',
+  $greyMedium: '#666',
+  $white: '#FFF',
+  $yellow: '#FF0',
 });
 
 export default class App extends React.Component {

@@ -4,18 +4,15 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Touchable from '../../../components/Touchable';
 
-// import { height, width } from '../../../variables/variables';
-
 export default CalcTile = props => {
-  const { clearInput, col, type, value } = props;
+  const { backgroundColor, clearInput, col, color, type, value } = props;
   const handleLongPress = () => {
     if (type === 'delete') clearInput();
   }
   return (
-    <Touchable onLongPress={handleLongPress} onPress={() => props.updateInput(value, type)} iosType='opacity'>
-      {/* <View style={[styles.view]}> */}
-      <View style={[styles.view, {height: col, width: col}]}>
-        <Text style={styles.text}>{value}</Text>
+    <Touchable onLongPress={handleLongPress} onPress={() => props.updateInput(type, value)} iosType='opacity'>
+      <View style={[styles.view, {height: col, width: col, backgroundColor}]}>
+        <Text style={[styles.text, {color}]}>{value}</Text>
     </View>
   </Touchable>
   );
@@ -25,9 +22,8 @@ const styles = EStyleSheet.create({
   view: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'coral',
     borderWidth: '2rem',
-    borderColor: 'darkmagenta',
+    borderColor: '$blackBG',
   },
   text: {
     fontSize: '30rem',

@@ -18,18 +18,18 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
   },
   viewBlue: {
-    backgroundColor: '$brightBlue'
+    backgroundColor: 'blue'
   },
   viewPink: {
-    backgroundColor: '$pink'
+    backgroundColor: 'pink'
   },
   text: {
     fontSize: '18rem'
   },
   textBlue: {
-    color: '$brightBlue',
+    color: 'blue',
   },
   textPink: {
-    color: '$pink',
+    color: 'pink',
   }
 });

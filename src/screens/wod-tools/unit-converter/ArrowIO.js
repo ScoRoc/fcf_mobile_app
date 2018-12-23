@@ -7,7 +7,7 @@ import Touchable from '../../../components/Touchable';
 import ArrowInput from './ArrowInput';
 import ArrowOutput from './ArrowOutput';
 
-import { height, width } from '../../../variables/variables';
+import { height, yellow, width } from '../../../variables/variables';
 const col = width / 18;
 
 export default class ArrowIO extends React.Component {
@@ -42,13 +42,13 @@ export default class ArrowIO extends React.Component {
     const { input, kg, lb } = this.props;
     const { animatedX } = this.state;
     return (
-      <View style={styles.outerWrap}>
+      <View>
         <View style={styles.ioWrap}>
-          <ArrowOutput value={kg} unit='kg' styles={{view: styles.output, text: styles.text}} />
+          <ArrowOutput value={kg} unit='KG' passedStyles={{text: styles.text, unitText: styles.unitText, view: styles.output}} />
           <Touchable onPress={this.slideInput} onLongPress={this.handleLongPress} style={styles.btn} iosType='opacity'>
-            <Icon color='black' library='AntDesign' name='swap' size={45} />
+            <Icon color={yellow} library='AntDesign' name='swap' size={47} />
           </Touchable>
-          <ArrowOutput value={lb} unit='lb' styles={{view: styles.output, text: styles.text}} />
+          <ArrowOutput value={lb} unit='LB' passedStyles={{text: styles.text, unitText: styles.unitText, view: styles.output}} />
           <Animated.View style={[ styles.input, {transform: [{translateX: animatedX}]} ]}>
             {/* <ArrowInput value={input || '0'} styles={{view: styles.arrowInput, text: styles.text}} /> */}
             <Text style={styles.text}>{input || '0'}</Text>
@@ -61,14 +61,13 @@ export default class ArrowIO extends React.Component {
 
 const styles = EStyleSheet.create({
   $col: col,
+  $ioWidth: '$col * 16',
+  $btnWidth: '$col * 2',
+  $leftOverWidth: '$ioWidth - $btnWidth',
   $pad: '10rem',
   $borderRadius: '25rem',
-  // $marg: height * .05,
-  outerWrap: {
-    backgroundColor: 'darkseagreen',
-  },
   ioWrap: {
-    width: '$col * 16',
+    width: '$ioWidth',
     marginLeft: '$col',
     marginRight: '$col',
     paddingLeft: '$pad',
@@ -76,39 +75,39 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'mediumorchid',
+    backgroundColor: '$greyDark',
     borderTopLeftRadius: '$borderRadius',
     borderBottomRightRadius: '$borderRadius',
   },
+  output: {
+    height: '$height * .13',
+    flex: 1,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
   input: {
-    height: '100%',
-    width: '$col * 5.5',
+    height: '55%',
+    width: '$leftOverWidth / 2',
     position: 'absolute',
-    // left: '$pad',
-    paddingLeft: '$pad',
+    top: 0,
     justifyContent: 'center',
-    backgroundColor: 'pink',
+    alignItems: 'center',
+    backgroundColor: '$blackBG',
     borderTopLeftRadius: '$borderRadius',
     borderBottomRightRadius: '$borderRadius',
     borderWidth: '7rem',
-    borderColor: 'mediumorchid',
-  },
-  arrowInput: {
-    //
-  },
-  output: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    // backgroundColor: 'green'
+    borderColor: '$greyDark',
   },
   text: {
-    fontSize: '22rem',
+    color: '$white',
+    fontSize: '35rem',
+  },
+  unitText: {
+    fontSize: '25rem',
   },
   btn: {
-    width: '$col * 2',
+    width: '$btnWidth',
     justifyContent: 'center',
     alignItems: 'center',
   },
-})
+});

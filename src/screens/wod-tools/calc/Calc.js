@@ -12,12 +12,14 @@ export default Calc = props => {
   const calcTiles = Object.entries(allTiles).map((tile, i) => {
     const [key, value] = tile;
     return  <CalcTile
+              backgroundColor={value.backgroundColor}
               clearInput={props.clearInput}
-              updateInput={props.updateInput}
-              type={value.type}
-              value={value.value}
               col={col}
+              color={value.color}
               key={i}
+              type={value.type}
+              updateInput={props.updateInput}
+              value={value.value}
             />
   });
   return (
@@ -37,6 +39,6 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexWrap: 'wrap',
-    backgroundColor: 'darkcyan'
+    backgroundColor: '$blackBG'
   },
 });

@@ -1,25 +1,34 @@
 import React from 'react';
-import { Button, ImageBackground, Text, View } from 'react-native';
+import { Button, ImageBackground, StatusBar, Text, View } from 'react-native';
+import { LinearGradient } from 'expo';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import WodSubScreen from './WodSubScreen';
+
+import { blackBG, blueGradDark } from '../../variables/variables';
 
 const uri = 'https://www.placecage.com/c/375/100';
 
 export default WodScreen = props => {
   return (
-    <View style={styles.screen}>
+    <LinearGradient
+      colors={[blackBG, blueGradDark, blackBG]}
+      start={[0.5, .25]}
+      end={[0.5, .9]}
+      locations={[0.01, .01, 1.1]}
+      style={styles.screen}
+    >
+      <StatusBar barStyle='light-content' />
       <ImageBackground source={{uri}} style={styles.imgBg}>
         <View style={styles.imgView}>
           <Text style={styles.titleText}>WOD</Text>
         </View>
       </ImageBackground>
       <View style={styles.dateBanner}>
-        <Text style={styles.dateBannerText}>Week of Dec 10th</Text>
+        <Text style={styles.dateBannerText}>Week of Dec 17th</Text>
       </View>
       <WodSubScreen />
-      {/* <Button title='open drawer' onPress={() => props.navigation.openDrawer()} /> */}
-    </View>
+    </LinearGradient>
   )
 };
 
@@ -28,9 +37,7 @@ const styles = EStyleSheet.create({
   screen: {
     paddingTop: '$padding',
     flex: 1,
-    // justifyContent: 'space-between',
-    // alignItems: 'center',
-    // backgroundColor: '#333'
+    // backgroundColor: '$blackBG',
   },
   imgBg: {
     height: '100rem',
@@ -46,19 +53,15 @@ const styles = EStyleSheet.create({
   titleText: {
     color: 'white',
     fontSize: '70rem',
-    // fontWeight: 'bold',
   },
   dateBanner: {
     padding: '7rem',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'darksalmon',
+    backgroundColor: '$greyDark',
   },
   dateBannerText: {
-    fontSize: '30rem',
+    color: '$white',
+    fontSize: '25rem',
   },
-  text: {
-    color: '$pink',
-    fontSize: '22rem'
-  }
 });

@@ -7,8 +7,8 @@ import AnnouncementStrip from './AnnouncementStrip';
 import { height, width } from '../../../variables/variables';
 
 //////////////////////////////
-const imgHeight = height / 8.5;
-const imgWidth = width * .4;
+const imgWidth = width * .3;
+const imgHeight = imgWidth / 4 * 3;
 const leftoverSpace = width - imgWidth;
 const paddedSpace = leftoverSpace * .9;
 const padding = leftoverSpace * .1 / 2;
@@ -36,7 +36,7 @@ const fakeAnnouncements = () => {
       image: `https://www.placecage.com/c/${imgWidth}/${imgHeight}`,
     },
     six: {
-      text: 'Another Community Event word words words words words words',
+      text: 'Another Community Event word words words words words words more words here stuff and things and more more more blah yo yup uh huh even more things i',
       image: `https://www.placecage.com/c/${imgWidth}/${imgHeight}`,
     },
   };
@@ -75,7 +75,6 @@ export default AnnouncementsSubScreen = props => {
 const styles = EStyleSheet.create({
   $padding: '50rem',
   text: {
-    color: '$pink',
     fontSize: '22rem'
   },
 });

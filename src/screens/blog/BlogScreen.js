@@ -18,10 +18,10 @@ const styles = EStyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#333'
+    backgroundColor: '$blackBG',
   },
   text: {
-    color: '$pink',
+    color: 'orange',
     fontSize: '22rem'
   }
 });

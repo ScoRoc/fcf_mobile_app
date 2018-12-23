@@ -79,7 +79,6 @@ export default class WodToolsScreen extends React.Component {
     return (
       <View style={styles.screen}>
         <ImageBackground blurRadius={4} source={{uri: imgUri}} style={imgBgStyle}>
-          {/* <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} /> */}
           <View style={styles.outerGrid}>
             <View style={styles.grid}>
               {wodTools}
@@ -95,22 +94,18 @@ const styles = EStyleSheet.create({
   $padding: '50rem',
   screen: {
     flex: 1,
-    // justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#333'
   },
   outerGrid: {
     paddingBottom: tabHeight,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'yellow',
   },
   grid: {
     width,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-    // backgroundColor: 'red'
   },
 });

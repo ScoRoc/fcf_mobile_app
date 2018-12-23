@@ -20,6 +20,7 @@ export default EventsKey = props => {
     />
   });
   return (
+    // USE ICONS AND MAKE COLLAPSIBLE AND CLICKABLE FOR FILTERING
     <View style={styles.view}>
     {/* <View style={[styles.view, {paddingRight: numOfKeys * 10 / 2}]}> */}
       {keys}

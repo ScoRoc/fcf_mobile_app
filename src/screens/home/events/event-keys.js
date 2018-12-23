@@ -1,16 +1,18 @@
+import { blueAccent, greenAccent, purpleAccent } from '../../../variables/variables';
+
 export default eventKeys = () => {
   const keys = {
     social: {
       text: 'Social',
-      color: 'red',
+      color: greenAccent,
     },
     competition: {
       text: 'Competition',
-      color: 'blue',
+      color: blueAccent,
     },
     community: {
       text: 'Community',
-      color: 'purple',
+      color: purpleAccent,
     },
   };
   return {

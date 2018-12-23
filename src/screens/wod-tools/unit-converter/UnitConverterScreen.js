@@ -25,21 +25,23 @@ export default class UnitConverterScreen extends React.Component {
 
   clearInput = () => {
     this.setState({input: '', outputLB: '0', outputKG: '0',});
+    return '0';
   }
 
-  updateInput = (digit, type) => {
+  updateInput = (type, digit) => {
     const input = this.state.input === '0' ? '' : this.state.input;
     const types = {
       add: () => `${input}${digit}`,
+      clear: () => this.clearInput(),
       delete: () => input.substring(0, input.length - 1),
     };
     const newInput = types[type]();
     let returnedInput = newInput[0] === '.'
-                        ? newInput.length > 5
-                          ? `0${newInput}`.substring(0, 5)
+                        ? newInput.length > 3
+                          ? `0${newInput}`.substring(0, 3)
                           : `0${newInput}`
-                        : newInput.length > 5
-                          ? newInput.substring(0, 5)
+                        : newInput.length > 3
+                          ? newInput.substring(0, 3)
                           : newInput;
     this.setState({input: returnedInput, update: true});
   }
@@ -52,8 +54,8 @@ export default class UnitConverterScreen extends React.Component {
       lb: () => str * 2.20462,
       kg: () => str * 0.453592,
     };
-    const converted = convertTo[unit]().toFixed(2);
-    return converted === '0.00' ? '0' : converted;
+    const converted = convertTo[unit]().toFixed(1);
+    return converted === '0.0' ? '0' : converted;
   }
 
   componentDidUpdate() {
@@ -72,7 +74,6 @@ export default class UnitConverterScreen extends React.Component {
       <View style={styles.screen}>
         <ArrowIO clearInput={this.clearInput} input={input} kg={outputKG} lb={outputLB} />
         <Calc clearInput={this.clearInput} updateInput={this.updateInput} />
-        <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />
       </View>
     );
   }
@@ -83,10 +84,9 @@ const styles = EStyleSheet.create({
   screen: {
     flex: 1,
     justifyContent: 'space-evenly',
-    // backgroundColor: '#333'
+    backgroundColor: '$blackBG',
   },
   text: {
-    color: '$pink',
     fontSize: '22rem'
   }
 });

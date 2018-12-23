@@ -15,13 +15,18 @@ export default EventStrip = props => {
   const paddingRight = throughDate ? 8 : 0;
   return (
     <View style={styles.strip}>
+      {/* USE COLORED ICONS INSTEAD OF JUST COLORS */}
       <View style={[styles.dateTile, {backgroundColor: color}]}>
+        {/* SHORT MONTH NAME ABOVE NUMBER */}
+        {/* HEART BUTTON UNDER NUMBER */}
+        {/* DOUBLE CLICK ON NUMBER TO HYPERLINK TO WEB */}
         <Text style={styles.dateText}>{date}</Text>
       </View>
       <View style={styles.titleTile}>
         <Text style={[styles.titleText, {color}]}>{title}</Text>
+        {/* ICONS UNDER TEXT */}
         <View style={[styles.dateThrough, {padding, paddingLeft, paddingRight}]}>
-          <Text>{dateThrough}</Text>
+          <Text style={styles.dateThroutText}>{dateThrough}</Text>
         </View>
       </View>
     </View>
@@ -32,7 +37,7 @@ const styles = EStyleSheet.create({
   strip: {
     height: height / 9.5,
     flexDirection: 'row',
-    backgroundColor: 'white',
+    backgroundColor: '$greyDark',
     marginBottom: '20rem'
   },
   dateTile: {
@@ -57,7 +62,10 @@ const styles = EStyleSheet.create({
     position: 'absolute',
     bottom: 0,
     right: 0,
-    backgroundColor: 'lightgrey',
+    backgroundColor: '$greyMedium',
     borderTopLeftRadius: '6rem',
+  },
+  dateThroutText: {
+    color: '$white',
   },
 })

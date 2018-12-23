@@ -5,7 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Touchable from '../../components/Touchable';
 import Icon from '../../components/Icon';
 
-import { height, tabHeight, width } from '../../variables/variables';
+import { height, tabHeight, yellow, width } from '../../variables/variables';
 
 export default WodToolTile = props => {
   const { iconName, library, onPress, screen, text } = props;
@@ -15,7 +15,7 @@ export default WodToolTile = props => {
         <Icon
           library={library}
           name={iconName}
-          color='rebeccapurple'
+          color={yellow}
           size={50}
         />
         <Text style={styles.text}>{text}</Text>
@@ -32,17 +32,12 @@ const styles = EStyleSheet.create({
     width: '$size',
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'green'
   },
   touchable: {
-    // height: '$size',
-    // width: '$size',
-    // marginLeft: '$margin',
-    // marginRight: '$margin',
     alignItems: 'center',
-    // backgroundColor: 'red'
   },
   text: {
+    color: '$yellow',
     fontSize: '22rem',
   },
 });

@@ -7,16 +7,21 @@ export default AnnouncementStrip = props => {
   const textPadding = {paddingLeft: padding, paddingRight: padding};
   const position  = imgLeft
                   ? <>
-                      <Image style={{height: imgHeight, width: imgWidth}} source={{uri: img}} />
+                      <View style={[styles.imgView, {height: imgHeight, width: imgWidth}]}>
+                        <Image style={{height: imgHeight, width: imgWidth}} source={{uri: img}} />
+                      </View>
+                      {/* CLICK ON ANNOUNCEMENT IS HYPERLINK TO WEB */}
+                      {/* DOUBLE CLICK ON PIC TO HYPERLINK TO WEB */}
                       <View style={[styles.textWrap, {width: textWrapWidth}, textPadding]}>
-                        <Text>{text}</Text>
+                        {/* ADD HEART BUTTON AND HOW MANY PPL HAVE LIKED IT */}
+                        <Text style={styles.text}>{text}</Text>
                       </View>
                     </>
                   : <>
                       <View style={[styles.textWrap, {width: textWrapWidth}, textPadding]}>
-                        <Text>{text}</Text>
+                        <Text style={styles.text}>{text}</Text>
                       </View>
-                      <Image style={{height: imgHeight, width: imgWidth}} source={{uri: img}} />
+                      <Image style={[styles.imgView, {height: imgHeight, width: imgWidth}]} source={{uri: img}} />
                     </>;
   return (
     <View style={styles.view}>{position}</View>
@@ -33,10 +38,18 @@ const styles = EStyleSheet.create({
     marginBottom: '$spacing',
     paddingTop: '$spacing',
     paddingBottom: '$spacing',
-    backgroundColor: 'grey',
+    backgroundColor: '$greyDark',
+  },
+  imgView: {
+    borderColor: 'red',
+    borderWidth: '2rem',
   },
   textWrap: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
+  },
+  text: {
+    color: '$white',
+    fontSize: '16rem',
   },
 });
