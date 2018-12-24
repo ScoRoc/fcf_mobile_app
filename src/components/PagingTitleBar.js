@@ -17,10 +17,13 @@ export default PagingTitleBar = props => {
                       ? props.scrollToEnd
                       : () => console.log('pressed');
     return (
-      <Touchable onPress={handlePress} iosType='opacity' key={i}>
-        <View style={[styles.view, {borderBottomColor: color}]}>
-          <Text style={[styles.text, {color}]}>{title}</Text>
-        </View>
+      <Touchable
+        iosType='opacity'
+        key={i}
+        onPress={handlePress}
+        viewStyle={[styles.view, {borderBottomColor: color}]}
+      >
+        <Text style={[styles.text, {color}]}>{title}</Text>
       </Touchable>
     )
   });

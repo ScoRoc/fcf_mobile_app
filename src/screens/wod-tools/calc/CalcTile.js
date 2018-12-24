@@ -10,11 +10,14 @@ export default CalcTile = props => {
     if (type === 'delete') clearInput();
   }
   return (
-    <Touchable onLongPress={handleLongPress} onPress={() => props.updateInput(type, value)} iosType='opacity'>
-      <View style={[styles.view, {height: col, width: col, backgroundColor}]}>
-        <Text style={[styles.text, {color}]}>{value}</Text>
-    </View>
-  </Touchable>
+    <Touchable
+      iosType='opacity'
+      onLongPress={handleLongPress}
+      onPress={() => props.updateInput(type, value)}
+      viewStyle={[styles.view, {height: col, width: col, backgroundColor}]}
+    >
+      <Text style={[styles.text, {color}]}>{value}</Text>
+    </Touchable>
   );
 }
 

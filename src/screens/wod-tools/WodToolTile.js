@@ -10,7 +10,7 @@ export default WodToolTile = props => {
   const yellow = () => EStyleSheet.value('$yellow');
   return (
     <View style={styles.view}>
-      <Touchable style={styles.touchable} onPress={() => onPress(screen)} iosType='opacity'>
+      <Touchable viewStyle={styles.touchable} onPress={() => onPress(screen)} iosType='opacity'>
         <Icon
           library={library}
           name={iconName}

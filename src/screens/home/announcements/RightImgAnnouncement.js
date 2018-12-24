@@ -11,15 +11,13 @@ const RightImgAnnouncement = props => {
   return (
     <>
       <Touchable
-        activeOpacity={.6}
+        // activeOpacity={.8}
         iosType='highlight'
         onPress={() => props.navigation.navigate('WebView')}
         viewStyle={[textPadding, styles.textWrap, {width: textWrapWidth}]}
         underlayColor={styles.$underlay}
       >
-        {/* <View style={textPadding}> */}
-          <Text style={styles.text}>{text}</Text>
-        {/* </View> */}
+        <Text style={styles.text}>{text}</Text>
       </Touchable>
       <ImgSection img={img} imgHeight={imgHeight} imgWidth={imgWidth} />
     </>

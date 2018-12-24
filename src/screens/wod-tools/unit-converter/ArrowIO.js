@@ -44,7 +44,7 @@ export default class ArrowIO extends React.Component {
     return (
       <View style={styles.ioWrap}>
         <ArrowOutput value={kg} unit='KG' passedStyles={{text: styles.text, unitText: styles.unitText, view: styles.output}} />
-        <Touchable onPress={this.slideInput} onLongPress={this.handleLongPress} style={styles.btn} iosType='opacity'>
+        <Touchable onPress={this.slideInput} onLongPress={this.handleLongPress} viewStyle={styles.btn} iosType='opacity'>
           <Icon color={yellow()} library='AntDesign' name='swap' size={47} />
         </Touchable>
         <ArrowOutput value={lb} unit='LB' passedStyles={{text: styles.text, unitText: styles.unitText, view: styles.output}} />
