@@ -2,8 +2,6 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import { height, width } from '../../../variables/variables';
-
 const date = new Date();
 const month = date.toLocaleString('en-us', {month: 'short'});
 
@@ -35,13 +33,13 @@ export default EventStrip = props => {
 
 const styles = EStyleSheet.create({
   strip: {
-    height: height / 9.5,
+    height: '$height / 9.5',
     flexDirection: 'row',
     backgroundColor: '$greyDark',
     marginBottom: '20rem'
   },
   dateTile: {
-    width: width / 5,
+    width: '$width / 5',
     justifyContent: 'center',
     alignItems: 'center',
   },

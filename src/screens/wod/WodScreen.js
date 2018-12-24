@@ -5,14 +5,14 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import WodSubScreen from './WodSubScreen';
 
-import { blackBG, blueGradDark } from '../../variables/variables';
-
 const uri = 'https://www.placecage.com/c/375/100';
 
 export default WodScreen = props => {
+  const blackBG = () => EStyleSheet.value('$blackBG');
+  const blueGradDark = () => EStyleSheet.value('$blueGradDark');
   return (
     <LinearGradient
-      colors={[blackBG, blueGradDark, blackBG]}
+      colors={[blackBG(), blueGradDark(), blackBG()]}
       start={[0.5, .25]}
       end={[0.5, .9]}
       locations={[0.01, .01, 1.1]}

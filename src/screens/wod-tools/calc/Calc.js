@@ -5,16 +5,15 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import CalcTile from './CalcTile';
 
 import { allTiles } from './tile-info';
-import { height, width } from '../../../variables/variables';
-const col = width / 4;
 
 export default Calc = props => {
+  const col = () => EStyleSheet.value('$width') / 4;
   const calcTiles = Object.entries(allTiles).map((tile, i) => {
     const [key, value] = tile;
     return  <CalcTile
               backgroundColor={value.backgroundColor()}
               clearInput={props.clearInput}
-              col={col}
+              col={col()}
               color={value.color()}
               key={i}
               type={value.type}
@@ -30,9 +29,10 @@ export default Calc = props => {
 }
 
 const styles = EStyleSheet.create({
-  $sideSpace: col / 2,
+  $col: '$width / 4',
+  $sideSpace: '$col / 2',
   view: {
-    width,
+    width: '$width',
     paddingLeft: '$sideSpace',
     paddingRight: '$sideSpace',
     flexDirection: 'row',

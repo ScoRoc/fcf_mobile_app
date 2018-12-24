@@ -7,7 +7,6 @@ import EventsSubScreen from './events/EventsSubScreen';
 
 import PagingTitleBar from '../../components/PagingTitleBar';
 
-import { height, width } from '../../variables/variables';
 import homeScreenPages, { firstPageX, secondPageX } from './home-screen-pages';
 
 const {
@@ -29,6 +28,8 @@ export default class HomeScreen extends React.Component {
     };
   }
 
+  width = () => EStyleSheet.value('$width');
+
   scrollToBeginning = () => {
     this.scrollView.scrollTo( {x: 0} );
     this.setState({scrolledViaPress: true, currentPage: 'Announcements'});
@@ -41,7 +42,7 @@ export default class HomeScreen extends React.Component {
 
   handleScroll = e => {
     const { x } = e.nativeEvent.contentOffset;
-    const xPage = x < width / 2 ? firstPageX : secondPageX;
+    const xPage = x < this.width() / 2 ? firstPageX() : secondPageX();
     if (!this.state.scrolledViaPress) this.setState({ currentPage: getPageTitleByXValue(xPage) });
   }
 

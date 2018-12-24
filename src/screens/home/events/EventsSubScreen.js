@@ -7,8 +7,6 @@ import eventKeys from './event-keys';
 import EventsKey from './EventsKey';
 import EventStrip from './EventStrip';
 
-import { height, width } from '../../../variables/variables';
-
 const date = new Date();
 const month = date.toLocaleString('en-us', {month: 'long'});
 const year = date.toLocaleString('en-us', {year: 'numeric'});
@@ -62,12 +60,13 @@ const { getDateByTitle, getEventTitles, getThroughDateByTitle, getTypeByTitle } 
 //////////////////////////////
 
 export default EventsSubScreen = props => {
+  const width = () => EStyleSheet.value('$width');
   ///////
   const events = getEventTitles.map((title, i) => {
     return (
       <EventStrip
         title={title}
-        color={getKeys[getTypeByTitle(title)].color}
+        color={getKeys[getTypeByTitle(title)].color()}
         date={getDateByTitle(title)}
         throughDate={getThroughDateByTitle(title)}
         key={i}
@@ -76,7 +75,7 @@ export default EventsSubScreen = props => {
   });
   ///////
   return (
-    <View style={[styles.screen, {width}]}>
+    <View style={[styles.screen, {width: width()}]}>
       <EventsKey />
       <View style={styles.monthWrapper}>
         <Text style={styles.monthText}>{month} {year}</Text>

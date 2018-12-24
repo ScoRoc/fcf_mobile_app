@@ -4,10 +4,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import WodCardWrapper from './WodCardWrapper';
 
-import { height, width } from '../../variables/variables';
-const interval = width * .75;
-const inset = width * .25;
-
 //////////////////////////////////
 const wodsObj = () => {
   const wods = {
@@ -43,15 +39,19 @@ const { allWods } = wodsObj();
 
 export default class WodSubScreen extends React.Component {
 
+  interval = () => EStyleSheet.value('$width') * 0.75;
+
+  inset = () => EStyleSheet.value('$width') * 0.25;
+
   findScrollTo = day => {
     const dayMap = {
       Monday: 0,
-      Tuesday: interval,
-      Wednesday: interval * 2,
-      Thursday: interval * 3,
-      Friday: interval * 4,
-      Saturday: interval * 5,
-      Sunday: interval * 6,
+      Tuesday: this.interval(),
+      Wednesday: this.interval() * 2,
+      Thursday: this.interval() * 3,
+      Friday: this.interval() * 4,
+      Saturday: this.interval() * 5,
+      Sunday: this.interval() * 6,
     };
     return dayMap[day];
   }
@@ -70,8 +70,8 @@ export default class WodSubScreen extends React.Component {
     return (
       <ScrollView
         ref={scrollView => this.scrollView = scrollView}
-        contentInset={{right: inset}}
-        snapToInterval={interval}
+        contentInset={{right: this.inset()}}
+        snapToInterval={this.interval()}
         snapToAlignment='start'
         decelerationRage='fast'
         horizontal={true}

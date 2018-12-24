@@ -7,14 +7,14 @@ import Icon from '../../components/Icon';
 
 export default WodToolTile = props => {
   const { iconName, library, onPress, screen, text } = props;
-  const yellow = EStyleSheet.value('$yellow');
+  const yellow = () => EStyleSheet.value('$yellow');
   return (
     <View style={styles.view}>
       <Touchable style={styles.touchable} onPress={() => onPress(screen)} iosType='opacity'>
         <Icon
           library={library}
           name={iconName}
-          color={yellow}
+          color={yellow()}
           size={50}
         />
         <Text style={styles.text}>{text}</Text>

@@ -1,9 +1,11 @@
+// import { Dimensions } from 'react-native';
 import {
   createAppContainer,
   createBottomTabNavigator,
   createDrawerNavigator,
   createStackNavigator
 } from 'react-navigation';
+// import EStyleSheet from 'react-native-extended-stylesheet';
 
 import MainScreen from '../screens/MainScreen';
 import IAPScreen from '../screens/IAPScreen';
@@ -17,7 +19,15 @@ import PercentTableScreen from '../screens/wod-tools/percent-table/PercentTableS
 
 import Logout from '../screens/auth/Logout';
 
-import { black, blackBG, greyDark, greyMedium, greyMediumDark, tabHeight, yellow, white } from '../variables/variables';
+import {
+  blackBG,
+  greyDark,
+  greyMedium,
+  greyMediumDark,
+  tabHeight,
+  white,
+  yellow,
+} from '../../variables/style-sheet';
 
 const WodToolsStack = createStackNavigator(
   {
@@ -29,7 +39,7 @@ const WodToolsStack = createStackNavigator(
     initialRouteName: 'WodTools',
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: greyDark
+        backgroundColor: greyDark,
       },
       headerTintColor: white,
       headerTintStyle: {

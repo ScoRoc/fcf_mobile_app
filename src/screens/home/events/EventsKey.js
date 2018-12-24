@@ -5,17 +5,17 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import EventKey from './EventKey';
 
 import eventKeys from './event-keys';
-import { height, width } from '../../../variables/variables';
 
 const { getKeyColorByText, getKeysText } = eventKeys();
 const numOfKeys = getKeysText.length;
 
 export default EventsKey = props => {
+  const width = () => EStyleSheet.value('$width');
   const keys = getKeysText.map((key, i) => {
     return <EventKey
       text={key}
       color={getKeyColorByText(key)}
-      width={width / numOfKeys}
+      width={width() / numOfKeys}
       key={i}
     />
   });

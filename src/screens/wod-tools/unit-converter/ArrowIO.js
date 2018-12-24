@@ -7,9 +7,6 @@ import Touchable from '../../../components/Touchable';
 import ArrowInput from './ArrowInput';
 import ArrowOutput from './ArrowOutput';
 
-import { height, yellow, width } from '../../../variables/variables';
-const col = width / 18;
-
 export default class ArrowIO extends React.Component {
   constructor(props) {
     super(props);
@@ -19,9 +16,11 @@ export default class ArrowIO extends React.Component {
     }
   }
 
+  col = () => EStyleSheet.value('$width') / 18;
+
   slideInput = () => {
     const { animatedX, toUnit } = this.state;
-    const toValue = toUnit === 'lb' ? col * 9 : 0;
+    const toValue = toUnit === 'lb' ? this.col() * 9 : 0;
     Animated.timing(
       animatedX,
       {
@@ -41,12 +40,13 @@ export default class ArrowIO extends React.Component {
   render() {
     const { input, kg, lb } = this.props;
     const { animatedX } = this.state;
+    const yellow = () => EStyleSheet.value('$yellow');
     return (
       <View>
         <View style={styles.ioWrap}>
           <ArrowOutput value={kg} unit='KG' passedStyles={{text: styles.text, unitText: styles.unitText, view: styles.output}} />
           <Touchable onPress={this.slideInput} onLongPress={this.handleLongPress} style={styles.btn} iosType='opacity'>
-            <Icon color={yellow} library='AntDesign' name='swap' size={47} />
+            <Icon color={yellow()} library='AntDesign' name='swap' size={47} />
           </Touchable>
           <ArrowOutput value={lb} unit='LB' passedStyles={{text: styles.text, unitText: styles.unitText, view: styles.output}} />
           <Animated.View style={[ styles.input, {transform: [{translateX: animatedX}]} ]}>
@@ -60,7 +60,7 @@ export default class ArrowIO extends React.Component {
 };
 
 const styles = EStyleSheet.create({
-  $col: col,
+  $col: '$width / 18',
   $ioWidth: '$col * 16',
   $btnWidth: '$col * 2',
   $leftOverWidth: '$ioWidth - $btnWidth',

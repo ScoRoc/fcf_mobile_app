@@ -56,10 +56,10 @@ export default class WodToolsScreen extends React.Component {
   };
 
   render() {
-    const height = EStyleSheet.value('$height');
-    const width = EStyleSheet.value('$width');
-    const imgUri = `https://www.placecage.com/c/${width}/${height}`;
-    const imgBgStyle = {height, width};
+    const height = () => EStyleSheet.value('$height');
+    const width = () => EStyleSheet.value('$width');
+    const imgUri = `https://www.placecage.com/c/${width()}/${height()}`;
+    const imgBgStyle = {height: height(), width: width()};
     const wodTools = Object.entries(getAllTools).map((tool, i) => {
       const [ key, value ] = tool;
       const { iconName, library, screen, text } = value;

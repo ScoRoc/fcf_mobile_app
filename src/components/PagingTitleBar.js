@@ -4,15 +4,13 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Touchable from './Touchable';
 
-import getStyle from '../variables/variables';
-
 export default PagingTitleBar = props => {
-  const yellow = getStyle('$yellow');
-  const white = getStyle('$white');
+  const yellow = () => EStyleSheet.value('$yellow');
+  const white = () => EStyleSheet.value('$white');
 
   const { currentPage, pageTitles, scrollEnabled } = props;
   const titles = pageTitles.map((title, i) => {
-    const color = currentPage === title ? yellow : white;
+    const color = currentPage === title ? yellow() : white();
     const handlePress = i === 0
                       ? props.scrollToBeginning
                       : i === pageTitles.length - 1
