@@ -1,21 +1,25 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Icon from './Icon';
 import Touchable from './Touchable';
 
 export default HeartButton = props => {
-  const likes = 0;
+  const { liked, likes } = props;
+  const icon  = liked
+              ? <Icon color={styles.$iconLikedColor} library='MaterialCommunityIcons' name='heart' size={20} />
+              : <Icon color={styles.$iconColor} library='MaterialCommunityIcons' name='heart-outline' size={20} />
   return (
     <Touchable
+      activeOpacity={.9}
       iosType='highlight'
-      onPress={() => console.log('pressed')}
+      onPress={props.updateLikeInfo}
       underlayColor={styles.$underlay}
       style={styles.touchable}
       viewStyle={styles.view}
     >
-      <Icon color={styles.$iconColor} library='MaterialCommunityIcons' name='heart-outline' size={20} />
+      {icon}
       <Text style={styles.text}>{likes}</Text>
     </Touchable>
   );
@@ -23,6 +27,7 @@ export default HeartButton = props => {
 
 const styles = EStyleSheet.create({
   $iconColor: '$black',
+  $iconLikedColor: '$red',
   $underlay: '$yellow',
 
   $paddingTB: '1%',

@@ -15,6 +15,7 @@ export const greyDark = '#333';
 export const greyMedium = '#666';
 export const greyMediumDark = '#444';
 export const purpleAccent = '#94A1D1';
+export const red = '#de2100';
 export const white = '#FFF';
 export const yellow = '#FF0';
 
@@ -35,6 +36,7 @@ export default buildStyleSheet = () => {
     $greyMedium: greyMedium,
     $greyMediumDark: greyMediumDark,
     $purpleAccent: purpleAccent,
+    $red: red,
     $white: white,
     $yellow: yellow,
   });

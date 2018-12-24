@@ -65,11 +65,12 @@ export default EventsSubScreen = props => {
   const events = getEventTitles.map((title, i) => {
     return (
       <EventStrip
-        title={title}
         color={getKeys[getTypeByTitle(title)].color()}
         date={getDateByTitle(title)}
-        throughDate={getThroughDateByTitle(title)}
+        dateObj={date}
         key={i}
+        throughDate={getThroughDateByTitle(title)}
+        title={title}
       />
     )
   });

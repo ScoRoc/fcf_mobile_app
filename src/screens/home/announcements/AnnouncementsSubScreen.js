@@ -25,15 +25,15 @@ const fakeAnnouncements = () => {
       image: `https://www.placecage.com/c/${imgWidthTemp}/${imgHeightTemp}`,
     },
     four: {
-      text: 'Another Comp Event',
+      text: 'Lorem ipsum dolor amet kale chips biodiesel gentrify',
       image: `https://www.placecage.com/c/${imgWidthTemp}/${imgHeightTemp}`,
     },
     five: {
-      text: 'Another Social Event',
+      text: 'Lorem ipsum dolor amet gluten-free etsy four loko normcore. Post-ironic bushwick lomo.',
       image: `https://www.placecage.com/c/${imgWidthTemp}/${imgHeightTemp}`,
     },
     six: {
-      text: 'Another Community Event word words words words words words more words here stuff and things and more more more blah yo yup uh huh even more things i',
+      text: 'Lorem ipsum dolor amet jean shorts scenester everyday carry, cloud bread waistcoat mustache selvage 8-bit post-ironic flexitarian. Etsy farm-to-table thundercats, lomo subway tile.',
       image: `https://www.placecage.com/c/${imgWidthTemp}/${imgHeightTemp}`,
     },
   };
