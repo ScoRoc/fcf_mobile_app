@@ -53,7 +53,6 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.titleText}>Welcome to FCF</Text>
           </View>
         </ImageBackground>
-        <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />
         <PagingTitleBar
           currentPage={this.state.currentPage}
           pageTitles={getPageTitles}
@@ -70,7 +69,6 @@ export default class HomeScreen extends React.Component {
             horizontal={true}
             pagingEnabled={true}
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.scrollView}
           >
             <AnnouncementsSubScreen />
             <EventsSubScreen />
@@ -105,8 +103,5 @@ const styles = EStyleSheet.create({
   },
   scrollViewWrap: {
     flex: 1,
-  },
-  scrollView: {
-    // backgroundColor: '$blackBG',
   },
 });

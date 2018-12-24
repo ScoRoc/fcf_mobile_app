@@ -12,10 +12,10 @@ export default Calc = props => {
   const calcTiles = Object.entries(allTiles).map((tile, i) => {
     const [key, value] = tile;
     return  <CalcTile
-              backgroundColor={value.backgroundColor}
+              backgroundColor={value.backgroundColor()}
               clearInput={props.clearInput}
               col={col}
-              color={value.color}
+              color={value.color()}
               key={i}
               type={value.type}
               updateInput={props.updateInput}

@@ -2,12 +2,7 @@ import React from 'react';
 import { Button, ImageBackground, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import { height, tabHeight, width } from '../../variables/variables';
-
 import WodToolTile from './WodToolTile';
-
-const imgUri = `https://www.placecage.com/c/${width}/${height}`;
-const imgBgStyle = {height, width};
 
 const allWodTools = () => {
   const wodTools = {
@@ -61,7 +56,10 @@ export default class WodToolsScreen extends React.Component {
   };
 
   render() {
-    const onPress = screen => this.props.navigation.navigate(screen);
+    const height = EStyleSheet.value('$height');
+    const width = EStyleSheet.value('$width');
+    const imgUri = `https://www.placecage.com/c/${width}/${height}`;
+    const imgBgStyle = {height, width};
     const wodTools = Object.entries(getAllTools).map((tool, i) => {
       const [ key, value ] = tool;
       const { iconName, library, screen, text } = value;
@@ -70,7 +68,7 @@ export default class WodToolsScreen extends React.Component {
           iconName={iconName}
           key={i}
           library={library}
-          onPress={onPress}
+          onPress={screen => this.props.navigation.navigate(screen)}
           screen={screen}
           text={text}
         />
@@ -97,13 +95,13 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
   },
   outerGrid: {
-    paddingBottom: tabHeight,
+    paddingBottom: '$tabHeight',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   grid: {
-    width,
+    width: '$width',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-around',

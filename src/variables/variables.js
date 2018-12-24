@@ -1,4 +1,7 @@
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { Dimensions } from 'react-native';
+
+export default getStyle = style => EStyleSheet.value(style);
 
 export const { height, width } = Dimensions.get('window');
 export const tabHeight = 80;

@@ -11,8 +11,9 @@ const libraries = {
 
 export default Icon = props => {
   const { color, library, name, size } = props;
+  const iconColor = typeof color === 'string' ? color : color();
   const Library = libraries[library];
   return (
-    <Library name={name} size={size} color={color} />
+    <Library name={name} size={size} color={iconColor} />
   );
 };

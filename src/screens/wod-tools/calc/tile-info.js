@@ -1,88 +1,87 @@
 import React from 'react';
 import Icon from '../../../components/Icon';
-
-import { black, blackBG, greyDark, greyMedium, white } from '../../../variables/variables';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const tiles = () => {
   const tilesInfo = {
     seven: {
       type: 'add',
       value: 7,
-      color: white,
-      backgroundColor: greyDark,
+      color: () => EStyleSheet.value('$white'),
+      backgroundColor: () => EStyleSheet.value('$greyDark'),
     },
     eight: {
       type: 'add',
       value: 8,
-      color: white,
-      backgroundColor: greyDark,
+      color: () => EStyleSheet.value('$white'),
+      backgroundColor: () => EStyleSheet.value('$greyDark'),
     },
     nine: {
       type: 'add',
       value: 9,
-      color: white,
-      backgroundColor: greyDark,
+      color: () => EStyleSheet.value('$white'),
+      backgroundColor: () => EStyleSheet.value('$greyDark'),
     },
     four: {
       type: 'add',
       value: 4,
-      color: white,
-      backgroundColor: greyDark,
+      color: () => EStyleSheet.value('$white'),
+      backgroundColor: () => EStyleSheet.value('$greyDark'),
     },
     five: {
       type: 'add',
       value: 5,
-      color: white,
-      backgroundColor: greyDark,
+      color: () => EStyleSheet.value('$white'),
+      backgroundColor: () => EStyleSheet.value('$greyDark'),
     },
     six: {
       type: 'add',
       value: 6,
-      color: white,
-      backgroundColor: greyDark,
+      color: () => EStyleSheet.value('$white'),
+      backgroundColor: () => EStyleSheet.value('$greyDark'),
     },
     one: {
       type: 'add',
       value: 1,
-      color: white,
-      backgroundColor: greyDark,
+      color: () => EStyleSheet.value('$white'),
+      backgroundColor: () => EStyleSheet.value('$greyDark'),
     },
     two: {
       type: 'add',
       value: 2,
-      color: white,
-      backgroundColor: greyDark,
+      color: () => EStyleSheet.value('$white'),
+      backgroundColor: () => EStyleSheet.value('$greyDark'),
     },
     three: {
       type: 'add',
       value: 3,
-      color: white,
-      backgroundColor: greyDark,
+      color: () => EStyleSheet.value('$white'),
+      backgroundColor: () => EStyleSheet.value('$greyDark'),
     },
     period: {
       type: 'clear',
       value: 'C',
-      // color: black,
-      color: blackBG,
-      backgroundColor: greyMedium,
+      // color: EStyleSheet.value('$black'),
+      color: () => EStyleSheet.value('$blackBG'),
+      backgroundColor: () => EStyleSheet.value('$greyMedium'),
     },
     zero: {
       type: 'add',
       value: 0,
-      color: white,
-      backgroundColor: greyDark,
+      color: () => EStyleSheet.value('$white'),
+      backgroundColor: () => EStyleSheet.value('$greyDark'),
     },
     delete: {
       type: 'delete',
       value:  <Icon
-                // color={black}
-                color={blackBG}
+                // color={() => EStyleSheet.value('$black')}
+                color={() => EStyleSheet.value('$blackBG')}
                 library='MaterialCommunityIcons'
                 name='keyboard-backspace'
                 size={45}
               />,
-      color: white,
-      backgroundColor: greyMedium,
+      color: () => EStyleSheet.value('$white'),
+      backgroundColor: () => EStyleSheet.value('$greyMedium'),
     },
   };
   return {

@@ -4,7 +4,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Calc from '../calc/Calc';
 
-import { height, width } from '../../../variables/variables';
 import percents from './percents';
 
 export default class PercentTableScreen extends React.Component {
@@ -135,6 +134,7 @@ const styles = EStyleSheet.create({
   pickerItem: {
     height: '148rem',
     color: '$white',
+    // color: '$yellow',
     fontSize: '24rem',
   },
   inBetweenTextWrap: {

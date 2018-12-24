@@ -5,10 +5,9 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Touchable from '../../components/Touchable';
 import Icon from '../../components/Icon';
 
-import { height, tabHeight, yellow, width } from '../../variables/variables';
-
 export default WodToolTile = props => {
   const { iconName, library, onPress, screen, text } = props;
+  const yellow = EStyleSheet.value('$yellow');
   return (
     <View style={styles.view}>
       <Touchable style={styles.touchable} onPress={() => onPress(screen)} iosType='opacity'>
@@ -25,7 +24,7 @@ export default WodToolTile = props => {
 };
 
 const styles = EStyleSheet.create({
-  $size: width / 2,
+  $size: '$width' / 2,
   $margin: '$size / 2',
   view: {
     height: '$size',
