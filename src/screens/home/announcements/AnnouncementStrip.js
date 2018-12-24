@@ -36,7 +36,7 @@ export default AnnouncementStrip = props => {
 const styles = EStyleSheet.create({
   $spacing: '15rem',
   view: {
-    height: '$height * 0.14',
+    height: '$height * 0.15',
     marginTop: '$spacing',
     marginBottom: '$spacing',
     flex: 1,

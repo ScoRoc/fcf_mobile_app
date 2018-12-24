@@ -2,6 +2,8 @@ import React from 'react';
 import { Image, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import HeartButton from '../../../components/HeartButton';
+
 export default ImgSection = props => {
   const { img, imgHeight, imgWidth } = props;
   return (
@@ -9,7 +11,7 @@ export default ImgSection = props => {
       <View style={{height: imgHeight, width: imgWidth}}>
         <Image style={{height: imgHeight, width: imgWidth}} source={{uri: img}} />
       </View>
-      <Text>foo</Text>
+      <HeartButton />
     </View>
   );
 };
@@ -18,8 +20,9 @@ const styles = EStyleSheet.create({
   $spacing: '10rem',
   imgWrap: {
     height: '100%',
-    justifyContent: 'space-around',
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'purple',
+    // backgroundColor: 'purple',
   },
 });
