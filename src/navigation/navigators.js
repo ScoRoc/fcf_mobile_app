@@ -9,6 +9,7 @@ import {
 
 import MainScreen from '../screens/MainScreen';
 import IAPScreen from '../screens/IAPScreen';
+import WebViewScreen from '../screens/webview/WebViewScreen';
 
 import HomeScreen from '../screens/home/HomeScreen';
 import BlogScreen from '../screens/blog/BlogScreen';
@@ -28,6 +29,44 @@ import {
   white,
   yellow,
 } from '../../variables/style-sheet';
+
+const HomeStack = createStackNavigator(
+  {
+    Home: HomeScreen,
+    WebView: WebViewScreen,
+  },
+  {
+    initialRouteName: 'Home',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: greyDark,
+      },
+      headerTintColor: white,
+      headerTintStyle: {
+        fontWeight: 'bold'
+      }
+    },
+  }
+);
+
+const BlogStack = createStackNavigator(
+  {
+    Blog: BlogScreen,
+    WebView: WebViewScreen,
+  },
+  {
+    initialRouteName: 'Blog',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: greyDark,
+      },
+      headerTintColor: white,
+      headerTintStyle: {
+        fontWeight: 'bold'
+      }
+    },
+  }
+);
 
 const WodToolsStack = createStackNavigator(
   {
@@ -51,8 +90,8 @@ const WodToolsStack = createStackNavigator(
 
 const TabNav = createBottomTabNavigator(
   {
-    Home: { screen: HomeScreen },
-    Blog: { screen: BlogScreen },
+    Home: { screen: HomeStack },
+    Blog: { screen: BlogStack },
     Wod: { screen: WodScreen },
     WodTools: { screen: WodToolsStack },
   },

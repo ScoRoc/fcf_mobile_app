@@ -28,6 +28,10 @@ export default class HomeScreen extends React.Component {
     };
   }
 
+  static navigationOptions = {
+    header: null,
+  };
+
   width = () => EStyleSheet.value('$width');
 
   scrollToBeginning = () => {

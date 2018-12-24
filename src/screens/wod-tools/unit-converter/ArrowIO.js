@@ -42,18 +42,16 @@ export default class ArrowIO extends React.Component {
     const { animatedX } = this.state;
     const yellow = () => EStyleSheet.value('$yellow');
     return (
-      <View>
-        <View style={styles.ioWrap}>
-          <ArrowOutput value={kg} unit='KG' passedStyles={{text: styles.text, unitText: styles.unitText, view: styles.output}} />
-          <Touchable onPress={this.slideInput} onLongPress={this.handleLongPress} style={styles.btn} iosType='opacity'>
-            <Icon color={yellow()} library='AntDesign' name='swap' size={47} />
-          </Touchable>
-          <ArrowOutput value={lb} unit='LB' passedStyles={{text: styles.text, unitText: styles.unitText, view: styles.output}} />
-          <Animated.View style={[ styles.input, {transform: [{translateX: animatedX}]} ]}>
-            {/* <ArrowInput value={input || '0'} styles={{view: styles.arrowInput, text: styles.text}} /> */}
-            <Text style={styles.text}>{input || '0'}</Text>
-          </Animated.View>
-        </View>
+      <View style={styles.ioWrap}>
+        <ArrowOutput value={kg} unit='KG' passedStyles={{text: styles.text, unitText: styles.unitText, view: styles.output}} />
+        <Touchable onPress={this.slideInput} onLongPress={this.handleLongPress} style={styles.btn} iosType='opacity'>
+          <Icon color={yellow()} library='AntDesign' name='swap' size={47} />
+        </Touchable>
+        <ArrowOutput value={lb} unit='LB' passedStyles={{text: styles.text, unitText: styles.unitText, view: styles.output}} />
+        <Animated.View style={[ styles.input, {transform: [{translateX: animatedX}]} ]}>
+          {/* <ArrowInput value={input || '0'} styles={{view: styles.arrowInput, text: styles.text}} /> */}
+          <Text style={styles.text}>{input || '0'}</Text>
+        </Animated.View>
       </View>
     );
   }

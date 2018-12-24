@@ -7,8 +7,8 @@ import AnnouncementStrip from './AnnouncementStrip';
 const screenWidth = Dimensions.get('window').width;
 
 //////////////////////////////
-const imgWidthTemp = screenWidth * .3;
-const imgHeightTemp = imgWidthTemp / 4 * 3;
+const imgWidthTemp = Math.round(screenWidth * .3);
+const imgHeightTemp = Math.round(imgWidthTemp / 4 * 3);
 
 const fakeAnnouncements = () => {
   const fakeAnnouncementsObj = {
@@ -55,13 +55,13 @@ export default AnnouncementsSubScreen = props => {
     return (
       <AnnouncementStrip
         img={getAllAnnouncements[announcement].image}
-        text={getAllAnnouncements[announcement].text}
         imgHeight={imgHeight}
         imgLeft={imgLeft}
         imgWidth={imgWidth}
-        padding={padding}
-        textWrapWidth={leftoverSpace}
         key={i}
+        padding={padding}
+        text={getAllAnnouncements[announcement].text}
+        textWrapWidth={leftoverSpace}
       />
     );
   });

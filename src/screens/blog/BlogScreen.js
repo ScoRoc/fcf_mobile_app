@@ -2,13 +2,24 @@ import React from 'react';
 import { Button, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-export default BlogScreen = props => {
-  return (
-    <View style={styles.screen}>
-      <Text style={styles.text}>Hello from BlogScreen</Text>
-      <Button title='open drawer' onPress={() => props.navigation.openDrawer()} />
-    </View>
-  )
+import Touchable from '../../components/Touchable';
+
+export default class BlogScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  };
+
+  render() {
+    const uri = 'http://www.foundationcrossfit.com/blog/';
+    return (
+      <View style={styles.screen}>
+        <Touchable onPress={() => this.props.navigation.navigate('WebView', {uri})} iosType='opacity'>
+          <Text style={styles.text}>Visit the blog</Text>
+        </Touchable>
+        <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />
+      </View>
+    );
+  }
 };
 
 const styles = EStyleSheet.create({
@@ -16,12 +27,12 @@ const styles = EStyleSheet.create({
   screen: {
     paddingTop: '$padding',
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '$blackBG',
   },
   text: {
-    color: 'orange',
+    color: '$yellow',
     fontSize: '22rem'
   }
 });
