@@ -50,6 +50,7 @@ export default AnnouncementsSubScreen = props => {
   const imgHeight = imgWidth / 4 * 3;
   const leftoverSpace = width() - imgWidth;
   const padding = leftoverSpace * .1 / 2;
+  const textWrapWidth = leftoverSpace - padding * 2;
   const announcements = Object.keys(getAllAnnouncements).map((announcement, i) => {
     const imgLeft = i % 2 === 0 ? true : false;
     return (
@@ -61,12 +62,13 @@ export default AnnouncementsSubScreen = props => {
         key={i}
         padding={padding}
         text={getAllAnnouncements[announcement].text}
+        // textWrapWidth={textWrapWidth}
         textWrapWidth={leftoverSpace}
       />
     );
   });
   return (
-    <View style={[styles.screen, {width: width()}]}>
+    <View style={{width: width()}}>
       <ScrollView>
         {announcements}
       </ScrollView>
@@ -75,8 +77,7 @@ export default AnnouncementsSubScreen = props => {
 };
 
 const styles = EStyleSheet.create({
-  $padding: '50rem',
   text: {
-    fontSize: '22rem'
+    // fontSize: '22rem'
   },
 });

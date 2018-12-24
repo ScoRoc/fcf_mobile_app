@@ -4,36 +4,45 @@ import { withNavigation } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Touchable from '../../../components/Touchable';
+import ImgSection from './ImgSection';
 
 const RightImgAnnouncement = props => {
   const { img, imgHeight, imgWidth, textPadding, text, textWrapWidth } = props;
   return (
     <>
       <Touchable
+        activeOpacity={.6}
         iosType='highlight'
         onPress={() => props.navigation.navigate('WebView')}
-        style={[styles.textWrap, {width: textWrapWidth}, textPadding]}
-        underlayColor='purple'
+        viewStyle={[textPadding, styles.textWrap, {width: textWrapWidth}]}
+        underlayColor={styles.$underlay}
       >
+        {/* <View style={textPadding}> */}
           <Text style={styles.text}>{text}</Text>
+        {/* </View> */}
       </Touchable>
-      <View style={{height: imgHeight, width: imgWidth}}>
-        <Image style={{height: imgHeight, width: imgWidth}} source={{uri: img}} />
-      </View>
+      <ImgSection img={img} imgHeight={imgHeight} imgWidth={imgWidth} />
     </>
   );
 };
 
 const styles = EStyleSheet.create({
-  $spacing: '10rem',
+  $underlay: '$yellow',
   textWrap: {
     height: '100%',
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
+    backgroundColor: '$greyDark',
   },
   text: {
     color: '$white',
     fontSize: '16rem',
+  },
+  imgWrap: {
+    height: '100%',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
 });
 

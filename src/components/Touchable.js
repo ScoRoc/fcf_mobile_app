@@ -18,7 +18,7 @@ export default Touchable = props => {
   // console.log( Platform.OS );
   return (
     <OSSpecificTouchable {...props}>
-      <View style={props.style}>
+      <View style={props.viewStyle}>
         {props.children}
       </View>
     </OSSpecificTouchable>

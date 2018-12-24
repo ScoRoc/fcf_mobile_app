@@ -10,13 +10,12 @@ export default AnnouncementStrip = props => {
   const textPadding = {paddingLeft: padding, paddingRight: padding};
   const position  = imgLeft
                   ? <LeftImgAnnouncement
-                    handlePress={props.handlePress}
-                    img={img}
-                    imgHeight={imgHeight}
-                    imgWidth={imgWidth}
-                    text={text}
-                    textPadding={textPadding}
-                    textWrapWidth={textWrapWidth}
+                      img={img}
+                      imgHeight={imgHeight}
+                      imgWidth={imgWidth}
+                      text={text}
+                      textPadding={textPadding}
+                      textWrapWidth={textWrapWidth}
                     />
                   //     {/* CLICK ON ANNOUNCEMENT IS HYPERLINK TO WEB */}
                   //     {/* DOUBLE CLICK ON PIC TO HYPERLINK TO WEB */}
@@ -35,16 +34,15 @@ export default AnnouncementStrip = props => {
 };
 
 const styles = EStyleSheet.create({
-  $spacing: '10rem',
+  $spacing: '15rem',
   view: {
+    height: '$height * 0.14',
+    marginTop: '$spacing',
+    marginBottom: '$spacing',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: '$spacing',
-    marginBottom: '$spacing',
-    paddingTop: '$spacing',
-    paddingBottom: '$spacing',
     backgroundColor: '$greyDark',
   },
 });
