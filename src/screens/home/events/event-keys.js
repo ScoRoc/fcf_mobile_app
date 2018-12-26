@@ -3,16 +3,22 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default eventKeys = () => {
   const keys = {
     social: {
-      text: 'Social',
       color: () => EStyleSheet.value('$greenAccent'),
+      library: 'MaterialCommunityIcons',
+      name: 'account-group',
+      text: 'Social',
     },
     competition: {
-      text: 'Competition',
       color: () => EStyleSheet.value('$blueAccent'),
+      library: 'MaterialCommunityIcons',
+      name: 'medal',
+      text: 'Competition',
     },
     community: {
-      text: 'Community',
       color: () => EStyleSheet.value('$purpleAccent'),
+      library: 'FontAwesome',
+      name: 'globe',
+      text: 'Community',
     },
   };
   return {

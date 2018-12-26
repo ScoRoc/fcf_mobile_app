@@ -3,10 +3,11 @@ import { Text, View } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import Icon from '../../../components/Icon';
 import Touchable from '../../../components/Touchable';
 
 const EventNameBox = props => {
-  const { color, date, dateObj, month, throughDate, title } = props;
+  const { color, date, dateObj, library, month, name, throughDate, title } = props;
   const dateThrough = throughDate ? `${month} ${date} - ${throughDate}` : '';
   const padding = throughDate ? 3 : 0;
   const paddingLeft = throughDate ? 8 : 0;
@@ -20,7 +21,9 @@ const EventNameBox = props => {
       viewStyle={styles.titleTile}
     >
       <Text style={[styles.titleText, {color}]}>{title}</Text>
-      {/* ICONS UNDER TEXT */}
+      <View style={styles.icons}>
+        <Icon color={color} library={library} name={name} size={20} />
+      </View>
       <View style={[styles.dateThrough, {padding, paddingLeft, paddingRight}]}>
         <Text style={styles.dateThroutText}>{dateThrough}</Text>
       </View>
@@ -42,6 +45,11 @@ const styles = EStyleSheet.create({
   },
   titleText: {
     fontSize: '23rem',
+  },
+  icons: {
+    position: 'absolute',
+    bottom: '5rem',
+    left: '15rem',
   },
   dateThrough: {
     position: 'absolute',

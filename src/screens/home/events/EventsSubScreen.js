@@ -69,6 +69,8 @@ export default EventsSubScreen = props => {
         date={getDateByTitle(title)}
         dateObj={date}
         key={i}
+        library={getKeys[getTypeByTitle(title)].library}
+        name={getKeys[getTypeByTitle(title)].name}
         throughDate={getThroughDateByTitle(title)}
         title={title}
       />

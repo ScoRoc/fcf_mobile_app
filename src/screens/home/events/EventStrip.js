@@ -6,13 +6,12 @@ import DateBox from './DateBox';
 import EventNameBox from './EventNameBox';
 
 export default EventStrip = props => {
-  const { color, date, dateObj, throughDate, title } = props;
+  const { color, date, dateObj, library, name, throughDate, title } = props;
   const month = dateObj.toLocaleString('en-us', {month: 'short'});
   return (
     <View style={styles.strip}>
-      {/* USE COLORED ICONS INSTEAD OF JUST COLORS */}
       <DateBox color={color} date={date} month={month} />
-      <EventNameBox color={color} month={month} throughDate={throughDate} title={title} />
+      <EventNameBox color={color} date={date} library={library} month={month} name={name} throughDate={throughDate} title={title} />
     </View>
   );
 };

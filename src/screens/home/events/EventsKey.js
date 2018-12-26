@@ -6,15 +6,18 @@ import EventKey from './EventKey';
 
 import eventKeys from './event-keys';
 
-const { getKeyColorByText, getKeysText } = eventKeys();
+const { getKeyColorByText, getKeys, getKeysText } = eventKeys();
 const numOfKeys = getKeysText.length;
 
 export default EventsKey = props => {
   const width = () => EStyleSheet.value('$width');
-  const keys = getKeysText.map((key, i) => {
+  const keys = Object.entries(getKeys).map((evtKey, i) => {
+    const [key, value] = evtKey;
     return <EventKey
-      text={key}
-      color={getKeyColorByText(key)}
+      color={value.color()}
+      library={value.library}
+      name={value.name}
+      text={value.text}
       width={width() / numOfKeys}
       key={i}
     />
