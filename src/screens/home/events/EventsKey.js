@@ -15,15 +15,17 @@ export default EventsKey = props => {
     const [key, value] = evtKey;
     return <EventKey
       color={value.color()}
+      filterEventTypes={props.filterEventTypes}
       library={value.library}
       name={value.name}
+      removedTypes={props.removedTypes}
       text={value.text}
+      type={key}
       width={width() / numOfKeys}
       key={i}
     />
   });
   return (
-    // USE ICONS AND MAKE COLLAPSIBLE AND CLICKABLE FOR FILTERING
     <View style={styles.view}>
     {/* <View style={[styles.view, {paddingRight: numOfKeys * 10 / 2}]}> */}
       {keys}

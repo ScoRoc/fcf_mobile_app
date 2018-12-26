@@ -48,47 +48,103 @@ const fakeEvents = () => {
       type: 'community',
     },
   };
+  const eventTypes = ['social', 'competition', 'community'];
   return {
+    getAllEventTypes: (() => eventTypes)(),
     getDateByTitle: title => fakeEventsObj[Object.keys(fakeEventsObj).find(key => fakeEventsObj[key].title === title)].date,
+    getEvents: (() => fakeEventsObj)(),
+    getEventsByType: type => Object.entries(fakeEventsObj).filter(entry => entry[1].type === type),
+    // getEventsByTypes: types => Object.entries(fakeEventsObj).filter(entry => Object.values(entry[1]).some(item => types.indexOf(item) >= 0)),
+    getEventsByTypes: types => Object.entries(fakeEventsObj).filter(entry => {
+      return Object.values(entry[1]).some(item => {
+        // console.log('types: ', types)
+        return types.indexOf(item) >= 0;
+      })
+    }),
     getEventTitles: (() => Object.values(fakeEventsObj).map(event => event.title))(),
     getThroughDateByTitle: title => fakeEventsObj[Object.keys(fakeEventsObj).find(key => fakeEventsObj[key].title === title)].throughDate,
     getTypeByTitle: title => fakeEventsObj[Object.keys(fakeEventsObj).find(key => fakeEventsObj[key].title === title)].type,
 
   }
 };
-const { getDateByTitle, getEventTitles, getThroughDateByTitle, getTypeByTitle } = fakeEvents();
+const {
+  getAllEventTypes,
+  getDateByTitle,
+  getEventsByType,
+  getEventsByTypes,
+  getEvents,
+  getEventTitles,
+  getThroughDateByTitle,
+  getTypeByTitle
+} = fakeEvents();
 //////////////////////////////
 
-export default EventsSubScreen = props => {
-  const width = () => EStyleSheet.value('$width');
-  ///////
-  const events = getEventTitles.map((title, i) => {
+export default class EventsSubScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      eventTypes: [],
+      removedTypes: [],
+    };
+  }
+
+  getRemovedTypes = type => {
+    const { removedTypes } = this.state;
+    const updated = removedTypes.includes(type)
+                  ? removedTypes.splice(removedTypes.indexOf(type), 1)
+                  : removedTypes.push(type);
+    return removedTypes;
+  }
+
+  filterEventTypes = type => {
+    const filteredTypes = this.state.eventTypes;
+    const included = filteredTypes.includes(type);
+    const removedTypes = included
+                        ? filteredTypes.splice(filteredTypes.indexOf(type), 1)
+                        : filteredTypes.splice(filteredTypes.length - 1, 0, type);
+
+    this.setState({eventTypes: filteredTypes, removedTypes: this.getRemovedTypes(type)});
+  }
+
+  componentDidMount() {
+    this.setState({eventTypes: getAllEventTypes});
+  }
+
+  render() {
+    const { eventTypes, removedTypes } = this.state;
+    const width = () => EStyleSheet.value('$width');
+    ///////
+    const events = getEventsByTypes(eventTypes).map((event, i) => {
+      const [key, value] = event;
+      const type = getTypeByTitle(value.title);
+      const eventKey = getKeys[type];
+      return (
+        <EventStrip
+          color={eventKey.color()}
+          date={value.date}
+          dateObj={date}
+          key={i}
+          library={eventKey.library}
+          name={eventKey.name}
+          throughDate={value.throughDate}
+          title={value.title}
+        />
+      )
+    });
+    ///////
     return (
-      <EventStrip
-        color={getKeys[getTypeByTitle(title)].color()}
-        date={getDateByTitle(title)}
-        dateObj={date}
-        key={i}
-        library={getKeys[getTypeByTitle(title)].library}
-        name={getKeys[getTypeByTitle(title)].name}
-        throughDate={getThroughDateByTitle(title)}
-        title={title}
-      />
-    )
-  });
-  ///////
-  return (
-    <View style={[styles.screen, {width: width()}]}>
-      <EventsKey />
-      <View style={styles.monthWrapper}>
-        <Text style={styles.monthText}>{month} {year}</Text>
+      <View style={[styles.screen, {width: width()}]}>
+        <EventsKey filterEventTypes={this.filterEventTypes} removedTypes={removedTypes} />
+        <View style={styles.monthWrapper}>
+          <Text style={styles.monthText}>{month} {year}</Text>
+        </View>
+        {/* MAKE FLAT LIST FOR EACH MONTH SO ITS SCROLLABLE LIST DOWN TO EACH MONTH */}
+        <ScrollView>
+          {events}
+        </ScrollView>
       </View>
-      {/* MAKE FLAT LIST FOR EACH MONTH SO ITS SCROLLABLE LIST DOWN TO EACH MONTH */}
-      <ScrollView>
-        {events}
-      </ScrollView>
-    </View>
-  )
+    );
+  }
 };
 
 const styles = EStyleSheet.create({

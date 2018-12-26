@@ -3,15 +3,16 @@ import { Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Icon from '../../../components/Icon';
+import Touchable from '../../../components/Touchable';
 
 export default EventKey = props => {
-  const { color, library, name, text, width } = props;
+  const { color, filterEventTypes, library, name, removedTypes, text, type, width } = props;
+  const iconColor = removedTypes.includes(type) ? EStyleSheet.value('$greyMedium') : color;
   return (
-    <View style={[styles.view, {width}]}>
-      {/* <View style={[styles.square, {backgroundColor: color}]}></View> */}
-      <Icon color={color} library={library} name={name} size={25} />
-      <Text style={{color}}>{text}</Text>
-    </View>
+    <Touchable iosType='opacity' onPress={() => filterEventTypes(type)} viewStyle={[styles.view, {width}]}>
+      <Icon color={iconColor} library={library} name={name} size={25} />
+      <Text style={{color: iconColor}}>{text}</Text>
+    </Touchable>
   );
 };
 
@@ -22,9 +23,4 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  // square: {
-  //   height: '$size',
-  //   width: '$size',
-  //   marginRight: '10rem',
-  // },
 });
