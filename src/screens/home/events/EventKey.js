@@ -7,11 +7,11 @@ import Touchable from '../../../components/Touchable';
 
 export default EventKey = props => {
   const { color, filterEventTypes, library, name, removedTypes, text, type, width } = props;
-  const iconColor = removedTypes.includes(type) ? EStyleSheet.value('$greyMedium') : color;
+  const iconColor = removedTypes.includes(type) ? () => EStyleSheet.value('$greyMedium') : () => color;
   return (
     <Touchable iosType='opacity' onPress={() => filterEventTypes(type)} viewStyle={[styles.view, {width}]}>
-      <Icon color={iconColor} library={library} name={name} size={25} />
-      <Text style={{color: iconColor}}>{text}</Text>
+      <Icon color={iconColor()} library={library} name={name} size={25} />
+      <Text style={{color: iconColor()}}>{text}</Text>
     </Touchable>
   );
 };

@@ -6,6 +6,16 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Icon from '../../../components/Icon';
 import Touchable from '../../../components/Touchable';
 
+const chevron = {
+  color: () => EStyleSheet.value('$yellow'),
+  // library: 'Entypo',
+  // name: 'chevron-with-circle-right',
+  // library: 'Feather',
+  // name: 'external-link',
+  library: 'EvilIcons',
+  name: 'external-link',
+}
+
 const EventNameBox = props => {
   const { color, date, dateObj, library, month, name, throughDate, title } = props;
   const dateThrough = throughDate ? `${month} ${date} - ${throughDate}` : '';
@@ -20,7 +30,10 @@ const EventNameBox = props => {
       underlayColor={styles.$underlay}
       viewStyle={styles.titleTile}
     >
-      <Text style={[styles.titleText, {color}]}>{title}</Text>
+      <View style={styles.titleView}>
+        <Text style={[styles.titleText, {color}]}>{title}</Text>
+        <Icon color={chevron.color()} library={chevron.library} name={chevron.name} size={25} />
+      </View>
       <View style={styles.icons}>
         <Icon color={color} library={library} name={name} size={20} />
       </View>
@@ -42,6 +55,13 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     backgroundColor: '$greyDark',
+  },
+  titleView: {
+    width: '100%',
+    paddingRight: '5rem',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   titleText: {
     fontSize: '23rem',

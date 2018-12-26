@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ImageBackground, ScrollView, Text, View } from 'react-native';
+import { Button, ImageBackground, ScrollView, StatusBar, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import AnnouncementsSubScreen from './announcements/AnnouncementsSubScreen';
@@ -53,6 +53,7 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.screen}>
+        <StatusBar barStyle='light-content' />
         <ImageBackground source={{uri}} style={styles.imgBg}>
           <View style={styles.imgView}>
             <Text style={styles.titleText}>Welcome to FCF</Text>

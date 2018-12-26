@@ -98,8 +98,7 @@ export default class EventsSubScreen extends React.Component {
 
   filterEventTypes = type => {
     const filteredTypes = this.state.eventTypes;
-    const included = filteredTypes.includes(type);
-    const removedTypes = included
+    const removedTypes = filteredTypes.includes(type)
                         ? filteredTypes.splice(filteredTypes.indexOf(type), 1)
                         : filteredTypes.splice(filteredTypes.length - 1, 0, type);
 

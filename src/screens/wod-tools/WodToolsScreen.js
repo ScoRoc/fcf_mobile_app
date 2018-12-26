@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ImageBackground, Text, View } from 'react-native';
+import { Button, ImageBackground, StatusBar, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import WodToolTile from './WodToolTile';
@@ -76,6 +76,7 @@ export default class WodToolsScreen extends React.Component {
     });
     return (
       <View style={styles.screen}>
+        <StatusBar barStyle='light-content' />
         <ImageBackground blurRadius={4} source={{uri: imgUri}} style={imgBgStyle}>
           <View style={styles.outerGrid}>
             <View style={styles.grid}>

@@ -1,9 +1,11 @@
 import React from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { AntDesign, Feather, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, Entypo, EvilIcons, Feather, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 
 const libraries = {
   AntDesign: AntDesign,
+  Entypo: Entypo,
+  EvilIcons: EvilIcons,
   Feather: Feather,
   FontAwesome: FontAwesome,
   MaterialCommunityIcons: MaterialCommunityIcons,
