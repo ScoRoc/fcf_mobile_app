@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ScrollView, Text, View } from 'react-native';
+import { Button, ScrollView, SectionList, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import eventKeys from './event-keys';
@@ -50,39 +50,127 @@ const fakeEvents = () => {
   };
   const eventTypes = ['social', 'competition', 'community'];
   return {
+    getAllEvents: (() => fakeEventsObj)(),
     getAllEventTypes: (() => eventTypes)(),
-    getDateByTitle: title => fakeEventsObj[Object.keys(fakeEventsObj).find(key => fakeEventsObj[key].title === title)].date,
-    getEvents: (() => fakeEventsObj)(),
-    getEventsByType: type => Object.entries(fakeEventsObj).filter(entry => entry[1].type === type),
-    // getEventsByTypes: types => Object.entries(fakeEventsObj).filter(entry => Object.values(entry[1]).some(item => types.indexOf(item) >= 0)),
-    getEventsByTypes: types => Object.entries(fakeEventsObj).filter(entry => {
-      return Object.values(entry[1]).some(item => {
-        // console.log('types: ', types)
-        return types.indexOf(item) >= 0;
-      })
-    }),
-    getEventTitles: (() => Object.values(fakeEventsObj).map(event => event.title))(),
-    getThroughDateByTitle: title => fakeEventsObj[Object.keys(fakeEventsObj).find(key => fakeEventsObj[key].title === title)].throughDate,
+    getEventsByTypes: types => Object.entries(fakeEventsObj).filter(entry => Object.values(entry[1]).some(item => types.indexOf(item) >= 0)),
     getTypeByTitle: title => fakeEventsObj[Object.keys(fakeEventsObj).find(key => fakeEventsObj[key].title === title)].type,
-
-  }
+  };
 };
 const {
+  getAllEvents,
   getAllEventTypes,
-  getDateByTitle,
-  getEventsByType,
   getEventsByTypes,
-  getEvents,
-  getEventTitles,
-  getThroughDateByTitle,
   getTypeByTitle
 } = fakeEvents();
+
+const monthMap = {
+  jan: { num: 0, title: 'January' },
+  feb: { num: 1, title: 'February' },
+};
+
+const monthEvents = () => {
+  const eventsArr = [
+    {
+      month: 'January',
+      events: [
+        {
+          date: '3',
+          id: 0,
+          title: 'Drinks at Optimism',
+          type: 'social',
+        },
+        {
+          date: '8',
+          id: 1,
+          throughDate: 'Dec 15',
+          title: 'Cancer Drive',
+          type: 'community',
+        },
+        {
+          date: '11',
+          id: 2,
+          title: '5k Run for ABC',
+          type: 'competition',
+        },
+        {
+          date: '17',
+          id: 3,
+          throughDate: 'Dec 22',
+          title: 'Another Comp Event',
+          type: 'competition',
+        },
+        {
+          date: '22',
+          id: 4,
+          title: 'Another Social Event',
+          type: 'social',
+        },
+        {
+          date: '26',
+          id: 5,
+          title: 'Another Community Event',
+          type: 'community',
+        },
+      ],
+    },
+    {
+      month: 'February',
+      events: [
+        {
+          date: '3',
+          id: 0,
+          title: 'Drinks at Optimism',
+          type: 'social',
+        },
+        {
+          date: '8',
+          id: 1,
+          throughDate: 'Dec 15',
+          title: 'Cancer Drive',
+          type: 'community',
+        },
+        {
+          date: '11',
+          id: 2,
+          title: '5k Run for ABC',
+          type: 'competition',
+        },
+        {
+          date: '17',
+          id: 3,
+          throughDate: 'Dec 22',
+          title: 'Another Comp Event',
+          type: 'competition',
+        },
+        {
+          date: '22',
+          id: 4,
+          title: 'Another Social Event',
+          type: 'social',
+        },
+        {
+          date: '26',
+          id: 5,
+          title: 'Another Community Event',
+          type: 'community',
+        },
+      ],
+    }
+  ];
+  return {
+    getAllMonthData: (() => eventsArr)(),
+  }
+};
+const { getAllMonthData } = monthEvents();
+// console.log('month data: ', getAllMonthData)
+// console.log(getAllMonthData[0].events);
 //////////////////////////////
 
 export default class EventsSubScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      events: [],
       eventTypes: [],
       removedTypes: [],
     };
@@ -137,10 +225,37 @@ export default class EventsSubScreen extends React.Component {
         <View style={styles.monthWrapper}>
           <Text style={styles.monthText}>{month} {year}</Text>
         </View>
-        {/* MAKE FLAT LIST FOR EACH MONTH SO ITS SCROLLABLE LIST DOWN TO EACH MONTH */}
         <ScrollView>
           {events}
         </ScrollView>
+        {/* <SectionList
+          sections={[
+            { title: getAllMonthData[0].month, data: getAllMonthData[0].events },
+            { title: getAllMonthData[1].month, data: getAllMonthData[1].events },
+          ]}
+          renderItem={({item}) => {
+            // console.log('item: ', item)
+            const eventKey = getKeys[item.type];
+            return  (
+                      <EventStrip
+                        color={eventKey.color()}
+                        date={item.date}
+                        dateObj={date}
+                        library={eventKey.library}
+                        name={eventKey.name}
+                        throughDate={item.throughDate}
+                        title={item.title}
+                      />
+                    );
+          }}
+          renderSectionHeader={({section}) => {
+            // console.log('section: ', section)
+              return  <View style={styles.monthWrapper}>
+                        <Text style={styles.monthText}>{section.title}</Text>
+                      </View>
+          }}
+          keyExtractor={item => item.id}
+        /> */}
       </View>
     );
   }
@@ -156,6 +271,7 @@ const styles = EStyleSheet.create({
     // alignItems: 'center',
   },
   monthWrapper: {
+    // marginBottom: '30rem',
     paddingTop: '$monthPadding',
     paddingBottom: '$monthPadding',
     backgroundColor: '$greyMedium',
