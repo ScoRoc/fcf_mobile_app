@@ -1,14 +1,21 @@
 import React from 'react';
-import { Button, Dimensions, Image, ScrollView, View } from 'react-native';
+import { Button, Dimensions, Image, ScrollView, RefreshControl, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import AnnouncementStrip from './AnnouncementStrip';
+
+import useAxios from '../../../utils/axios-helpers';
+import { apiUrl } from '../../../utils/global-variables';
+
+const path = `${apiUrl}/announcements`;
+const { getWithAxios } = useAxios(path);
 
 const screenWidth = Dimensions.get('window').width;
 
 //////////////////////////////
 const imgWidthTemp = Math.round(screenWidth * .3);
 const imgHeightTemp = Math.round(imgWidthTemp / 4 * 3);
+// const imgHeightTemp = Math.round(imgWidthTemp);
 
 const fakeAnnouncements = () => {
   const fakeAnnouncementsObj = {
@@ -33,7 +40,7 @@ const fakeAnnouncements = () => {
       image: `https://www.placecage.com/c/${imgWidthTemp}/${imgHeightTemp}`,
     },
     six: {
-      text: 'Lorem ipsum dolor amet jean shorts scenester everyday carry, cloud bread waistcoat mustache selvage 8-bit post-ironic flexitarian. Etsy farm-to-table thundercats, lomo subway tile.',
+      text: 'Lorem ipsum dolor amet jean shorts scenester everyday carry, cloud bread waistcoat mustache selvage 8-bit post-ironic flexitarian. Etsy farm-to-table.',
       image: `https://www.placecage.com/c/${imgWidthTemp}/${imgHeightTemp}`,
     },
   };
@@ -44,36 +51,73 @@ const fakeAnnouncements = () => {
 const { getAllAnnouncements } = fakeAnnouncements();
 //////////////////////////////
 
-export default AnnouncementsSubScreen = props => {
-  const width = () => EStyleSheet.value('$width');
-  const imgWidth = width() * .3;
-  const imgHeight = imgWidth / 4 * 3;
-  const leftoverSpace = width() - imgWidth;
-  const padding = leftoverSpace * .1 / 2;
-  const textWrapWidth = leftoverSpace - padding * 2;
-  const announcements = Object.keys(getAllAnnouncements).map((announcement, i) => {
-    const imgLeft = i % 2 === 0 ? true : false;
+class AnnouncementsSubScreen extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      announcements: null,
+      refreshing: false,
+    }
+  }
+
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    getWithAxios().then(result => {
+      this.setState({ announcements: result.data.announcements, refreshing: false });
+    });
+  }
+
+  componentDidMount() {
+    getWithAxios().then(result => {
+      this.setState({ announcements: result.data.announcements });
+    });
+  }
+
+  render() {
+    const width = () => EStyleSheet.value('$width');
+    const yellow = () => EStyleSheet.value('$yellow');
+    const imgWidth = width() * .3;
+    const imgHeight = imgWidth / 4 * 3;
+    const leftoverSpace = width() - imgWidth;
+    const padding = leftoverSpace * .1 / 2;
+    const textWrapWidth = leftoverSpace - padding * 2;
+    // const announcements = Object.keys(getAllAnnouncements).map((announcement, i) => {
+    const announcements = this.state.announcements
+                        ? this.state.announcements.reverse().map((announcement, i) => {
+                            const imgLeft = i % 2 === 0 ? true : false;
+                            return (
+                              <AnnouncementStrip
+                                img={announcement.imgUrl}
+                                imgHeight={imgHeight}
+                                imgLeft={imgLeft}
+                                imgWidth={imgWidth}
+                                key={i}
+                                padding={padding}
+                                text={announcement.announcementText}
+                                // textWrapWidth={textWrapWidth}
+                                textWrapWidth={leftoverSpace}
+                                url={announcement.url}
+                              />
+                            );
+                          })
+                          : null;
     return (
-      <AnnouncementStrip
-        img={getAllAnnouncements[announcement].image}
-        imgHeight={imgHeight}
-        imgLeft={imgLeft}
-        imgWidth={imgWidth}
-        key={i}
-        padding={padding}
-        text={getAllAnnouncements[announcement].text}
-        // textWrapWidth={textWrapWidth}
-        textWrapWidth={leftoverSpace}
-      />
-    );
-  });
-  return (
-    <View style={{width: width()}}>
-      <ScrollView>
-        {announcements}
-      </ScrollView>
-    </View>
-  )
+      <View style={{width: width()}}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              colors={[yellow]}
+              onRefresh={this.onRefresh}
+              refreshing={this.state.refreshing}
+              tintColor={yellow()}
+            />
+          }
+        >
+          {announcements}
+        </ScrollView>
+      </View>
+    )
+  }
 };
 
 const styles = EStyleSheet.create({
@@ -81,3 +125,5 @@ const styles = EStyleSheet.create({
     // fontSize: '22rem'
   },
 });
+
+export default AnnouncementsSubScreen;

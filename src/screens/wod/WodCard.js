@@ -18,8 +18,19 @@ then
 ring muscle-ups
 (squat) snatches, 61/43kg
 
+(squat) snatches, 61/43kg
+(squat) snatches, 61/43kg
+(squat) snatches, 61/43kg
+(squat) snatches, 61/43kg
+(squat) snatches, 61/43kg
+(squat) snatches, 61/43kg
+
 Post time to whiteboard`}
         </Text>
+      </View>
+      <View style={styles.likesWrapper}>
+        <Text style={styles.text}>Like btn</Text>
+        <Text style={styles.text}>Muslce btn</Text>
       </View>
     </View>
   );
@@ -58,5 +69,11 @@ const styles = EStyleSheet.create({
   text: {
     color: '$white',
     fontSize: '17rem'
+  },
+  likesWrapper: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '$greyMedium',
   },
 });

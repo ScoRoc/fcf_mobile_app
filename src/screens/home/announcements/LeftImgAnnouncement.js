@@ -7,14 +7,14 @@ import Touchable from '../../../components/Touchable';
 import ImgSection from './ImgSection';
 
 const LeftImgAnnouncement = props => {
-  const { img, imgHeight, imgWidth, textPadding, text, textWrapWidth } = props;
+  const { img, imgHeight, imgWidth, textPadding, text, textWrapWidth, url } = props;
   return (
     <>
       <ImgSection img={img} imgHeight={imgHeight} imgWidth={imgWidth} />
       <Touchable
         activeOpacity={.8}
         iosType='highlight'
-        onPress={() => props.navigation.navigate('WebView')}
+        onPress={() => props.navigation.navigate('WebView', { url })}
         viewStyle={[textPadding, styles.textWrap, {width: textWrapWidth}]}
         underlayColor={styles.$underlay}
       >

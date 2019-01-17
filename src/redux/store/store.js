@@ -1,4 +1,10 @@
-import { createStore } from 'redux';
-import rootReducer from '../reducers/reducer';
+import { combineReducers, createStore } from 'redux';
+import globals from '../modules/globals';
 
-export default store = createStore(rootReducer);
+const rootReducer = combineReducers({
+  globals,
+});
+
+const store = createStore(rootReducer);
+
+export default store;

@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default class WebViewScreen extends React.Component {
   static navigationOptions = {
-    title: 'WebView',
+    title: 'Blog',
     headerTitleStyle: {
       fontSize: 22,
       // fontWeight: 'bold',
@@ -12,11 +12,12 @@ export default class WebViewScreen extends React.Component {
   }
 
   render() {
-    const uriDefault = 'http://www.foundationcrossfit.com/';
-    const uri = this.props.navigation.getParam('uri', uriDefault);
+    const defaultUrl = 'http://www.foundationcrossfit.com/';
+    const partialUrl = this.props.navigation.getParam('url', defaultUrl);
+    const url = `http://${partialUrl}`;
     return (
       // <View style={styles.view}>
-        <WebView source={{uri}} style={styles.webView} />
+        <WebView source={{ url }} style={styles.webView} />
       // </View>
     );
   }

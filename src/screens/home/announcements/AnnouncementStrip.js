@@ -6,7 +6,7 @@ import LeftImgAnnouncement from './LeftImgAnnouncement';
 import RightImgAnnouncement from './RightImgAnnouncement';
 
 export default AnnouncementStrip = props => {
-  const { img, imgHeight, imgLeft, imgWidth, padding, text, textWrapWidth } = props;
+  const { img, imgHeight, imgLeft, imgWidth, padding, text, textWrapWidth, url } = props;
   const textPadding = {paddingLeft: padding, paddingRight: padding};
   const position  = imgLeft
                   ? <LeftImgAnnouncement
@@ -16,6 +16,7 @@ export default AnnouncementStrip = props => {
                       text={text}
                       textPadding={textPadding}
                       textWrapWidth={textWrapWidth}
+                      url={url}
                     />
                   //     {/* CLICK ON ANNOUNCEMENT IS HYPERLINK TO WEB */}
                   //     {/* DOUBLE CLICK ON PIC TO HYPERLINK TO WEB */}
@@ -27,6 +28,7 @@ export default AnnouncementStrip = props => {
                       text={text}
                       textPadding={textPadding}
                       textWrapWidth={textWrapWidth}
+                      url={url}
                     />;
   return (
     <View style={styles.view}>{position}</View>
