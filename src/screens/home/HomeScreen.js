@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ImageBackground, ScrollView, StatusBar, Text, View } from 'react-native';
+import { ImageBackground, ScrollView, StatusBar, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import AnnouncementsSubScreen from './announcements/AnnouncementsSubScreen';

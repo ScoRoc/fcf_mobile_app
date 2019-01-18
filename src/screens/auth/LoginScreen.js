@@ -1,5 +1,6 @@
 import React from 'react';
 import { AsyncStorage, Button, Text, TextInput, View } from 'react-native';
+import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { liftUser } from '../../redux/modules/user';
@@ -9,7 +10,7 @@ import useAxios from '../../utils/axios-helpers';
 const path = `${apiUrl}/user/login`;
 const { postWithAxios } = useAxios(path);
 
-export default class LoginScreen extends React.Component {
+class LoginScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -28,7 +29,7 @@ export default class LoginScreen extends React.Component {
 
   handleSuccess = async ({ user, token }) => {
     await this.setToken(token);
-    liftUser({ user, token });
+    this.props.liftUser({ user, token });
     this.props.navigation.navigate('Main');
   }
 
@@ -79,6 +80,8 @@ export default class LoginScreen extends React.Component {
           title='Signup here'
         />
 
+        <Button onPress={() => console.log('user: ', this.props.user)} title='props user' />
+
       </View>
     );
   }
@@ -89,3 +92,18 @@ const styles = EStyleSheet.create({
     // fontSize: '22rem'
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    user: state.user.user,
+    token: state.user.token,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    liftUser: ({ user, token }) => dispatch( liftUser({ user, token }) ),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

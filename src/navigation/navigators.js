@@ -1,12 +1,12 @@
-// import { Dimensions } from 'react-native';
 import {
   createAppContainer,
   createBottomTabNavigator,
   createDrawerNavigator,
   createStackNavigator,
-  createSwitchNavigator
+  createSwitchNavigator,
 } from 'react-navigation';
-// import EStyleSheet from 'react-native-extended-stylesheet';
+
+import CustomDrawer from './CustomDrawer';
 
 import IAPScreen from '../screens/IAPScreen';
 import WebViewScreen from '../screens/webview/WebViewScreen';
@@ -153,9 +153,10 @@ const MainDrawer = createDrawerNavigator(
     // Schedule: Schedule, // MAKE THESE COMPONENTS
     // MyProfile: MyProfile, // MAKE THESE COMPONENTS
     // ContactUs: ContactUs, // MAKE THESE COMPONENTS
-    Logout: ModalStack, // FINISH THIS COMPONENTS
+    // Logout: ModalStack, // FINISH THIS COMPONENTS
   },
   {
+    contentComponent: CustomDrawer,
     // transparentCard: true,
     // cardStyle: {
     //   backgroundColor: 'transparent',
