@@ -25,7 +25,11 @@ class AnnouncementsSubScreen extends React.Component {
   updateAnnouncement = ({ announcementId, userId }) => {
     const announcements = this.state.announcements.slice(0);
     const idx = getIndex('_id', announcements, announcementId);
-    announcements[idx].likes.push(userId);
+    const announcement = announcements[idx];
+    const { likes } = announcement;
+    likes.includes(userId)
+      ? likes.splice( likes.indexOf(userId), 1 )
+      : likes.push(userId);
     this.setState({ announcements });
   }
 

@@ -26,15 +26,16 @@ class ImgSection extends React.Component {
     this.props.updateAnnouncement({ announcementId, userId });
   }
 
-  handleErr = errMsg => {
-    console.log('signup failed with err: ', errMsg);
+  handleErr = err => {
+    console.log('signup failed with err: ', err);
   }
 
   updateLike = ({ announcementId, userId }) => {
     putWithAxios({ announcementId, userId }).then(result => {
+      console.log('result.data: ', result.data);
       result.data.updatedAnnouncement
         ? this.handleSuccess({ announcementId, userId })
-        : this.handleErr(result.data._message);
+        : this.handleErr(result.data.err);
     }).catch(err => console.log('err: ', err));
   }
 
