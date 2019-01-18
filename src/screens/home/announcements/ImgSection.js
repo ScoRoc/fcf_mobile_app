@@ -55,9 +55,10 @@ class ImgSection extends React.Component {
 
   render() {
     const { announcement, finishUpdate, imgHeight, imgWidth, updated } = this.props;
+    const userId = this.props.user._id
     updated ? finishUpdate : null;
     const { _id, imgUrl, likes } = announcement;
-    const liked = likes.includes(this.props.user._id);
+    const liked = likes.includes(userId);
     return (
       <View style={styles.imgWrap}>
         <Touchable
@@ -73,7 +74,7 @@ class ImgSection extends React.Component {
           liked={liked}
           likes={likes.length}
           name={{ liked: 'heart', unliked: 'heart-outline' }}
-          updateLike={() => this.updateLike({ announcementId: _id, userId: this.props.user._id })}
+          updateLike={() => this.updateLike({ announcementId: _id, userId })}
         />
       </View>
     );

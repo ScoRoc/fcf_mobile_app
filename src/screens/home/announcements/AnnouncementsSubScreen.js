@@ -24,7 +24,7 @@ class AnnouncementsSubScreen extends React.Component {
   }
 
   updateAnnouncement = ({ announcementId, userId }) => {
-    const announcements = this.state.announcements.slice(0).reverse();
+    const announcements = this.state.announcements.slice(0);
     const idx = getIndex('_id', announcements, announcementId);
     const announcement = announcements[idx];
     const { likes } = announcement;
@@ -37,13 +37,13 @@ class AnnouncementsSubScreen extends React.Component {
   onRefresh = () => {
     this.setState({ refreshing: true });
     getWithAxios().then(result => {
-      this.setState({ announcements: result.data.announcements, refreshing: false });
+      this.setState({ announcements: result.data.announcements.reverse(), refreshing: false });
     });
   }
 
   componentDidMount() {
     getWithAxios().then(result => {
-      this.setState({ announcements: result.data.announcements });
+      this.setState({ announcements: result.data.announcements.reverse() });
     });
   }
 
@@ -57,7 +57,7 @@ class AnnouncementsSubScreen extends React.Component {
     const textWrapWidth = leftoverSpace - padding * 2;
     // const announcements = Object.keys(getAllAnnouncements).map((announcement, i) => {
     const announcements = this.state.announcements
-                        ? this.state.announcements.reverse().map((announcement, i) => {
+                        ? this.state.announcements.map((announcement, i) => {
                             const imgLeft = i % 2 === 0 ? true : false;
                             return (
                               <AnnouncementStrip
