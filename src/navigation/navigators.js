@@ -3,14 +3,17 @@ import {
   createAppContainer,
   createBottomTabNavigator,
   createDrawerNavigator,
-  createStackNavigator
+  createStackNavigator,
+  createSwitchNavigator
 } from 'react-navigation';
 // import EStyleSheet from 'react-native-extended-stylesheet';
 
-import MainScreen from '../screens/MainScreen';
 import IAPScreen from '../screens/IAPScreen';
 import WebViewScreen from '../screens/webview/WebViewScreen';
 
+import LoginScreen from '../screens/auth/LoginScreen';
+import SignupScreen from '../screens/auth/SignupScreen';
+import LoadingScreen from '../screens/auth/LoadingScreen';
 import HomeScreen from '../screens/home/HomeScreen';
 import BlogScreen from '../screens/blog/BlogScreen';
 import WodScreen from '../screens/wod/WodScreen';
@@ -170,16 +173,25 @@ const MainDrawer = createDrawerNavigator(
   }
 );
 
-// const RootStack = createStackNavigator(
-//   {
-//     Main: MainScreen,
-//     IAP: IAPScreen
-//   },
-//   {
-//     initialRouteName: 'Main',
-//     mode: 'modal',
-//     headerMode: 'none'
-//   }
-// );
+const AuthStack = createStackNavigator(
+  {
+    Login: LoginScreen,
+    Signup: SignupScreen,
+  },
+  {
+    initialRouteName: 'Login',
+  }
+);
 
-export default AppContainer = createAppContainer(MainDrawer);
+const AppSwitch = createSwitchNavigator(
+  {
+    Loading: LoadingScreen,
+    Auth: AuthStack,
+    Main: MainDrawer
+  },
+  {
+    initialRouteName: 'Loading'
+  }
+)
+
+export default AppContainer = createAppContainer(AppSwitch);
