@@ -1,23 +1,18 @@
 import React from 'react';
 import { Image, Text, View } from 'react-native';
+import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import HeartButton from '../../../components/HeartButton';
+import LikeButton from '../../../components/LikeButton';
 import Touchable from '../../../components/Touchable';
 
-// export default ImgSection = props => {
-//   const { img, imgHeight, imgWidth } = props;
-//   return (
-//     <View style={styles.imgWrap}>
-//       <View style={{height: imgHeight, width: imgWidth}}>
-//         <Image style={{height: imgHeight, width: imgWidth}} source={{uri: img}} />
-//       </View>
-//       <HeartButton />
-//     </View>
-//   );
-// };
+import useAxios from '../../../utils/axios-helpers';
+import { apiUrl } from '../../../utils/global-variables';
 
-export default class ImgSection extends React.Component {
+const path = `${apiUrl}/announcements/like`;
+const { putWithAxios } = useAxios(path);
+
+class ImgSection extends React.Component {
   constructor(props) {
     super(props);
     this.lastPress = null;
@@ -27,9 +22,20 @@ export default class ImgSection extends React.Component {
     }
   }
 
-  updateLikeInfo = () => {
-    const likes = this.state.likes === 0 ? 1 : 0;
-    this.setState({liked: !this.state.liked, likes})
+  handleSuccess = async ({ announcementId, userId }) => {
+    this.props.updateAnnouncement({ announcementId, userId });
+  }
+
+  handleErr = errMsg => {
+    console.log('signup failed with err: ', errMsg);
+  }
+
+  updateLike = ({ announcementId, userId }) => {
+    putWithAxios({ announcementId, userId }).then(result => {
+      result.data.updatedAnnouncement
+        ? this.handleSuccess({ announcementId, userId })
+        : this.handleErr(result.data._message);
+    }).catch(err => console.log('err: ', err));
   }
 
   // iksent from GitHub
@@ -38,14 +44,13 @@ export default class ImgSection extends React.Component {
   	const delta = time - this.lastPress;
   	const DOUBLE_PRESS_DELAY = 400;
   	if (delta < DOUBLE_PRESS_DELAY) {
-      const numLikes = this.state.likes === 0 ? 1 : 0;
-  		this.setState({liked: !this.state.liked, likes: numLikes})
+      this.updateLike();
   	}
   	this.lastPress = time;
   };
 
   render() {
-    const { img, imgHeight, imgWidth } = this.props;
+    const { img, imgHeight, imgWidth, likes } = this.props;
     return (
       <View style={styles.imgWrap}>
         <Touchable
@@ -56,7 +61,13 @@ export default class ImgSection extends React.Component {
         >
           <Image style={{height: imgHeight, width: imgWidth}} source={{uri: img}} />
         </Touchable>
-        <HeartButton liked={this.state.liked} likes={this.state.likes} updateLikeInfo={this.updateLikeInfo} />
+        <LikeButton
+          library={{ liked: 'MaterialCommunityIcons', unliked: 'MaterialCommunityIcons' }}
+          liked={this.state.liked}
+          likes={likes}
+          name={{ liked: 'heart', unliked: 'heart-outline' }}
+          updateLike={this.updateLike}
+        />
       </View>
     );
   }
@@ -72,3 +83,17 @@ const styles = EStyleSheet.create({
     // backgroundColor: 'purple',
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    user: state.user.user,
+  };
+};
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     logout: () => dispatch( logout() ),
+//   };
+// };
+
+export default connect(mapStateToProps)(ImgSection);

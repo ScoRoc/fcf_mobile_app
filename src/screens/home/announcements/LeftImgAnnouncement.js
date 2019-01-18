@@ -7,10 +7,17 @@ import Touchable from '../../../components/Touchable';
 import ImgSection from './ImgSection';
 
 const LeftImgAnnouncement = props => {
-  const { img, imgHeight, imgWidth, textPadding, text, textWrapWidth, url } = props;
+  const { announcement, imgHeight, imgWidth, textPadding, textWrapWidth } = props;
+  const { announcementText, imgUrl, likes, url } = announcement;
   return (
     <>
-      <ImgSection img={img} imgHeight={imgHeight} imgWidth={imgWidth} />
+      <ImgSection
+        img={imgUrl}
+        imgHeight={imgHeight}
+        imgWidth={imgWidth}
+        likes={likes.length}
+        updateAnnouncement={props.updateAnnouncement}
+      />
       <Touchable
         activeOpacity={.8}
         iosType='highlight'
@@ -18,7 +25,7 @@ const LeftImgAnnouncement = props => {
         viewStyle={[textPadding, styles.textWrap, {width: textWrapWidth}]}
         underlayColor={styles.$underlay}
       >
-        <Text style={styles.text}>{text}</Text>
+        <Text style={styles.text}>{announcementText}</Text>
       </Touchable>
     </>
   )

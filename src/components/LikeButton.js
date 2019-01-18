@@ -5,16 +5,16 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Icon from './Icon';
 import Touchable from './Touchable';
 
-export default HeartButton = props => {
-  const { liked, likes } = props;
+export default LikeButton = props => {
+  const { library, liked, likes, name } = props;
   const icon  = liked
-              ? <Icon color={styles.$iconLikedColor} library='MaterialCommunityIcons' name='heart' size={20} />
-              : <Icon color={styles.$iconColor} library='MaterialCommunityIcons' name='heart-outline' size={20} />
+              ? <Icon color={styles.$iconLikedColor} library={library.liked} name={name.liked} size={20} />
+              : <Icon color={styles.$iconColor} library={library.unliked} name={name.unliked} size={20} />
   return (
     <Touchable
       activeOpacity={.9}
       iosType='highlight'
-      onPress={props.updateLikeInfo}
+      onPress={props.updateLike}
       underlayColor={styles.$underlay}
       style={styles.touchable}
       viewStyle={styles.view}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import HeartButton from '../../../components/HeartButton';
+import LikeButton from '../../../components/LikeButton';
 import Touchable from '../../../components/Touchable';
 
 export default class DateBox extends React.Component {
@@ -45,7 +45,13 @@ export default class DateBox extends React.Component {
           <Text style={styles.monthText}>{month}</Text>
           <Text style={styles.dateText}>{date}</Text>
         </Touchable>
-        <HeartButton liked={liked} likes={likes} updateLikeInfo={this.updateLikeInfo} />
+        <LikeButton
+          library={{ liked: 'MaterialCommunityIcons', unliked: 'MaterialCommunityIcons' }}
+          liked={liked}
+          likes={likes}
+          name={{ liked: 'heart', unliked: 'heart-outline' }}
+          updateLikeInfo={this.updateLikeInfo}
+        />
       </View>
     );
   }
