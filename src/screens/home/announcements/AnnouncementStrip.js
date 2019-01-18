@@ -6,27 +6,41 @@ import LeftImgAnnouncement from './LeftImgAnnouncement';
 import RightImgAnnouncement from './RightImgAnnouncement';
 
 export default AnnouncementStrip = props => {
-  const { announcement, img, imgHeight, imgLeft, imgWidth, padding, textWrapWidth, updateAnnouncement, url } = props;
+  const {
+    announcement,
+    finishUpdate,
+    imgHeight,
+    imgLeft,
+    imgWidth,
+    padding,
+    textWrapWidth,
+    updateAnnouncement,
+    updated
+  } = props;
   const textPadding = {paddingLeft: padding, paddingRight: padding};
   const position  = imgLeft
                   ? <LeftImgAnnouncement
                       announcement={announcement}
+                      finishUpdate={finishUpdate}
                       imgHeight={imgHeight}
                       imgWidth={imgWidth}
                       textPadding={textPadding}
                       textWrapWidth={textWrapWidth}
                       updateAnnouncement={updateAnnouncement}
+                      updated={updated}
                     />
                   //     {/* CLICK ON ANNOUNCEMENT IS HYPERLINK TO WEB */}
                   //     {/* DOUBLE CLICK ON PIC TO HYPERLINK TO WEB */}
                   //       {/* ADD HEART BUTTON AND HOW MANY PPL HAVE LIKED IT */}
                   : <RightImgAnnouncement
                       announcement={announcement}
+                      finishUpdate={finishUpdate}
                       imgHeight={imgHeight}
                       imgWidth={imgWidth}
                       textPadding={textPadding}
                       textWrapWidth={textWrapWidth}
                       updateAnnouncement={updateAnnouncement}
+                      updated={updated}
                     />;
   return (
     <View style={styles.view}>{position}</View>

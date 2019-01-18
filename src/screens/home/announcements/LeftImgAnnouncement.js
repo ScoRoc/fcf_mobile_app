@@ -7,16 +7,17 @@ import Touchable from '../../../components/Touchable';
 import ImgSection from './ImgSection';
 
 const LeftImgAnnouncement = props => {
-  const { announcement, imgHeight, imgWidth, textPadding, textWrapWidth } = props;
-  const { announcementText, imgUrl, likes, url } = announcement;
+  const { announcement, finishUpdate, imgHeight, imgWidth, textPadding, textWrapWidth, updated } = props;
+  const { announcementText, url } = announcement;
   return (
     <>
       <ImgSection
-        img={imgUrl}
+        announcement={announcement}
+        finishUpdate={finishUpdate}
         imgHeight={imgHeight}
         imgWidth={imgWidth}
-        likes={likes.length}
         updateAnnouncement={props.updateAnnouncement}
+        updated={updated}
       />
       <Touchable
         activeOpacity={.8}

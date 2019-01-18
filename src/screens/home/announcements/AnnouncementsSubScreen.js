@@ -19,18 +19,19 @@ class AnnouncementsSubScreen extends React.Component {
     this.state = {
       announcements: null,
       refreshing: false,
+      updated: false,
     }
   }
 
   updateAnnouncement = ({ announcementId, userId }) => {
-    const announcements = this.state.announcements.slice(0);
+    const announcements = this.state.announcements.slice(0).reverse();
     const idx = getIndex('_id', announcements, announcementId);
     const announcement = announcements[idx];
     const { likes } = announcement;
     likes.includes(userId)
       ? likes.splice( likes.indexOf(userId), 1 )
       : likes.push(userId);
-    this.setState({ announcements });
+    this.setState({ announcements, updated: true });
   }
 
   onRefresh = () => {
@@ -61,6 +62,7 @@ class AnnouncementsSubScreen extends React.Component {
                             return (
                               <AnnouncementStrip
                                 announcement={announcement}
+                                finishUpdate={() => this.setState({ updated: false})}
                                 imgHeight={imgHeight}
                                 imgLeft={imgLeft}
                                 imgWidth={imgWidth}
@@ -69,6 +71,7 @@ class AnnouncementsSubScreen extends React.Component {
                                 // textWrapWidth={textWrapWidth}
                                 textWrapWidth={leftoverSpace}
                                 updateAnnouncement={this.updateAnnouncement}
+                                updated={this.state.updated}
                               />
                             );
                           })

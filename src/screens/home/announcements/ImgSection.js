@@ -45,13 +45,19 @@ class ImgSection extends React.Component {
   	const delta = time - this.lastPress;
   	const DOUBLE_PRESS_DELAY = 400;
   	if (delta < DOUBLE_PRESS_DELAY) {
-      this.updateLike();
+      this.updateLike({
+        announcementId: this.props.announcement._id,
+        userId: this.props.user._id,
+      });
   	}
   	this.lastPress = time;
   };
 
   render() {
-    const { img, imgHeight, imgWidth, likes } = this.props;
+    const { announcement, finishUpdate, imgHeight, imgWidth, updated } = this.props;
+    updated ? finishUpdate : null;
+    const { _id, imgUrl, likes } = announcement;
+    const liked = likes.includes(this.props.user._id);
     return (
       <View style={styles.imgWrap}>
         <Touchable
@@ -60,14 +66,14 @@ class ImgSection extends React.Component {
           onPress={this.handleDoublePress}
           style={{height: imgHeight, width: imgWidth}}
         >
-          <Image style={{height: imgHeight, width: imgWidth}} source={{uri: img}} />
+          <Image style={{height: imgHeight, width: imgWidth}} source={{uri: imgUrl}} />
         </Touchable>
         <LikeButton
           library={{ liked: 'MaterialCommunityIcons', unliked: 'MaterialCommunityIcons' }}
-          liked={this.state.liked}
-          likes={likes}
+          liked={liked}
+          likes={likes.length}
           name={{ liked: 'heart', unliked: 'heart-outline' }}
-          updateLike={this.updateLike}
+          updateLike={() => this.updateLike({ announcementId: _id, userId: this.props.user._id })}
         />
       </View>
     );

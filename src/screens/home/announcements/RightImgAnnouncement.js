@@ -7,8 +7,8 @@ import Touchable from '../../../components/Touchable';
 import ImgSection from './ImgSection';
 
 const RightImgAnnouncement = props => {
-  const { announcement, imgHeight, imgWidth, textPadding, textWrapWidth } = props;
-  const { announcementText, imgUrl, likes, url } = announcement;
+  const { announcement, finishUpdate, imgHeight, imgWidth, textPadding, textWrapWidth, updated } = props;
+  const { announcementText, url } = announcement;
   return (
     <>
       <Touchable
@@ -21,11 +21,12 @@ const RightImgAnnouncement = props => {
         <Text style={styles.text}>{announcementText}</Text>
       </Touchable>
       <ImgSection
-        img={imgUrl}
+        announcement={announcement}
+        finishUpdate={finishUpdate}
         imgHeight={imgHeight}
         imgWidth={imgWidth}
-        likes={likes.length}
         updateAnnouncement={props.updateAnnouncement}
+        updated={updated}
       />
     </>
   );
