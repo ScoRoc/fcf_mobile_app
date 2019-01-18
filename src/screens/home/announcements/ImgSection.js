@@ -32,7 +32,7 @@ class ImgSection extends React.Component {
 
   updateLike = ({ announcementId, userId }) => {
     putWithAxios({ announcementId, userId }).then(result => {
-      console.log('result.data: ', result.data);
+      // console.log('result.data: ', result.data);
       result.data.updatedAnnouncement
         ? this.handleSuccess({ announcementId, userId })
         : this.handleErr(result.data.err);
@@ -53,10 +53,15 @@ class ImgSection extends React.Component {
   	this.lastPress = time;
   };
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.updated !== this.props.updated && this.props.updated === true) {
+      this.props.finishUpdate();
+    }
+  }
+
   render() {
-    const { announcement, finishUpdate, imgHeight, imgWidth, updated } = this.props;
-    const userId = this.props.user._id
-    updated ? finishUpdate : null;
+    const { announcement, imgHeight, imgWidth } = this.props;
+    const userId = this.props.user ? this.props.user._id : '';
     const { _id, imgUrl, likes } = announcement;
     const liked = likes.includes(userId);
     return (
