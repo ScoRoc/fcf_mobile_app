@@ -2,10 +2,17 @@ import React from 'react';
 import { Button, ScrollView, SectionList, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import eventKeys from './event-keys';
-
 import EventsKey from './EventsKey';
 import EventStrip from './EventStrip';
+
+import eventKeys from './event-keys';
+
+import { getIndex } from '../../../utils/helpers';
+import useAxios from '../../../utils/axios-helpers';
+import { apiUrl } from '../../../utils/global-variables';
+
+const path = `${apiUrl}/events/bymonth`;
+const { getWithAxios } = useAxios(path);
 
 const date = new Date();
 const month = date.toLocaleString('en-us', {month: 'long'});
@@ -195,6 +202,10 @@ export default class EventsSubScreen extends React.Component {
 
   componentDidMount() {
     this.setState({eventTypes: getAllEventTypes});
+    getWithAxios().then(result => {
+      // console.log('sortedEvents: ', result.data.sortedEvents);
+      this.setState({ events: result.data.sortedEvents });
+    })
   }
 
   render() {
