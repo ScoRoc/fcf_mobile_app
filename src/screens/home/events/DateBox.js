@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import moment from 'moment';
 
 import LikeButton from '../../../components/LikeButton';
 import Touchable from '../../../components/Touchable';
@@ -33,7 +34,9 @@ export default class DateBox extends React.Component {
 
   render() {
     const { liked, likes } = this.state;
-    const { color, date, month } = this.props;
+    const { color, startDate } = this.props;
+    const date = startDate.date();
+    const month = moment(startDate).format('MMM');
     return (
       <View style={[styles.dateTile, {backgroundColor: color}]}>
         {/* DOUBLE CLICK ON NUMBER TO HYPERLINK TO WEB */}

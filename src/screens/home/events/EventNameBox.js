@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import moment from 'moment';
 
 import Icon from '../../../components/Icon';
 import Touchable from '../../../components/Touchable';
@@ -17,11 +18,20 @@ const chevron = {
 }
 
 const EventNameBox = props => {
-  const { color, date, dateObj, library, month, name, throughDate, title } = props;
-  const dateThrough = throughDate ? `${month} ${date} - ${throughDate}` : '';
+  const { color, library, name, startDate, throughDate, title } = props;
+  const startDateNum = startDate.date();
+  const startMonth = moment(startDate).format('MMM');
+  const throughDateNum = throughDate.date();
+  const throughMonth = moment(throughDate).format('MMM');
+  const dateThrough = throughDate._isValid ? `${startMonth} ${startDateNum} - ${throughMonth} ${throughDateNum}` : '';
   const padding = throughDate ? 3 : 0;
   const paddingLeft = throughDate ? 8 : 0;
   const paddingRight = throughDate ? 8 : 0;
+  const dateThroughBox = throughDate._isValid
+                        ? <View style={[styles.dateThrough, {padding, paddingLeft, paddingRight}]}>
+                            <Text style={styles.dateThroutText}>{dateThrough}</Text>
+                          </View>
+                        : null;
   return (
     <Touchable
       iosType='highlight'
@@ -37,9 +47,7 @@ const EventNameBox = props => {
       <View style={styles.icons}>
         <Icon color={color} library={library} name={name} size={20} />
       </View>
-      <View style={[styles.dateThrough, {padding, paddingLeft, paddingRight}]}>
-        <Text style={styles.dateThroutText}>{dateThrough}</Text>
-      </View>
+      {dateThroughBox}
     </Touchable>
   );
 };

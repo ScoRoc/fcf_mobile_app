@@ -15,9 +15,6 @@ import { apiUrl } from '../../../utils/global-variables';
 const path = `${apiUrl}/events/bymonth`;
 const { getWithAxios } = useAxios(path);
 
-const date = new Date();
-const month = date.toLocaleString('en-us', {month: 'long'});
-const year = date.toLocaleString('en-us', {year: 'numeric'});
 const { getKeys } = eventKeys();
 
 export default class EventsSubScreen extends React.Component {
@@ -66,15 +63,15 @@ export default class EventsSubScreen extends React.Component {
                       ? <SectionList
                           sections={monthsSections}
                           renderItem={({item}) => {
-                            const eventKey = getKeys[item.types[0]];
+                            // console.log('item: ', item)
+                            const eventKey = getKeys[item.type];
                             return  (
                                       <EventStrip
                                         color={eventKey.color()}
-                                        date={ moment(item.startDate).date() }
-                                        dateObj={date}
                                         library={eventKey.library}
                                         name={eventKey.name}
-                                        throughDate={item.throughDate}
+                                        startDate={moment(item.startDate)}
+                                        throughDate={moment(item.throughDate)}
                                         title={item.eventText}
                                       />
                                     );
