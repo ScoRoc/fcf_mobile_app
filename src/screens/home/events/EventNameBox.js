@@ -24,11 +24,8 @@ const EventNameBox = props => {
   const throughDateNum = throughDate.date();
   const throughMonth = moment(throughDate).format('MMM');
   const dateThrough = throughDate._isValid ? `${startMonth} ${startDateNum} - ${throughMonth} ${throughDateNum}` : '';
-  const padding = throughDate ? 3 : 0;
-  const paddingLeft = throughDate ? 8 : 0;
-  const paddingRight = throughDate ? 8 : 0;
   const dateThroughBox = throughDate._isValid
-                        ? <View style={[styles.dateThrough, {padding, paddingLeft, paddingRight}]}>
+                        ? <View style={styles.dateThrough}>
                             <Text style={styles.dateThroutText}>{dateThrough}</Text>
                           </View>
                         : null;
@@ -83,6 +80,9 @@ const styles = EStyleSheet.create({
     position: 'absolute',
     bottom: 0,
     right: 0,
+    padding: '3rem',
+    paddingLeft: '8rem',
+    paddingRight: '8rem',
     backgroundColor: '$greyMedium',
     borderTopLeftRadius: '6rem',
   },
