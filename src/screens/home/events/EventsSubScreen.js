@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, ScrollView, SectionList, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import moment from 'moment';
 
 import EventsKey from './EventsKey';
 import EventStrip from './EventStrip';
@@ -177,7 +178,7 @@ export default class EventsSubScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: [],
+      events: null,
       eventTypes: [],
       removedTypes: [],
     };
@@ -230,20 +231,62 @@ export default class EventsSubScreen extends React.Component {
       )
     });
     ///////
+    // console.log('events: ', this.state.events);
+    const year2019 = this.state.events ? this.state.events[0] : null;
+    console.log('year2019: ', year2019);
+    const monthsSections2019 = year2019
+                              ? year2019.months.map(month => {
+                                  return { title: month.month, data: month.events }
+                                })
+                              : null;
+    const sectionList = year2019
+                      ? <SectionList
+                          // sections={[
+                          //   { title: getAllMonthData[0].month, data: getAllMonthData[0].events },
+                          //   { title: getAllMonthData[1].month, data: getAllMonthData[1].events },
+                          // ]}
+                          sections={monthsSections2019}
+                          renderItem={({item}) => {
+                            // console.log('item: ', item)
+                            const eventKey = getKeys[item.types[0]];
+                            return  (
+                                      <EventStrip
+                                        color={eventKey.color()}
+                                        date={ moment(item.startDate).date() }
+                                        dateObj={date}
+                                        library={eventKey.library}
+                                        name={eventKey.name}
+                                        throughDate={item.throughDate}
+                                        title={item.eventText}
+                                      />
+                                    );
+                          }}
+                          renderSectionHeader={({section}) => {
+                            // console.log('section: ', section)
+                              return  <View style={styles.monthWrapper}>
+                                        <Text style={styles.monthText}>{section.title}</Text>
+                                      </View>
+                          }}
+                          keyExtractor={item => item._id}
+                        />
+                        : null;
+    console.log('monthsSections2019: ', monthsSections2019);
     return (
       <View style={[styles.screen, {width: width()}]}>
         <EventsKey filterEventTypes={this.filterEventTypes} removedTypes={removedTypes} />
         <View style={styles.monthWrapper}>
-          <Text style={styles.monthText}>{month} {year}</Text>
+          {/* <Text style={styles.monthText}>{month} {year}</Text> */}
         </View>
-        <ScrollView>
+        {/* <ScrollView>
           {events}
-        </ScrollView>
+        </ScrollView> */}
+        {sectionList}
         {/* <SectionList
-          sections={[
-            { title: getAllMonthData[0].month, data: getAllMonthData[0].events },
-            { title: getAllMonthData[1].month, data: getAllMonthData[1].events },
-          ]}
+          // sections={[
+          //   { title: getAllMonthData[0].month, data: getAllMonthData[0].events },
+          //   { title: getAllMonthData[1].month, data: getAllMonthData[1].events },
+          // ]}
+          sections={monthsSections2019}
           renderItem={({item}) => {
             // console.log('item: ', item)
             const eventKey = getKeys[item.type];
