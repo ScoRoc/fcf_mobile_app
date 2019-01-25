@@ -7,23 +7,26 @@ export default eventKeys = () => {
       library: 'MaterialCommunityIcons',
       name: 'account-group',
       text: 'Social',
+      type: 'social',
     },
     competition: {
       color: () => EStyleSheet.value('$blueAccent'),
       library: 'MaterialCommunityIcons',
       name: 'medal',
       text: 'Competition',
+      type: 'competition',
     },
     community: {
       color: () => EStyleSheet.value('$purpleAccent'),
       library: 'FontAwesome',
       name: 'globe',
       text: 'Community',
+      type: 'community',
     },
   };
   return {
-    getKeys: (() => keys)(),
-    getKeyColorByText: text => keys[Object.keys(keys).find(key => keys[key].text === text)].color(),
+    getEventKeys: (() => keys)(),
+    getEventTypes: (() => Object.entries(keys).map(entry => entry[1].type))(),
     getKeysText: (() => Object.values(keys).map(key => key.text))(),
   }
 };

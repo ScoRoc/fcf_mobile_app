@@ -15,7 +15,7 @@ import { apiUrl } from '../../../utils/global-variables';
 const path = `${apiUrl}/events/bymonth`;
 const { getWithAxios } = useAxios(path);
 
-const { getKeys } = eventKeys();
+const { getEventKeys, getEventTypes } = eventKeys();
 
 export default class EventsSubScreen extends React.Component {
   constructor(props) {
@@ -27,44 +27,37 @@ export default class EventsSubScreen extends React.Component {
     };
   }
 
-  getRemovedTypes = type => {
-    const { removedTypes } = this.state;
-    const updated = removedTypes.includes(type)
-                  ? removedTypes.splice(removedTypes.indexOf(type), 1)
-                  : removedTypes.push(type);
-    return removedTypes;
+  updateTypesArray = (type, arr) => {
+    return arr.includes(type) ? arr.filter(i => i !== type) : arr.concat(type);
   }
 
   filterEventTypes = type => {
-    const filteredTypes = this.state.eventTypes;
-    const removedTypes = filteredTypes.includes(type)
-                        ? filteredTypes.splice(filteredTypes.indexOf(type), 1)
-                        : filteredTypes.splice(filteredTypes.length - 1, 0, type);
-
-    this.setState({eventTypes: filteredTypes, removedTypes: this.getRemovedTypes(type)});
+    const { eventTypes, removedTypes } = this.state;
+    this.setState({ eventTypes: this.updateTypesArray(type, eventTypes), removedTypes: this.updateTypesArray(type, removedTypes) });
   }
 
   componentDidMount() {
     getWithAxios().then(result => {
-      // console.log('sortedEvents: ', result.data.sortedEvents);
-      this.setState({ events: result.data.sortedEvents });
-    })
+      this.setState({ events: result.data.sortedEvents, eventTypes: getEventTypes });
+    });
   }
 
   render() {
     const { eventTypes, removedTypes } = this.state;
     const width = () => EStyleSheet.value('$width');
     const monthsSections = this.state.events
-                              ? this.state.events.map(month => {
-                                  return { title: month.month, data: month.events }
-                                })
-                              : null;
+                          ? this.state.events.map(month => {
+                              const filteredEvents = month.events.filter(event => {
+                                return eventTypes.includes(event.type);
+                              });
+                              return { title: month.month, data: filteredEvents }
+                            })
+                          : null;
     const sectionList = this.state.events
                       ? <SectionList
                           sections={monthsSections}
                           renderItem={({item}) => {
-                            // console.log('item: ', item)
-                            const eventKey = getKeys[item.type];
+                            const eventKey = getEventKeys[item.type];
                             return  (
                                       <EventStrip
                                         color={eventKey.color()}
@@ -77,7 +70,6 @@ export default class EventsSubScreen extends React.Component {
                                     );
                           }}
                           renderSectionHeader={({section}) => {
-                            // console.log('section: ', section)
                               return  <View style={styles.monthWrapper}>
                                         <Text style={styles.monthText}>{section.title}</Text>
                                       </View>
