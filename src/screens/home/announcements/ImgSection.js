@@ -16,10 +16,6 @@ class ImgSection extends React.Component {
   constructor(props) {
     super(props);
     this.lastPress = null;
-    this.state = {
-      liked: false,
-      likes: 0,
-    }
   }
 
   handleSuccess = async ({ announcementId, userId }) => {
@@ -102,11 +98,5 @@ const mapStateToProps = state => {
     user: state.user.user,
   };
 };
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     logout: () => dispatch( logout() ),
-//   };
-// };
 
 export default connect(mapStateToProps)(ImgSection);

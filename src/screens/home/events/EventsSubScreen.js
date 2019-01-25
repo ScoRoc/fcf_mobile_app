@@ -23,7 +23,27 @@ export default class EventsSubScreen extends React.Component {
       events: [],
       eventTypes: [],
       removedTypes: [],
+      updated: false,
     };
+  }
+
+  updateEvent = ({ eventId, userId }) => {
+    const events = this.state.events.slice(0);
+
+    const monthIdx = () => {
+      const month = events.find(month => month.events.find(event => event._id === eventId));
+      return events.indexOf(month);
+    }
+    const getEvent = () => {
+      return events[monthIdx()].events.find(event => event._id === eventId);
+    }
+    const event = getEvent()
+
+    const { likes } = event;
+    likes.includes(userId)
+      ? likes.splice( likes.indexOf(userId), 1 )
+      : likes.push(userId);
+    this.setState({ events, updated: true });
   }
 
   isActiveType = event => this.state.eventTypes.includes(event.type);
@@ -31,7 +51,13 @@ export default class EventsSubScreen extends React.Component {
   createMonthSection = month => ({ title: month.month, data: month.events.filter(this.isActiveType) });
   createSectionItem = ({ item }) => {
     const eventKey = getEventKeys[item.type];
-    return <EventStrip event={item} eventKey={eventKey} />;
+    return <EventStrip
+              event={item}
+              eventKey={eventKey}
+              finishUpdate={() => this.setState({ updated: false})}
+              updated={this.state.updated}
+              updateEvent={this.updateEvent}
+            />;
   }
   createSectionHeader = ({ section }) => (
     <View style={styles.monthWrapper}>
