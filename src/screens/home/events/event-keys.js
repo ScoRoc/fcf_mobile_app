@@ -6,21 +6,18 @@ export default eventKeys = () => {
       color: () => EStyleSheet.value('$greenAccent'),
       library: 'MaterialCommunityIcons',
       name: 'account-group',
-      text: 'Social',
       type: 'social',
     },
     competition: {
       color: () => EStyleSheet.value('$blueAccent'),
       library: 'MaterialCommunityIcons',
       name: 'medal',
-      text: 'Competition',
       type: 'competition',
     },
     community: {
       color: () => EStyleSheet.value('$purpleAccent'),
       library: 'FontAwesome',
       name: 'globe',
-      text: 'Community',
       type: 'community',
     },
   };

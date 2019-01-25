@@ -34,12 +34,11 @@ export default class DateBox extends React.Component {
 
   render() {
     const { liked, likes } = this.state;
-    const { color, startDate } = this.props;
+    const startDate = moment(this.props.startDate);
     const date = startDate.date();
     const month = moment(startDate).format('MMM');
     return (
-      <View style={[styles.dateTile, {backgroundColor: color}]}>
-        {/* DOUBLE CLICK ON NUMBER TO HYPERLINK TO WEB */}
+      <View style={[styles.dateTile, {backgroundColor: this.props.color}]}>
         <Touchable
           iosType='opacity'
           onPress={this.handleDoublePress}

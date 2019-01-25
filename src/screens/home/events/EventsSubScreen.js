@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, ScrollView, SectionList, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import moment from 'moment';
 
 import EventsKey from './EventsKey';
 import EventStrip from './EventStrip';
@@ -32,14 +31,7 @@ export default class EventsSubScreen extends React.Component {
   createMonthSection = month => ({ title: month.month, data: month.events.filter(this.isActiveType) });
   createSectionItem = ({ item }) => {
     const eventKey = getEventKeys[item.type];
-    return <EventStrip
-                color={eventKey.color()}
-                library={eventKey.library}
-                name={eventKey.name}
-                startDate={moment(item.startDate)}
-                throughDate={moment(item.throughDate)}
-                title={item.eventText}
-            />;
+    return <EventStrip event={item} eventKey={eventKey} />;
   }
   createSectionHeader = ({ section }) => (
     <View style={styles.monthWrapper}>

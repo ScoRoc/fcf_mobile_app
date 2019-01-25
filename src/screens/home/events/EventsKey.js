@@ -11,20 +11,17 @@ const numOfKeys = getKeysText.length;
 
 export default EventsKey = props => {
   const width = () => EStyleSheet.value('$width');
-  const keys = Object.entries(getEventKeys).map((evtKey, i) => {
+  const createEachKey = (evtKey, i) => {
     const [key, value] = evtKey;
     return <EventKey
-      color={value.color()}
+      eventKey={value}
       filterEventTypes={props.filterEventTypes}
-      library={value.library}
-      name={value.name}
       removedTypes={props.removedTypes}
-      text={value.text}
-      type={key}
       width={width() / numOfKeys}
       key={i}
     />
-  });
+  }
+  const keys = Object.entries(getEventKeys).map(createEachKey);
   return (
     <View style={styles.view}>
     {/* <View style={[styles.view, {paddingRight: numOfKeys * 10 / 2}]}> */}

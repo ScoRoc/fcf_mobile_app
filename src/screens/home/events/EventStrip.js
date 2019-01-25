@@ -6,11 +6,13 @@ import DateBox from './DateBox';
 import EventNameBox from './EventNameBox';
 
 export default EventStrip = props => {
-  const { color, library, name, startDate, throughDate, title } = props;
+  const { event, eventKey } = props;
+  const { startDate, throughDate } = event;
+  const { color } = eventKey;
   return (
     <View style={styles.strip}>
-      <DateBox color={color} startDate={startDate} />
-      <EventNameBox color={color} library={library} name={name} startDate={startDate} throughDate={throughDate} title={title} />
+      <DateBox color={color()} startDate={startDate} />
+      <EventNameBox event={event} eventKey={eventKey} />
     </View>
   );
 };

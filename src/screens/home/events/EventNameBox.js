@@ -18,7 +18,11 @@ const chevron = {
 }
 
 const EventNameBox = props => {
-  const { color, library, name, startDate, throughDate, title } = props;
+  const { event, eventKey } = props;
+  const { library, name } = eventKey;
+  const color = eventKey.color();
+  const startDate = moment(event.startDate);
+  const throughDate = moment(event.throughDate);
   const startDateNum = startDate.date();
   const startMonth = moment(startDate).format('MMM');
   const throughDateNum = throughDate.date();
@@ -38,7 +42,7 @@ const EventNameBox = props => {
       viewStyle={styles.titleTile}
     >
       <View style={styles.titleView}>
-        <Text style={[styles.titleText, {color}]}>{title}</Text>
+        <Text style={[styles.titleText, {color}]}>{event.eventText}</Text>
         <Icon color={chevron.color()} library={chevron.library} name={chevron.name} size={25} />
       </View>
       <View style={styles.icons}>
