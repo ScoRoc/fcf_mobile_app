@@ -21,19 +21,39 @@ export default class EventsSubScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: null,
+      events: [],
       eventTypes: [],
       removedTypes: [],
     };
   }
 
-  updateTypesArray = (type, arr) => {
+  isActiveType = event => this.state.eventTypes.includes(event.type);
+
+  createMonthSection = month => ({ title: month.month, data: month.events.filter(this.isActiveType) });
+  createSectionItem = ({ item }) => {
+    const eventKey = getEventKeys[item.type];
+    return <EventStrip
+                color={eventKey.color()}
+                library={eventKey.library}
+                name={eventKey.name}
+                startDate={moment(item.startDate)}
+                throughDate={moment(item.throughDate)}
+                title={item.eventText}
+            />;
+  }
+  createSectionHeader = ({ section }) => (
+    <View style={styles.monthWrapper}>
+      <Text style={styles.monthText}>{section.title}</Text>
+    </View>
+  );
+
+  toggleTypeInArray = (type, arr) => {
     return arr.includes(type) ? arr.filter(i => i !== type) : arr.concat(type);
   }
 
   filterEventTypes = type => {
     const { eventTypes, removedTypes } = this.state;
-    this.setState({ eventTypes: this.updateTypesArray(type, eventTypes), removedTypes: this.updateTypesArray(type, removedTypes) });
+    this.setState({ eventTypes: this.toggleTypeInArray(type, eventTypes), removedTypes: this.toggleTypeInArray(type, removedTypes) });
   }
 
   componentDidMount() {
@@ -43,40 +63,15 @@ export default class EventsSubScreen extends React.Component {
   }
 
   render() {
-    const { eventTypes, removedTypes } = this.state;
+    const { events, eventTypes, removedTypes } = this.state;
     const width = () => EStyleSheet.value('$width');
-    const monthsSections = this.state.events
-                          ? this.state.events.map(month => {
-                              const filteredEvents = month.events.filter(event => {
-                                return eventTypes.includes(event.type);
-                              });
-                              return { title: month.month, data: filteredEvents }
-                            })
-                          : null;
-    const sectionList = this.state.events
-                      ? <SectionList
-                          sections={monthsSections}
-                          renderItem={({item}) => {
-                            const eventKey = getEventKeys[item.type];
-                            return  (
-                                      <EventStrip
-                                        color={eventKey.color()}
-                                        library={eventKey.library}
-                                        name={eventKey.name}
-                                        startDate={moment(item.startDate)}
-                                        throughDate={moment(item.throughDate)}
-                                        title={item.eventText}
-                                      />
-                                    );
-                          }}
-                          renderSectionHeader={({section}) => {
-                              return  <View style={styles.monthWrapper}>
-                                        <Text style={styles.monthText}>{section.title}</Text>
-                                      </View>
-                          }}
+    const sections = events.map(this.createMonthSection);
+    const sectionList = <SectionList
+                          sections={sections}
+                          renderItem={this.createSectionItem}
+                          renderSectionHeader={this.createSectionHeader}
                           keyExtractor={item => item._id}
-                        />
-                        : null;
+                        />;
     return (
       <View style={[styles.screen, {width: width()}]}>
         <EventsKey filterEventTypes={this.filterEventTypes} removedTypes={removedTypes} />
