@@ -21,14 +21,16 @@ const EventNameBox = props => {
   const { event, eventKey } = props;
   const { library, name } = eventKey;
   const color = eventKey.color();
-  const startDate = moment(event.startDate);
-  const throughDate = moment(event.throughDate);
-  const startDateNum = startDate.date();
-  const startMonth = moment(startDate).format('MMM');
-  const throughDateNum = throughDate.date();
-  const throughMonth = moment(throughDate).format('MMM');
-  const dateThrough = throughDate._isValid ? `${startMonth} ${startDateNum} - ${throughMonth} ${throughDateNum}` : '';
-  const dateThroughBox = throughDate._isValid
+  const createDateThrough = (start, through) => {
+    const startMonth = moment( moment(start) ).format('MMM');
+    const startDate = moment( moment(start) ).date();
+    const throughMonth = moment( moment(through) ).format('MMM');
+    const throughDate = moment( moment(through) ).date();
+    return `${startMonth} ${startDate} - ${throughMonth} ${throughDate}`;
+  };
+  const isRange = moment(event.throughDate)._isValid;
+  const dateThrough = isRange ? createDateThrough(event.startDate, event.throughDate) : '';
+  const dateThroughBox = isRange
                         ? <View style={styles.dateThrough}>
                             <Text style={styles.dateThroutText}>{dateThrough}</Text>
                           </View>
@@ -36,7 +38,7 @@ const EventNameBox = props => {
   return (
     <Touchable
       iosType='highlight'
-      onPress={() => props.navigation.navigate('WebView')}
+      onPress={() => props.navigation.navigate('WebView', { url: event.url })}
       style={styles.touchable}
       underlayColor={styles.$underlay}
       viewStyle={styles.titleTile}
