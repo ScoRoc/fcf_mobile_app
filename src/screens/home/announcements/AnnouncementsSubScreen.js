@@ -23,6 +23,13 @@ class AnnouncementsSubScreen extends React.Component {
     }
   }
 
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    getWithAxios().then(result => {
+      this.setState({ announcements: result.data.announcements.reverse(), refreshing: false });
+    });
+  }
+
   updateAnnouncement = ({ announcementId, userId }) => {
     const announcements = this.state.announcements.slice(0);
     const idx = getIndex('_id', announcements, announcementId);
@@ -32,13 +39,6 @@ class AnnouncementsSubScreen extends React.Component {
       ? likes.splice( likes.indexOf(userId), 1 )
       : likes.push(userId);
     this.setState({ announcements, updated: true });
-  }
-
-  onRefresh = () => {
-    this.setState({ refreshing: true });
-    getWithAxios().then(result => {
-      this.setState({ announcements: result.data.announcements.reverse(), refreshing: false });
-    });
   }
 
   componentDidMount() {

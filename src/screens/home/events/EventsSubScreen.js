@@ -22,23 +22,23 @@ export default class EventsSubScreen extends React.Component {
     this.state = {
       events: [],
       eventTypes: [],
+      refreshing: false,
       removedTypes: [],
       updated: false,
     };
   }
 
-  updateEvent = ({ eventId, userId }) => {
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    getWithAxios().then(result => {
+      this.setState({ events: result.data.sortedEvents, refreshing: false });
+    });
+  }
+
+  updateEvent = ({ eventId, userId }, title) => {
     const events = this.state.events.slice(0);
-
-    const monthIdx = () => {
-      const month = events.find(month => month.events.find(event => event._id === eventId));
-      return events.indexOf(month);
-    }
-    const getEvent = () => {
-      return events[monthIdx()].events.find(event => event._id === eventId);
-    }
-    const event = getEvent()
-
+    const monthIdx = events.indexOf( events.find(month => month.month === title) );
+    const event = events[monthIdx].events.find(event => event._id === eventId);
     const { likes } = event;
     likes.includes(userId)
       ? likes.splice( likes.indexOf(userId), 1 )
@@ -49,14 +49,14 @@ export default class EventsSubScreen extends React.Component {
   isActiveType = event => this.state.eventTypes.includes(event.type);
 
   createMonthSection = month => ({ title: month.month, data: month.events.filter(this.isActiveType) });
-  createSectionItem = ({ item }) => {
+  createSectionItem = ({ item, i, section }) => {
     const eventKey = getEventKeys[item.type];
     return <EventStrip
               event={item}
               eventKey={eventKey}
               finishUpdate={() => this.setState({ updated: false})}
               updated={this.state.updated}
-              updateEvent={this.updateEvent}
+              updateEvent={data => this.updateEvent(data, section.title)}
             />;
   }
   createSectionHeader = ({ section }) => (
@@ -85,7 +85,9 @@ export default class EventsSubScreen extends React.Component {
     const width = () => EStyleSheet.value('$width');
     const sections = events.map(this.createMonthSection);
     const sectionList = <SectionList
+                          onRefresh={this.onRefresh}
                           sections={sections}
+                          refreshing={this.state.refreshing}
                           renderItem={this.createSectionItem}
                           renderSectionHeader={this.createSectionHeader}
                           keyExtractor={item => item._id}

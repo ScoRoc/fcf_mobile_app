@@ -7,6 +7,8 @@ import { liftUser } from '../../redux/modules/user';
 import { apiUrl, tokenName } from '../../utils/global-variables';
 import useAxios from '../../utils/axios-helpers';
 
+import axios from 'axios';
+
 const path = `${apiUrl}/user/validate`;
 const { postWithAxios } = useAxios(path);
 
@@ -42,6 +44,7 @@ class LoadingScreen extends React.Component {
   }
 
   handleSuccess = async ({ user, token }) => {
+    // console.log('in handleSuccess')
     await this.setToken(token);
     this.props.liftUser({ user, token });
     this.props.navigation.navigate('Main');
@@ -51,12 +54,17 @@ class LoadingScreen extends React.Component {
     console.log('signup failed with err: ', errMsg);
   }
 
+  handleValidateFail = err => {
+    console.log('err: ', err);
+    this.tokenFail();
+  }
+
   tokenSuccess = token => {
     postWithAxios({ token }).then(async result => {
       result.data.user
         ? this.handleSuccess({ user: result.data.user, token: result.data.token })
         : this.handleErr(result.data._message);
-    }).catch(err => console.log('err: ', err));
+    }).catch(err => this.handleValidateFail(err));
   }
 
   getToken = async () => {
