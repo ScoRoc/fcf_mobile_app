@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ScrollView, SectionList, Text, View } from 'react-native';
+import { Button, ScrollView, RefreshControl, SectionList, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import EventsKey from './EventsKey';
@@ -83,11 +83,18 @@ export default class EventsSubScreen extends React.Component {
   render() {
     const { events, eventTypes, removedTypes } = this.state;
     const width = () => EStyleSheet.value('$width');
+    const yellow = () => EStyleSheet.value('$yellow');
     const sections = events.map(this.createMonthSection);
     const sectionList = <SectionList
-                          onRefresh={this.onRefresh}
                           sections={sections}
-                          refreshing={this.state.refreshing}
+                          refreshControl={
+                            <RefreshControl
+                              colors={[yellow]}
+                              onRefresh={this.onRefresh}
+                              refreshing={this.state.refreshing}
+                              tintColor={yellow()}
+                            />
+                          }
                           renderItem={this.createSectionItem}
                           renderSectionHeader={this.createSectionHeader}
                           keyExtractor={item => item._id}
