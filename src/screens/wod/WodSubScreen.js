@@ -63,6 +63,7 @@ export default class WodSubScreen extends React.Component {
   }
 
   render() {
+    // PULL IN REAL DATA NOW
     const wods = Object.entries(allWods).map((wod, i) => {
       const [key, value] = wod;
       return <WodCardWrapper day={value.day} key={i} />
