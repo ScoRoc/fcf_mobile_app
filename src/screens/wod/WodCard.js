@@ -10,13 +10,11 @@ export default WodCard = props => {
   return (
     <View style={styles.cardWrapper}>
       <View style={styles.titleView}>
-        {/* <Text style={styles.title}>{props.day}</Text>
-        <Text style={styles.title}>12/23</Text> */}
         <Text style={styles.title}>{day}</Text>
         <Text style={styles.title}>{date}</Text>
       </View>
       <View style={styles.textWrapper}>
-        <Text style={styles.text}>{`work up to a heavy snatch,
+        {/* <Text style={styles.text}>{`work up to a heavy snatch,
 then
 
 "Amanda"
@@ -32,7 +30,8 @@ ring muscle-ups
 (squat) snatches, 61/43kg
 
 Post time to whiteboard`}
-        </Text>
+        </Text> */}
+        <Text style={styles.text}>{wod.text}</Text>
       </View>
       <View style={styles.likesWrapper}>
         <Text style={styles.text}>Like btn</Text>
