@@ -1,43 +1,24 @@
 import React from 'react';
 import { Text, ScrollView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import moment from 'moment';
 
 import WodCardWrapper from './WodCardWrapper';
 
-//////////////////////////////////
-const wodsObj = () => {
-  const wods = {
-    monday: {
-      day: 'Monday',
-    },
-    tuesday: {
-      day: 'Tuesday',
-    },
-    wednesday: {
-      day: 'Wednesday',
-    },
-    thursday: {
-      day: 'Thursday',
-    },
-    friday: {
-      day: 'Friday',
-    },
-    saturday: {
-      day: 'Saturday',
-    },
-    sunday: {
-      day: 'Sunday 12/23',
-    },
-  };
-  return {
-    allWods: (() => wods)(),
-  }
-};
-const { allWods } = wodsObj();
-//////////////////////////////////
+import useAxios from '../../utils/axios-helpers';
+import { apiUrl } from '../../utils/global-variables';
 
+const path = `${apiUrl}/wodweek`;
+const { getWithAxios } = useAxios(path);
 
 export default class WodSubScreen extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      currentWodWeek: {},
+      wodWeeks: [],
+    }
+  }
 
   interval = () => EStyleSheet.value('$width') * 0.75;
 
@@ -56,18 +37,32 @@ export default class WodSubScreen extends React.Component {
     return dayMap[day];
   }
 
+  scrollToToday = () => {
+    const today = moment().format('dddd');
+    this.scrollView.scrollTo({ x: this.findScrollTo(today), animated: false });
+  }
+
+  filterForCurrentWeek = wodWeek => {
+    const weekStart = moment().startOf('isoweek');
+    return moment(weekStart).isSame( moment(wodWeek.weekOf) );
+  }
+
   componentDidMount() {
-    const date = new Date();
-    const today = date.toLocaleString('en-us', {weekday: 'long'});
-    this.scrollView.scrollTo({x: this.findScrollTo(today)});
+    getWithAxios().then(result => {
+      console.log('result.data: ', result.data);
+      const { wodWeeks } = result.data;
+      const currentWodWeek = wodWeeks.filter(this.filterForCurrentWeek)[0];
+      this.setState({ currentWodWeek, wodWeeks });
+      this.scrollToToday();
+    });
   }
 
   render() {
-    // PULL IN REAL DATA NOW
-    const wods = Object.entries(allWods).map((wod, i) => {
-      const [key, value] = wod;
-      return <WodCardWrapper day={value.day} key={i} />
-    });
+    const wods = this.state.currentWodWeek.wods
+                ? this.state.currentWodWeek.wods.map(wod => {
+                    return <WodCardWrapper key={wod._id} wod={wod} />;
+                  })
+                : null;
     return (
       <ScrollView
         ref={scrollView => this.scrollView = scrollView}

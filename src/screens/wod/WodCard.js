@@ -1,13 +1,19 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import moment from 'moment';
 
 export default WodCard = props => {
+  const { wod } = props;
+  const day = moment(wod.date).format('dddd');
+  const date = `${ moment(wod.date).format('MM') }/${ moment(wod.date).format('D') }`;
   return (
     <View style={styles.cardWrapper}>
       <View style={styles.titleView}>
-        <Text style={styles.title}>{props.day}</Text>
-        <Text style={styles.title}>12/23</Text>
+        {/* <Text style={styles.title}>{props.day}</Text>
+        <Text style={styles.title}>12/23</Text> */}
+        <Text style={styles.title}>{day}</Text>
+        <Text style={styles.title}>{date}</Text>
       </View>
       <View style={styles.textWrapper}>
         <Text style={styles.text}>{`work up to a heavy snatch,
