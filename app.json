@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "fcf_app",
+    "name": "fcf_community",
     "description": "This project is really great.",
-    "slug": "fcf_app",
+    "slug": "fcf_community",
     "privacy": "public",
     "sdkVersion": "31.0.0",
     "platforms": ["ios", "android"],
@@ -21,7 +21,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.foundationcrossfit.fcfcommunity"
     }
   }
 }
