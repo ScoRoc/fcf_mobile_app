@@ -49,20 +49,27 @@ export default class WodSubScreen extends React.Component {
 
   componentDidMount() {
     getWithAxios().then(result => {
-      console.log('result.data: ', result.data);
+      // console.log('result.data: ', result.data);
       const { wodWeeks } = result.data;
-      const currentWodWeek = wodWeeks.filter(this.filterForCurrentWeek)[0];
+      const currentWodWeek = wodWeeks.filter(this.filterForCurrentWeek)[0]
+                            ? wodWeeks.filter(this.filterForCurrentWeek)[0]
+                            : {};
+      console.log('currentWodWeek: ', currentWodWeek)
       this.setState({ currentWodWeek, wodWeeks });
       this.scrollToToday();
     });
   }
 
   render() {
-    const wods = this.state.currentWodWeek.wods
+    const wods = Object.keys(this.state.currentWodWeek).length !== 0
                 ? this.state.currentWodWeek.wods.map(wod => {
                     return <WodCardWrapper key={wod._id} wod={wod} />;
                   })
-                : null;
+                : <Text style={{color: 'white'}}>
+                  No current wods FIX FIX FIX
+                  No current wods FIX FIX FIX
+                  No current wods FIX FIX FIX
+                </Text>;
     return (
       <ScrollView
         ref={scrollView => this.scrollView = scrollView}
