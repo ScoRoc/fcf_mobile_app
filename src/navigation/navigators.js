@@ -9,6 +9,8 @@ import {
 import CustomDrawer from './CustomDrawer';
 
 import IAPScreen from '../screens/IAPScreen';
+import ChangePasswordScreen from '../screens/profile/ChangePasswordScreen';
+import ProfileScreen from '../screens/profile/ProfileScreen';
 import WebViewScreen from '../screens/webview/WebViewScreen';
 
 import LoginScreen from '../screens/auth/LoginScreen';
@@ -124,12 +126,30 @@ const TabNav = createBottomTabNavigator(
   },
 );
 
+const ProfileStack = createStackNavigator(
+  {
+    Profile: ProfileScreen,
+    ChangePassword: ChangePasswordScreen,
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: greyDark,
+      },
+      headerTintColor: white,
+      headerTintStyle: {
+        fontWeight: 'bold'
+      }
+    },
+    initialRouteName: 'Profile',
+  }
+);
+
 const MainDrawer = createDrawerNavigator(
   {
     Tabs: TabNav,
-    IPP: IAPScreen,
+    Profile: ProfileStack,
     // Schedule: Schedule, // MAKE THESE COMPONENTS
-    // MyProfile: MyProfile, // MAKE THESE COMPONENTS
     // ContactUs: ContactUs, // MAKE THESE COMPONENTS
   },
   {

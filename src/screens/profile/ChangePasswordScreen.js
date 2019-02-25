@@ -7,39 +7,20 @@ import Touchable from '../../components/Touchable';
 
 import { liftUser } from '../../redux/modules/user';
 import { apiUrl, getColor, tokenName } from '../../utils/global-variables';
-import { greyDark, white } from '../../../variables/style-sheet';
 import useAxios from '../../utils/axios-helpers';
 
-const path = `${apiUrl}/user/create`;
+const path = `${apiUrl}/user/login`;
 const { postWithAxios } = useAxios(path);
 
-class SignupScreen extends React.Component {
-  static navigationOptions = {
-    headerStyle: {
-      backgroundColor: greyDark,
-    },
-    headerTintColor: white
-  };
+class LoginScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
       password: '',
     }
   }
 
-  setToken = async token => {
-    try {
-      await AsyncStorage.setItem(tokenName, token);
-    } catch (err) {
-      console.log('err: ', err);
-    }
-  }
-
   handleSuccess = async ({ user, token }) => {
-    await this.setToken(token);
     this.props.liftUser({ user, token });
     this.props.navigation.navigate('Main');
   }
@@ -49,52 +30,27 @@ class SignupScreen extends React.Component {
   }
 
   handleSubmit = () => {
-    const { firstName, lastName, email, password } = this.state;
-    postWithAxios({ firstName, lastName, email, password }).then(result => {
+    const { email, password } = this.state;
+    putWithAxios({ id: this.props.user._id, password }).then(result => {
       result.data.user
         ? this.handleSuccess({ user: result.data.user, token: result.data.token })
         : this.handleErr(result.data._message);
-    }).catch(err => console.log('err: ', err));
+    });
   }
 
   render() {
-    const { firstName, lastName, email, password } = this.state;
+    const { email, password } = this.state;
     return (
       <View style={styles.page}>
-        <Text style={[ styles.text, styles.pageTitle ]}>Signup</Text>
+        <Text style={[ styles.pageTitle, styles.text ]}>Change your password</Text>
 
         <View style={styles.contentWrapper}>
-          <Text style={styles.text}>First Name</Text>
-          <TextInput
-            onChangeText={text => this.setState({ firstName: text })}
-            style={[ styles.text, styles.textInput ]}
-            textContentType='givenName'
-            value={firstName}
-          />
-
-          <Text style={styles.text}>Last Name</Text>
-          <TextInput
-            onChangeText={text => this.setState({ lastName: text })}
-            style={[ styles.text, styles.textInput ]}
-            textContentType='familyName'
-            value={lastName}
-          />
-
-          <Text style={styles.text}>Email</Text>
-          <TextInput
-            autoCapitalize='none'
-            onChangeText={text => this.setState({ email: text })}
-            style={[ styles.text, styles.textInput ]}
-            textContentType='emailAddress'
-            value={email}
-          />
-
           <Text style={styles.text}>Password</Text>
           <TextInput
             autoCapitalize='none'
             onChangeText={text => this.setState({ password: text })}
-            style={[ styles.text, styles.textInput ]}
             secureTextEntry={true}
+            style={[ styles.text, styles.textInput ]}
             textContentType='password'
             value={password}
           />
@@ -108,6 +64,7 @@ class SignupScreen extends React.Component {
           >
             <Text style={[ styles.text, styles.submitButtonText ]}>Submit</Text>
           </Touchable>
+
         </View>
 
       </View>
@@ -150,6 +107,17 @@ const styles = EStyleSheet.create({
   submitButtonText: {
     color: '$yellow',
   },
+  signupTextWrap: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  smallText: {
+    fontSize: '12rem',
+  },
+  signupTextLink: {
+    marginLeft: '7rem',
+    color: '$yellow',
+  },
 });
 
 const mapStateToProps = state => {
@@ -165,4 +133,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignupScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

@@ -27,10 +27,12 @@ class CustomDrawer extends React.Component {
   }
 
   render() {
+    const greeting = this.props.user ? `Hello, ${this.props.user.firstName}` : 'Hellow, how are you today?';
     return (
       <View style={styles.drawerWrapper}>
 
         <View style={styles.drawerItemsWrapper} >
+          <Text style={styles.text}>{greeting}</Text>
           <DrawerItems {...this.props} />
           <View style={styles.customDrawerItemsWrapper}>
             <Touchable iosType='opacity' onPress={this.handleLogout} viewStyle={styles.touchableView}>
@@ -63,6 +65,9 @@ const styles = EStyleSheet.create({
   },
   drawerItemsWrapper: {
     //
+  },
+  text: {
+    color: '$white',
   },
   customDrawerItemsWrapper: {
     marginTop: 0,
