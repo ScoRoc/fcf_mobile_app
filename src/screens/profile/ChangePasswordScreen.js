@@ -9,8 +9,8 @@ import { liftUser } from '../../redux/modules/user';
 import { apiUrl, getColor, tokenName } from '../../utils/global-variables';
 import useAxios from '../../utils/axios-helpers';
 
-const path = `${apiUrl}/user/login`;
-const { postWithAxios } = useAxios(path);
+const path = `${apiUrl}/user/password`;
+const { putWithAxios } = useAxios(path);
 
 class LoginScreen extends React.Component {
   constructor(props) {
@@ -20,9 +20,8 @@ class LoginScreen extends React.Component {
     }
   }
 
-  handleSuccess = async ({ user, token }) => {
-    this.props.liftUser({ user, token });
-    this.props.navigation.navigate('Main');
+  handleSuccess = () => {
+    this.props.navigation.navigate('Profile');
   }
 
   handleErr = errMsg => {
@@ -32,9 +31,10 @@ class LoginScreen extends React.Component {
   handleSubmit = () => {
     const { email, password } = this.state;
     putWithAxios({ id: this.props.user._id, password }).then(result => {
-      result.data.user
-        ? this.handleSuccess({ user: result.data.user, token: result.data.token })
-        : this.handleErr(result.data._message);
+      // console.log('updatedUser: ', result.data.updatedUser)
+      result.data.updatedUser
+        ? this.handleSuccess()
+        : this.handleErr(result.data);
     });
   }
 

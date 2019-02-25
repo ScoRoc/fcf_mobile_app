@@ -26,6 +26,8 @@ import PercentTableScreen from '../screens/wod-tools/percent-table/PercentTableS
 import {
   blackBG,
   greyDark,
+  greyDarkExtra,
+  greyLightDark,
   greyMedium,
   greyMediumDark,
   tabHeight,
@@ -108,7 +110,7 @@ const TabNav = createBottomTabNavigator(
       inactiveTintColor: greyMedium,
       activeBackgroundColor: greyMediumDark,
       // activeBackgroundColor: blackBG,
-      inactiveBackgroundColor: blackBG,
+      inactiveBackgroundColor: greyDarkExtra,
       style: {
         height: tabHeight,
       },
@@ -147,26 +149,23 @@ const ProfileStack = createStackNavigator(
 
 const MainDrawer = createDrawerNavigator(
   {
-    Tabs: TabNav,
+    Home: TabNav,
     Profile: ProfileStack,
     // Schedule: Schedule, // MAKE THESE COMPONENTS
     // ContactUs: ContactUs, // MAKE THESE COMPONENTS
   },
   {
     contentComponent: CustomDrawer,
-    // transparentCard: true,
-    // cardStyle: {
-    //   backgroundColor: 'transparent',
-    //   opacity: 1,
-    // },
-    // drawerWidth: 250,
     drawerPosition: 'right',
-    drawerBackgroundColor: '#411',
+    // drawerBackgroundColor: '#411',
+    drawerBackgroundColor: greyDark,
     contentOptions: {
       activeTintColor: 'yellow',
-      inactiveTintColor: '#aaa',
-      activeBackgroundColor: '#622',
-      inactiveBackgroundColor: '#311'
+      inactiveTintColor: greyLightDark,
+      // activeBackgroundColor: '#622',
+      activeBackgroundColor: greyMediumDark,
+      // inactiveBackgroundColor: '#311',
+      inactiveBackgroundColor: blackBG,
     }
   }
 );
