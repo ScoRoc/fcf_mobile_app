@@ -28,12 +28,24 @@ class CustomDrawer extends React.Component {
 
   render() {
     return (
-      <View style={styles.view}>
-        <DrawerItems {...this.props} />
-        <View style={styles.otherLinksView}>
-          <Touchable iosType='opacity' onPress={this.handleLogout} viewStyle={styles.touchableView}>
-            <Text style={styles.otherLinks}>Logout</Text>
-          </Touchable>
+      <View style={styles.drawerWrapper}>
+
+        <View style={styles.drawerItemsWrapper} >
+          <DrawerItems {...this.props} />
+          <View style={styles.customDrawerItemsWrapper}>
+            <Touchable iosType='opacity' onPress={this.handleLogout} viewStyle={styles.touchableView}>
+              <Text style={styles.customDrawerItems}>Logout</Text>
+            </Touchable>
+          </View>
+        </View>
+
+        <View style={styles.socialWrapper}>
+          <Text style={styles.socialText}>Visit us on social at:</Text>
+          <View style={styles.socialLinksWrapper}>
+            <Text>Social 1</Text>
+            <Text>Social 2</Text>
+            <Text>Social 3</Text>
+          </View>
         </View>
       </View>
     );
@@ -41,10 +53,18 @@ class CustomDrawer extends React.Component {
 }
 
 const styles = EStyleSheet.create({
-  view: {
-    paddingTop: '45rem',
+  $drawerPadding: '45rem',
+
+  drawerWrapper: {
+    paddingTop: '$drawerPadding',
+    paddingBottom: '$drawerPadding * 2',
+    flex: 1,
+    justifyContent: 'space-between',
   },
-  otherLinksView: {
+  drawerItemsWrapper: {
+    //
+  },
+  customDrawerItemsWrapper: {
     marginTop: 0,
     paddingLeft: '15rem',
   },
@@ -52,9 +72,19 @@ const styles = EStyleSheet.create({
     height: '40rem',
     justifyContent: 'center',
   },
-  otherLinks: {
+  customDrawerItems: {
     fontWeight: '600',
     color: '$yellow',
+  },
+  socialWrapper: {
+    //
+  },
+  socialText: {
+    textAlign: 'center',
+  },
+  socialLinksWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 });
 

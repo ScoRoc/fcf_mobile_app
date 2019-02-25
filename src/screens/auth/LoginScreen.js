@@ -3,14 +3,19 @@ import { AsyncStorage, Button, Text, TextInput, View } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import Touchable from '../../components/Touchable';
+
 import { liftUser } from '../../redux/modules/user';
-import { apiUrl, tokenName } from '../../utils/global-variables';
+import { apiUrl, getColor, tokenName } from '../../utils/global-variables';
 import useAxios from '../../utils/axios-helpers';
 
 const path = `${apiUrl}/user/login`;
 const { postWithAxios } = useAxios(path);
 
 class LoginScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  };
   constructor(props) {
     super(props)
     this.state = {
@@ -49,38 +54,47 @@ class LoginScreen extends React.Component {
   render() {
     const { email, password } = this.state;
     return (
-      <View>
-        <Text>login screen</Text>
+      <View style={styles.page}>
+        <Text style={[ styles.pageTitle, styles.text ]}>Login</Text>
 
-        <Text>Email</Text>
-        <TextInput
-          autoCapitalize='none'
-          onChangeText={text => this.setState({ email: text })}
-          textContentType='emailAddress'
-          value={email}
-        />
+        <View style={styles.contentWrapper}>
+          <Text style={styles.text}>Email</Text>
+          <TextInput
+            autoCapitalize='none'
+            onChangeText={text => this.setState({ email: text })}
+            style={[ styles.text, styles.textInput ]}
+            textContentType='emailAddress'
+            value={email}
+          />
 
-        <Text>Password</Text>
-        <TextInput
-          autoCapitalize='none'
-          onChangeText={text => this.setState({ password: text })}
-          secureTextEntry={true}
-          textContentType='password'
-          value={password}
-        />
+          <Text style={styles.text}>Password</Text>
+          <TextInput
+            autoCapitalize='none'
+            onChangeText={text => this.setState({ password: text })}
+            secureTextEntry={true}
+            style={[ styles.text, styles.textInput ]}
+            textContentType='password'
+            value={password}
+          />
 
-        <Button
-          onPress={this.handleSubmit}
-          title='submit'
-        />
+          <Touchable
+            activeOpacity={.5}
+            iosType='highlight'
+            onPress={this.handleSubmit}
+            underlayColor={ getColor('yellow') }
+            style={styles.submitButton}
+          >
+            <Text style={[ styles.text, styles.submitButtonText ]}>Submit</Text>
+          </Touchable>
 
-        <Text>Haven't signed up yet?</Text>
-        <Button
-          onPress={() => this.props.navigation.navigate('Signup')}
-          title='Signup here'
-        />
+          <View style={styles.signupTextWrap}>
+            <Text style={[ styles.text, styles.smallText ]}>Haven't signed up yet?</Text>
+            <Touchable iosType='opacity' onPress={() => this.props.navigation.navigate('Signup')}>
+              <Text style={[ styles.text, styles.smallText, styles.signupTextLink ]}>Signup here.</Text>
+            </Touchable>
+          </View>
 
-        <Button onPress={() => console.log('user: ', this.props.user)} title='props user' />
+        </View>
 
       </View>
     );
@@ -88,8 +102,50 @@ class LoginScreen extends React.Component {
 }
 
 const styles = EStyleSheet.create({
+  $fontSize: '18rem',
+
+  page: {
+    // paddingBottom: '100rem',
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '$blackBG',
+  },
+  pageTitle: {
+    textAlign: 'center',
+  },
   text: {
-    // fontSize: '22rem'
+    color: '$white',
+    fontSize: '$fontSize',
+  },
+  contentWrapper: {
+    height: '$height / 2',
+    justifyContent: 'space-around',
+  },
+  textInput: {
+    backgroundColor: '$greyMediumDark',
+  },
+  submitButton: {
+    height: '$fontSize * 2',
+    width: '$width / 3',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '$greyDark',
+    borderRadius: '6rem',
+  },
+  submitButtonText: {
+    color: '$yellow',
+  },
+  signupTextWrap: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  smallText: {
+    fontSize: '12rem',
+  },
+  signupTextLink: {
+    marginLeft: '7rem',
+    color: '$yellow',
   },
 });
 
