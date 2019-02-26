@@ -12,7 +12,7 @@ export default class WebViewScreen extends React.Component {
   }
 
   render() {
-    const defaultUrl = 'http://www.foundationcrossfit.com/';
+    const defaultUrl = 'www.foundationcrossfit.com/';
     const partialUrl = this.props.navigation.getParam('url', defaultUrl);
     const url = `http://${partialUrl}`;
     return (

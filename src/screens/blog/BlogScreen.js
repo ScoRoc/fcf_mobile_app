@@ -10,7 +10,7 @@ export default class BlogScreen extends React.Component {
   };
 
   render() {
-    const uri = 'http://www.foundationcrossfit.com/blog/';
+    const uri = 'www.foundationcrossfit.com/blog/';
     return (
       <View style={styles.screen}>
         <StatusBar barStyle='light-content' />
