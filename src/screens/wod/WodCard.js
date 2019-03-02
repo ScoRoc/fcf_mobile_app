@@ -1,12 +1,42 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import moment from 'moment';
 
-export default WodCard = props => {
+import LikeButton from '../../components/LikeButton';
+
+// import useAxios from '../../../utils/axios-helpers';
+// import { apiUrl } from '../../../utils/global-variables';
+//
+// const path = `${apiUrl}/announcements/like`;
+// const { putWithAxios } = useAxios(path);
+
+const WodCard = props => {
   const { wod } = props;
+  const { attended, likes } = wod;
+  const userId = props.user ? props.user._id : '';
+  const liked = likes.includes(userId);
   const day = moment(wod.date).format('dddd');
   const date = `${ moment(wod.date).format('MM') }/${ moment(wod.date).format('D') }`;
+
+  // const handleSuccess = async ({ wodId, userId }) => {
+    // this.props.updateWod({ wodId, userId });
+  // }
+
+  // const handleErr = err => {
+  //   console.log('signup failed with err: ', err);
+  // }
+
+  // const updateLike = ({ wodId, userId }) => {
+  //   putWithAxios({ wodId, userId }).then(result => {
+  //     // console.log('result.data: ', result.data);
+  //     result.data.updatedAnnouncement
+  //       ? this.handleSuccess({ wodId, userId })
+  //       : this.handleErr(result.data.err);
+  //   }).catch(err => console.log('err: ', err));
+  // }
+
   return (
     <View style={styles.cardWrapper}>
       <View style={styles.titleView}>
@@ -34,8 +64,25 @@ Post time to whiteboard`}
         <Text style={styles.text}>{wod.text}</Text>
       </View>
       <View style={styles.likesWrapper}>
-        <Text style={styles.text}>Like btn</Text>
-        <Text style={styles.text}>Muslce btn</Text>
+        {/* <Text style={styles.text}>Like btn</Text> */}
+        <LikeButton
+          // addedStyle={{ borderRightWidth: 1, width: '50%' }}
+          addedStyle={{ width: '50%' }}
+          library={{ liked: 'MaterialCommunityIcons', unliked: 'MaterialCommunityIcons' }}
+          liked={liked}
+          likes={likes.length}
+          name={{ liked: 'heart', unliked: 'heart-outline' }}
+          // updateLike={() => this.updateLike({ wodId: wod._id, userId })}
+        />
+        <LikeButton
+          addedStyle={{ width: '50%' }}
+          library={{ liked: 'MaterialCommunityIcons', unliked: 'MaterialCommunityIcons' }}
+          liked={liked}
+          likes={likes.length}
+          name={{ liked: 'weight-kilogram', unliked: 'weight' }}
+          // updateLike={() => this.updateLike({ announcementId: _id, userId })}
+        />
+        {/* <Text style={styles.text}>Muslce btn</Text> */}
       </View>
     </View>
   );
@@ -82,3 +129,11 @@ const styles = EStyleSheet.create({
     backgroundColor: '$greyMedium',
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    user: state.user.user,
+  };
+};
+
+export default connect(mapStateToProps)(WodCard);

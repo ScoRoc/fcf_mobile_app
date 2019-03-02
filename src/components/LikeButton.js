@@ -6,7 +6,7 @@ import Icon from './Icon';
 import Touchable from './Touchable';
 
 export default LikeButton = props => {
-  const { library, liked, likes, name } = props;
+  const { addedStyle, library, liked, likes, name } = props;
   const icon  = liked
               ? <Icon color={styles.$iconLikedColor} library={library.liked} name={name.liked} size={20} />
               : <Icon color={styles.$iconColor} library={library.unliked} name={name.unliked} size={20} />
@@ -16,7 +16,7 @@ export default LikeButton = props => {
       iosType='highlight'
       onPress={props.updateLike}
       underlayColor={styles.$underlay}
-      style={styles.touchable}
+      style={[ styles.touchable, addedStyle ]}
       viewStyle={styles.view}
     >
       {icon}
