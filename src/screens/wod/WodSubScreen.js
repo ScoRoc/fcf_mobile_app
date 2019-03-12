@@ -17,6 +17,7 @@ export default class WodSubScreen extends React.Component {
     this.state = {
       currentWodWeek: {},
       wodWeeks: [],
+      updated: false,
     }
   }
 
@@ -47,6 +48,19 @@ export default class WodSubScreen extends React.Component {
     return moment(weekStart).isSame( moment(wodWeek.weekOf) );
   }
 
+  updateWod = ({ wodId, userId, type }) => {
+    const currentWodWeek = {...this.state.currentWodWeek};
+    const { wods } = currentWodWeek;
+    const wodToUpdate = wods.filter(wod => {
+      return wod._id === wodId;
+    })[0];
+    const typeToUpdate = wodToUpdate[type];
+    typeToUpdate.includes(userId)
+      ? typeToUpdate.splice( typeToUpdate.indexOf(userId), 1 )
+      : typeToUpdate.push(userId);
+    this.setState({ currentWodWeek, updated: true });
+  }
+
   componentDidMount() {
     getWithAxios().then(result => {
       // console.log('result.data: ', result.data);
@@ -54,7 +68,7 @@ export default class WodSubScreen extends React.Component {
       const currentWodWeek = wodWeeks.filter(this.filterForCurrentWeek)[0]
                             ? wodWeeks.filter(this.filterForCurrentWeek)[0]
                             : {};
-      console.log('currentWodWeek: ', currentWodWeek)
+      // console.log('currentWodWeek: ', currentWodWeek)
       this.setState({ currentWodWeek, wodWeeks });
       this.scrollToToday();
     });
@@ -63,7 +77,15 @@ export default class WodSubScreen extends React.Component {
   render() {
     const wods = Object.keys(this.state.currentWodWeek).length !== 0
                 ? this.state.currentWodWeek.wods.map(wod => {
-                    return <WodCardWrapper key={wod._id} wod={wod} />;
+                    return (
+                      <WodCardWrapper
+                        finishUpdate={() => this.setState({ updated: false})}
+                        key={wod._id}
+                        updated={this.state.updated}
+                        updateWod={this.updateWod}
+                        wod={wod}
+                      />
+                    );
                   })
                 : <Text style={{color: 'white'}}>
                   No current wods FIX FIX FIX

@@ -9,7 +9,12 @@ export default WodCardWrapper = props => {
     <View style={styles.view}>
       <View style={styles.cardWrapper}>
         {/* <WodCard day={props.day} /> */}
-        <WodCard wod={props.wod} />
+        <WodCard
+          finishUpdate={props.finishUpdate}
+          updated={props.updated}
+          updateWod={props.updateWod}
+          wod={props.wod}
+        />
       </View>
     </View>
   );

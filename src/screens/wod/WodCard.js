@@ -12,80 +12,90 @@ import { apiUrl } from '../../utils/global-variables';
 const path = `${apiUrl}/wod/like`;
 const { putWithAxios } = useAxios(path);
 
-const WodCard = props => {
-  const { wod } = props;
-  const { attended, likes } = wod;
-  const userId = props.user ? props.user._id : '';
-  const liked = likes.includes(userId);
-  const day = moment(wod.date).format('dddd');
-  const date = `${ moment(wod.date).format('MM') }/${ moment(wod.date).format('D') }`;
+class WodCard extends React.Component {
 
-  const handleSuccess = async ({ wodId, userId }) => {
-    // this.props.updateWod({ wodId, userId });
+  handleSuccess = async ({ wodId, userId, type }) => {
+    this.props.updateWod({ wodId, userId, type });
   }
 
-  const handleErr = err => {
+  handleErr = err => {
     console.log('signup failed with err: ', err);
   }
 
-  const updateLike = ({ wodId, userId, type }) => {
+  updateLike = ({ wodId, userId, type }) => {
     putWithAxios({ wodId, userId, type }).then(result => {
       // console.log('result.data: ', result.data);
       result.data.updatedWod
-        ? this.handleSuccess({ wodId, userId })
+        ? this.handleSuccess({ wodId, userId, type })
         : this.handleErr(result.data.err);
     }).catch(err => console.log('err: ', err));
   }
 
-  return (
-    <View style={styles.cardWrapper}>
-      <View style={styles.titleView}>
-        <Text style={styles.title}>{day}</Text>
-        <Text style={styles.title}>{date}</Text>
-      </View>
-      <View style={styles.textWrapper}>
-        {/* <Text style={styles.text}>{`work up to a heavy snatch,
-then
+  componentDidUpdate(prevProps) {
+    if (prevProps.updated !== this.props.updated && this.props.updated === true) {
+      this.props.finishUpdate();
+    }
+  }
 
-"Amanda"
-9-7-5 reps for time:
-ring muscle-ups
-(squat) snatches, 61/43kg
+  render() {
+    const { wod } = this.props;
+    const { attended, likes } = wod;
+    const userId = this.props.user ? this.props.user._id : '';
+    const liked = likes.includes(userId);
+    const attendedChecked = attended.includes(userId);
+    const day = moment(wod.date).format('dddd');
+    const date = `${ moment(wod.date).format('MM') }/${ moment(wod.date).format('D') }`;
 
-(squat) snatches, 61/43kg
-(squat) snatches, 61/43kg
-(squat) snatches, 61/43kg
-(squat) snatches, 61/43kg
-(squat) snatches, 61/43kg
-(squat) snatches, 61/43kg
+    return (
+      <View style={styles.cardWrapper}>
+        <View style={styles.titleView}>
+          <Text style={styles.title}>{day}</Text>
+          <Text style={styles.title}>{date}</Text>
+        </View>
+        <View style={styles.textWrapper}>
+          {/* <Text style={styles.text}>{`work up to a heavy snatch,
+  then
 
-Post time to whiteboard`}
-        </Text> */}
-        <Text style={styles.text}>{wod.text}</Text>
+  "Amanda"
+  9-7-5 reps for time:
+  ring muscle-ups
+  (squat) snatches, 61/43kg
+
+  (squat) snatches, 61/43kg
+  (squat) snatches, 61/43kg
+  (squat) snatches, 61/43kg
+  (squat) snatches, 61/43kg
+  (squat) snatches, 61/43kg
+  (squat) snatches, 61/43kg
+
+  Post time to whiteboard`}
+          </Text> */}
+          <Text style={styles.text}>{wod.text}</Text>
+        </View>
+        <View style={styles.likesWrapper}>
+          {/* <Text style={styles.text}>Like btn</Text> */}
+          <LikeButton
+            // addedStyle={{ borderRightWidth: 1, width: '50%' }}
+            addedStyle={{ width: '50%' }}
+            library={{ liked: 'MaterialCommunityIcons', unliked: 'MaterialCommunityIcons' }}
+            liked={liked}
+            likes={likes.length}
+            name={{ liked: 'heart', unliked: 'heart-outline' }}
+            updateLike={() => this.updateLike({ wodId: wod._id, userId, type: 'likes' })}
+          />
+          <LikeButton
+            addedStyle={{ width: '50%' }}
+            library={{ liked: 'MaterialCommunityIcons', unliked: 'MaterialCommunityIcons' }}
+            liked={attendedChecked}
+            likes={attended.length}
+            name={{ liked: 'weight-kilogram', unliked: 'weight' }}
+            updateLike={() => this.updateLike({ wodId: wod._id, userId, type: 'attended' })}
+          />
+          {/* <Text style={styles.text}>Muslce btn</Text> */}
+        </View>
       </View>
-      <View style={styles.likesWrapper}>
-        {/* <Text style={styles.text}>Like btn</Text> */}
-        <LikeButton
-          // addedStyle={{ borderRightWidth: 1, width: '50%' }}
-          addedStyle={{ width: '50%' }}
-          library={{ liked: 'MaterialCommunityIcons', unliked: 'MaterialCommunityIcons' }}
-          liked={liked}
-          likes={likes.length}
-          name={{ liked: 'heart', unliked: 'heart-outline' }}
-          updateLike={() => this.updateLike({ wodId: wod._id, userId, type: 'likes' })}
-        />
-        <LikeButton
-          addedStyle={{ width: '50%' }}
-          library={{ liked: 'MaterialCommunityIcons', unliked: 'MaterialCommunityIcons' }}
-          liked={liked}
-          likes={attended.length}
-          name={{ liked: 'weight-kilogram', unliked: 'weight' }}
-          updateLike={() => this.updateLike({ wodId: wod._id, userId, type: 'attended' })}
-        />
-        {/* <Text style={styles.text}>Muslce btn</Text> */}
-      </View>
-    </View>
-  );
+    );
+  }
 };
 
 const styles = EStyleSheet.create({
