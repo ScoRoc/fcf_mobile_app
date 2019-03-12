@@ -6,11 +6,11 @@ import moment from 'moment';
 
 import LikeButton from '../../components/LikeButton';
 
-// import useAxios from '../../../utils/axios-helpers';
-// import { apiUrl } from '../../../utils/global-variables';
-//
-// const path = `${apiUrl}/announcements/like`;
-// const { putWithAxios } = useAxios(path);
+import useAxios from '../../utils/axios-helpers';
+import { apiUrl } from '../../utils/global-variables';
+
+const path = `${apiUrl}/wod/like`;
+const { putWithAxios } = useAxios(path);
 
 const WodCard = props => {
   const { wod } = props;
@@ -20,22 +20,22 @@ const WodCard = props => {
   const day = moment(wod.date).format('dddd');
   const date = `${ moment(wod.date).format('MM') }/${ moment(wod.date).format('D') }`;
 
-  // const handleSuccess = async ({ wodId, userId }) => {
+  const handleSuccess = async ({ wodId, userId }) => {
     // this.props.updateWod({ wodId, userId });
-  // }
+  }
 
-  // const handleErr = err => {
-  //   console.log('signup failed with err: ', err);
-  // }
+  const handleErr = err => {
+    console.log('signup failed with err: ', err);
+  }
 
-  // const updateLike = ({ wodId, userId }) => {
-  //   putWithAxios({ wodId, userId }).then(result => {
-  //     // console.log('result.data: ', result.data);
-  //     result.data.updatedAnnouncement
-  //       ? this.handleSuccess({ wodId, userId })
-  //       : this.handleErr(result.data.err);
-  //   }).catch(err => console.log('err: ', err));
-  // }
+  const updateLike = ({ wodId, userId, type }) => {
+    putWithAxios({ wodId, userId, type }).then(result => {
+      // console.log('result.data: ', result.data);
+      result.data.updatedWod
+        ? this.handleSuccess({ wodId, userId })
+        : this.handleErr(result.data.err);
+    }).catch(err => console.log('err: ', err));
+  }
 
   return (
     <View style={styles.cardWrapper}>
@@ -72,15 +72,15 @@ Post time to whiteboard`}
           liked={liked}
           likes={likes.length}
           name={{ liked: 'heart', unliked: 'heart-outline' }}
-          // updateLike={() => this.updateLike({ wodId: wod._id, userId })}
+          updateLike={() => this.updateLike({ wodId: wod._id, userId, type: 'likes' })}
         />
         <LikeButton
           addedStyle={{ width: '50%' }}
           library={{ liked: 'MaterialCommunityIcons', unliked: 'MaterialCommunityIcons' }}
           liked={liked}
-          likes={likes.length}
+          likes={attended.length}
           name={{ liked: 'weight-kilogram', unliked: 'weight' }}
-          // updateLike={() => this.updateLike({ announcementId: _id, userId })}
+          updateLike={() => this.updateLike({ wodId: wod._id, userId, type: 'attended' })}
         />
         {/* <Text style={styles.text}>Muslce btn</Text> */}
       </View>

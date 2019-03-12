@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, ImageBackground, StatusBar, Text, View } from 'react-native';
 import { LinearGradient } from 'expo';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import moment from 'moment';
 
 import WodSubScreen from './WodSubScreen';
 
@@ -10,6 +11,9 @@ const uri = 'https://www.placecage.com/c/375/100';
 export default WodScreen = props => {
   const blackBG = () => EStyleSheet.value('$blackBG');
   const blueGradDark = () => EStyleSheet.value('$blueGradDark');
+  const monday = moment().startOf('isoweek');
+  const mondayMonth = monday.format('MMMM');
+  const mondayDate = monday.format('Do');
   return (
     <LinearGradient
       colors={[blackBG(), blueGradDark(), blackBG()]}
@@ -25,7 +29,7 @@ export default WodScreen = props => {
         </View>
       </ImageBackground>
       <View style={styles.dateBanner}>
-        <Text style={styles.dateBannerText}>Week of Dec 17th</Text>
+        <Text style={styles.dateBannerText}>Week of {mondayMonth} {mondayDate}</Text>
       </View>
       <WodSubScreen />
     </LinearGradient>
