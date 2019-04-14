@@ -19,7 +19,7 @@ export const greyMediumDark = '#444';
 export const purpleAccent = '#94A1D1';
 export const red = '#de2100';
 export const white = '#FFF';
-export const yellow = '#FF0';
+export const yellow = '#FACD00';
 
 export default buildStyleSheet = () => {
   EStyleSheet.build({

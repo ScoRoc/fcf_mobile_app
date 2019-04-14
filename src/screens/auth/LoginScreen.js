@@ -77,16 +77,6 @@ class LoginScreen extends React.Component {
             value={password}
           />
 
-          <Touchable
-            activeOpacity={.5}
-            iosType='highlight'
-            onPress={this.handleSubmit}
-            underlayColor={ getColor('yellow') }
-            style={styles.submitButton}
-          >
-            <Text style={[ styles.text, styles.submitButtonText ]}>Submit</Text>
-          </Touchable>
-
           <View style={styles.signupTextWrap}>
             <Text style={[ styles.text, styles.smallText ]}>Haven't signed up yet?</Text>
             <Touchable iosType='opacity' onPress={() => this.props.navigation.navigate('Signup')}>
@@ -96,18 +86,28 @@ class LoginScreen extends React.Component {
 
         </View>
 
+        <Touchable
+          activeOpacity={.5}
+          iosType='highlight'
+          onPress={this.handleSubmit}
+          underlayColor={ getColor('yellow') }
+          style={styles.submitButton}
+        >
+          <Text style={[ styles.text, styles.submitButtonText ]}>Log In</Text>
+        </Touchable>
+
       </View>
     );
   }
 }
 
 const styles = EStyleSheet.create({
-  $fontSize: '18rem',
+  $fontSize: '24rem',
 
   page: {
     // paddingBottom: '100rem',
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     backgroundColor: '$blackBG',
   },
   pageTitle: {
@@ -123,18 +123,19 @@ const styles = EStyleSheet.create({
   },
   textInput: {
     backgroundColor: '$greyMediumDark',
+    width: '$width * .8',
+    alignSelf: 'center',
   },
   submitButton: {
-    height: '$fontSize * 2',
-    width: '$width / 3',
+    height: '$fontSize * 3.5',
+    width: '100%',
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '$greyDark',
-    borderRadius: '6rem',
+    backgroundColor: '$yellow',
   },
   submitButtonText: {
-    color: '$yellow',
+    color: '$black',
   },
   signupTextWrap: {
     flexDirection: 'row',
