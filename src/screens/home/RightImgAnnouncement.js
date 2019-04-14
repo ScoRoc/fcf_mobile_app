@@ -3,7 +3,7 @@ import { Image, Text, View } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import Touchable from '../../../components/Touchable';
+import Touchable from '../../components/Touchable';
 import ImgSection from './ImgSection';
 
 const RightImgAnnouncement = props => {

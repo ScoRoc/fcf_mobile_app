@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import moment from 'moment';
 
-import LikeButton from '../../../components/LikeButton';
-import Touchable from '../../../components/Touchable';
+import LikeButton from '../../components/LikeButton';
+import Touchable from '../../components/Touchable';
 
-import useAxios from '../../../utils/axios-helpers';
-import { apiUrl } from '../../../utils/global-variables';
+import useAxios from '../../utils/axios-helpers';
+import { apiUrl } from '../../utils/global-variables';
 
 const path = `${apiUrl}/events/like`;
 const { putWithAxios } = useAxios(path);

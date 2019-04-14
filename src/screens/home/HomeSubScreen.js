@@ -4,9 +4,9 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import AnnouncementStrip from './AnnouncementStrip';
 
-import { getIndex } from '../../../utils/helpers';
-import useAxios from '../../../utils/axios-helpers';
-import { apiUrl } from '../../../utils/global-variables';
+import { getIndex } from '../../utils/helpers';
+import useAxios from '../../utils/axios-helpers';
+import { apiUrl } from '../../utils/global-variables';
 
 const path = `${apiUrl}/announcements`;
 const { getWithAxios } = useAxios(path);

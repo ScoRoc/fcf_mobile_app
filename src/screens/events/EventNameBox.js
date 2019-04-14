@@ -4,8 +4,8 @@ import { withNavigation } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import moment from 'moment';
 
-import Icon from '../../../components/Icon';
-import Touchable from '../../../components/Touchable';
+import Icon from '../../components/Icon';
+import Touchable from '../../components/Touchable';
 
 const chevron = {
   color: () => EStyleSheet.value('$yellow'),

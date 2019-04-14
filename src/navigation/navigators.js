@@ -13,15 +13,16 @@ import ChangePasswordScreen from '../screens/profile/ChangePasswordScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import WebViewScreen from '../screens/webview/WebViewScreen';
 
-import LoginScreen from '../screens/auth/LoginScreen';
-import SignupScreen from '../screens/auth/SignupScreen';
-import LoadingScreen from '../screens/auth/LoadingScreen';
-import HomeScreen from '../screens/home/HomeScreen';
 import BlogScreen from '../screens/blog/BlogScreen';
+import EventsScreen from '../screens/events/EventsScreen';
+import HomeScreen from '../screens/home/HomeScreen';
+import LoadingScreen from '../screens/auth/LoadingScreen';
+import LoginScreen from '../screens/auth/LoginScreen';
+import PercentTableScreen from '../screens/wod-tools/percent-table/PercentTableScreen';
+import SignupScreen from '../screens/auth/SignupScreen';
+import UnitConverterScreen from '../screens/wod-tools/unit-converter/UnitConverterScreen';
 import WodScreen from '../screens/wod/WodScreen';
 import WodToolsScreen from '../screens/wod-tools/WodToolsScreen';
-import UnitConverterScreen from '../screens/wod-tools/unit-converter/UnitConverterScreen';
-import PercentTableScreen from '../screens/wod-tools/percent-table/PercentTableScreen';
 
 import {
   blackBG,
@@ -93,12 +94,32 @@ const WodToolsStack = createStackNavigator(
   }
 );
 
+const EventsStack = createStackNavigator(
+  {
+    Events: EventsScreen,
+    WebView: WebViewScreen,
+  },
+  {
+    initialRouteName: 'Events',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: greyDark,
+      },
+      headerTintColor: white,
+      headerTintStyle: {
+        fontWeight: 'bold'
+      }
+    },
+  }
+);
+
 const TabNav = createBottomTabNavigator(
   {
     Home: { screen: HomeStack },
-    Blog: { screen: BlogStack },
     Wod: { screen: WodScreen },
+    Blog: { screen: BlogStack },
     WodTools: { screen: WodToolsStack },
+    Events: { screen: EventsStack },
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({

@@ -2,8 +2,8 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import Icon from '../../../components/Icon';
-import Touchable from '../../../components/Touchable';
+import Icon from '../../components/Icon';
+import Touchable from '../../components/Touchable';
 
 export default EventKey = props => {
   const { eventKey, filterEventTypes, removedTypes, width } = props;

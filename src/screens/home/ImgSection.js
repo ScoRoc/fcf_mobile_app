@@ -3,11 +3,11 @@ import { Image, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import LikeButton from '../../../components/LikeButton';
-import Touchable from '../../../components/Touchable';
+import LikeButton from '../../components/LikeButton';
+import Touchable from '../../components/Touchable';
 
-import useAxios from '../../../utils/axios-helpers';
-import { apiUrl } from '../../../utils/global-variables';
+import useAxios from '../../utils/axios-helpers';
+import { apiUrl } from '../../utils/global-variables';
 
 const path = `${apiUrl}/announcements/like`;
 const { putWithAxios } = useAxios(path);

@@ -7,9 +7,9 @@ import EventStrip from './EventStrip';
 
 import eventKeys from './event-keys';
 
-import { getIndex } from '../../../utils/helpers';
-import useAxios from '../../../utils/axios-helpers';
-import { apiUrl } from '../../../utils/global-variables';
+import { getIndex } from '../../utils/helpers';
+import useAxios from '../../utils/axios-helpers';
+import { apiUrl } from '../../utils/global-variables';
 
 const path = `${apiUrl}/events/bymonth`;
 const { getWithAxios } = useAxios(path);
@@ -109,9 +109,10 @@ export default class EventsSubScreen extends React.Component {
 };
 
 const styles = EStyleSheet.create({
-  $padding: '50rem',
   $monthPadding: '7rem',
+
   screen: {
+    marginBottom: '50rem',
     // paddingTop: '$padding',
     // flex: 1,
     // justifyContent: 'space-between',
