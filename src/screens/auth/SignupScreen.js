@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, Button, Text, TextInput, View } from 'react-native';
+import { AsyncStorage, Button, ImageBackground, Text, TextInput, View } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -15,10 +15,7 @@ const { postWithAxios } = useAxios(path);
 
 class SignupScreen extends React.Component {
   static navigationOptions = {
-    headerStyle: {
-      backgroundColor: greyDark,
-    },
-    headerTintColor: white
+    header: null,
   };
   constructor(props) {
     super(props)
@@ -59,45 +56,66 @@ class SignupScreen extends React.Component {
 
   render() {
     const { firstName, lastName, email, password } = this.state;
+    const yellow = () => EStyleSheet.value('$yellow');
+    // temp
+    const height = () => EStyleSheet.value('$height');
+    const width = () => EStyleSheet.value('$width');
+    const imgUri = `https://www.placecage.com/c/${width()}/${height()}`;
+    // end temp
     return (
       <View style={styles.page}>
-        <Text style={[ styles.text, styles.pageTitle ]}>Signup</Text>
+        <ImageBackground blurRadius={4} source={{uri: imgUri}} style={styles.imgBgStyle}>
 
-        <View style={styles.contentWrapper}>
-          <Text style={styles.text}>First Name</Text>
-          <TextInput
-            onChangeText={text => this.setState({ firstName: text })}
-            style={[ styles.text, styles.textInput ]}
-            textContentType='givenName'
-            value={firstName}
-          />
+          <View style={styles.contentWrapper}>
 
-          <Text style={styles.text}>Last Name</Text>
-          <TextInput
-            onChangeText={text => this.setState({ lastName: text })}
-            style={[ styles.text, styles.textInput ]}
-            textContentType='familyName'
-            value={lastName}
-          />
+            <View style={styles.logoPlaceholder}></View>
 
-          <Text style={styles.text}>Email</Text>
-          <TextInput
-            autoCapitalize='none'
-            onChangeText={text => this.setState({ email: text })}
-            style={[ styles.text, styles.textInput ]}
-            textContentType='emailAddress'
-            value={email}
-          />
+            <TextInput
+              onChangeText={text => this.setState({ firstName: text })}
+              placeholder='First Name'
+              placeholderTextColor={yellow()}
+              style={[ styles.text, styles.textInput, styles.inputMargin ]}
+              textContentType='givenName'
+              value={firstName}
+            />
 
-          <Text style={styles.text}>Password</Text>
-          <TextInput
-            autoCapitalize='none'
-            onChangeText={text => this.setState({ password: text })}
-            style={[ styles.text, styles.textInput ]}
-            secureTextEntry={true}
-            textContentType='password'
-            value={password}
-          />
+            <TextInput
+              onChangeText={text => this.setState({ lastName: text })}
+              placeholder='Last Name'
+              placeholderTextColor={yellow()}
+              style={[ styles.text, styles.textInput, styles.inputMargin ]}
+              textContentType='familyName'
+              value={lastName}
+            />
+
+            <TextInput
+              autoCapitalize='none'
+              onChangeText={text => this.setState({ email: text })}
+              placeholder='Email'
+              placeholderTextColor={yellow()}
+              style={[ styles.text, styles.textInput, styles.inputMargin ]}
+              textContentType='emailAddress'
+              value={email}
+            />
+
+            <TextInput
+              autoCapitalize='none'
+              onChangeText={text => this.setState({ password: text })}
+              placeholder='Password'
+              placeholderTextColor={yellow()}
+              style={[ styles.text, styles.textInput, styles.inputMargin ]}
+              secureTextEntry={true}
+              textContentType='password'
+              value={password}
+            />
+
+            <View style={[ styles.loginTextWrap, styles.inputMargin ]}>
+              <Touchable iosType='opacity' onPress={() => this.props.navigation.navigate('Login')}>
+                <Text style={[ styles.text, styles.smallText, styles.loginTextLink ]}>Log In</Text>
+              </Touchable>
+            </View>
+
+          </View>
 
           <Touchable
             activeOpacity={.5}
@@ -105,49 +123,75 @@ class SignupScreen extends React.Component {
             onPress={this.handleSubmit}
             underlayColor={ getColor('yellow') }
             style={styles.submitButton}
-          >
-            <Text style={[ styles.text, styles.submitButtonText ]}>Submit</Text>
-          </Touchable>
-        </View>
+            >
+              <Text style={[ styles.text, styles.submitButtonText ]}>Sign Up</Text>
+            </Touchable>
 
+        </ImageBackground>
       </View>
     );
   }
 }
 
 const styles = EStyleSheet.create({
-  $fontSize: '18rem',
+  $fontSize: '28rem',
 
   page: {
-    // paddingBottom: '100rem',
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     backgroundColor: '$blackBG',
   },
-  pageTitle: {
-    textAlign: 'center',
+  imgBgStyle: {
+    height: '$height',
+    width: '$width',
+  },
+  logoPlaceholder: {
+    height: 200,
+    width: '$width / 2',
+    marginBottom: 60,
+    alignSelf: 'center',
+    backgroundColor: '$yellow',
   },
   text: {
     color: '$white',
     fontSize: '$fontSize',
   },
   contentWrapper: {
-    height: '$height / 2',
-    justifyContent: 'space-around',
+    flex: 1,
+    justifyContent: 'center',
   },
   textInput: {
-    backgroundColor: '$greyMediumDark',
+    width: '$width * .8',
+    alignSelf: 'center',
+    padding: '15rem',
+    backgroundColor: 'transparent',
+    borderColor: '$yellow',
+    borderWidth: 1,
+  },
+  inputMargin: {
+    marginTop: '8rem',
+    marginBottom: '8rem',
   },
   submitButton: {
-    height: '$fontSize * 2',
-    width: '$width / 3',
+    height: '$fontSize * 3.6',
+    width: '100%',
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '$greyDark',
-    borderRadius: '6rem',
+    backgroundColor: '$yellow',
   },
   submitButtonText: {
+    color: '$black',
+  },
+  loginTextWrap: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  smallText: {
+    fontSize: '14rem',
+  },
+  loginTextLink: {
+    marginLeft: '7rem',
     color: '$yellow',
   },
 });
