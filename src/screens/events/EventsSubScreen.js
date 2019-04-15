@@ -112,9 +112,9 @@ const styles = EStyleSheet.create({
   $monthPadding: '7rem',
 
   screen: {
-    marginBottom: '50rem',
+    // marginBottom: '50rem',
     // paddingTop: '$padding',
-    // flex: 1,
+    flex: 1,
     // justifyContent: 'space-between',
     // alignItems: 'center',
   },
@@ -128,5 +128,5 @@ const styles = EStyleSheet.create({
   monthText: {
     color: '$white',
     fontSize: '30rem'
-  }
+  },
 });

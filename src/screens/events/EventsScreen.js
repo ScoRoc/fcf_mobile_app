@@ -31,8 +31,6 @@ export default class EventsScreen extends React.Component {
 const styles = EStyleSheet.create({
   screen: {
     paddingTop: '50rem',
-    // paddingBottom: 50,
-    // paddingBottom: '$tabHeight',
     flex: 1,
     backgroundColor: '$blackBG',
   },
