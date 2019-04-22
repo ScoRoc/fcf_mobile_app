@@ -70,13 +70,14 @@ class ImgSection extends React.Component {
         >
           <Image style={{height: imgHeight, width: imgWidth}} source={{uri: imgUrl}} />
         </Touchable>
-        <LikeButton
+        {/* <LikeButton
+          addedStyle={{ width: imgWidth }}
           library={{ liked: 'MaterialCommunityIcons', unliked: 'MaterialCommunityIcons' }}
           liked={liked}
           likes={likes.length}
           name={{ liked: 'heart', unliked: 'heart-outline' }}
           updateLike={() => this.updateLike({ announcementId: _id, userId })}
-        />
+        /> */}
       </View>
     );
   }
