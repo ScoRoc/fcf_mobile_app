@@ -25,7 +25,7 @@ export default EventStrip = props => {
 
 const styles = EStyleSheet.create({
   strip: {
-    height: '$height / 9',
+    // height: '$height / 9',
     width: '100%',
     flex: 1,
     flexDirection: 'row',

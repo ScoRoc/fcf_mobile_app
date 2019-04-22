@@ -4,7 +4,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import EventsSubScreen from './EventsSubScreen';
 
-
 export default class EventsScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -19,9 +18,13 @@ export default class EventsScreen extends React.Component {
   };
 
   render() {
+    const width = () => EStyleSheet.value('$width');
+    const padding = width() * .1;
     return (
+      // <View style={[ styles.screen, { paddingLeft: padding, paddingRight: padding } ]}>
       <View style={styles.screen}>
         <StatusBar barStyle='light-content' />
+        <Text style={styles.header}>Events</Text>
         <EventsSubScreen />
       </View>
     );
@@ -30,8 +33,12 @@ export default class EventsScreen extends React.Component {
 
 const styles = EStyleSheet.create({
   screen: {
-    paddingTop: '50rem',
+    paddingTop: '65rem',
     flex: 1,
     backgroundColor: '$blackBG',
+  },
+  header: {
+    color: '$white',
+    fontSize: '30rem',
   },
 });
