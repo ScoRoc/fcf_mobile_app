@@ -1,20 +1,25 @@
 import React from 'react';
-import { ImageBackground, ScrollView, StatusBar, Text, View } from 'react-native';
+import { Dimensions, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import HomeSubScreen from './HomeSubScreen';
-// import EventsSubScreen from './events/EventsSubScreen';
+import AnnouncementStrip from './AnnouncementStrip';
 
-import PagingTitleBar from '../../components/PagingTitleBar';
+import { getIndex } from '../../utils/helpers';
+import useAxios from '../../utils/axios-helpers';
+import { apiUrl } from '../../utils/global-variables';
 
-// const uri = 'https://www.placecage.com/c/375/100';
+const path = `${apiUrl}/announcements`;
+const { getWithAxios } = useAxios(path);
+
+const screenWidth = Dimensions.get('window').width;
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      scrolledViaPress: false,
-      currentPage: 'Announcements',
+      announcements: null,
+      refreshing: false,
+      updated: false,
     };
   }
 
@@ -22,54 +27,69 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
-  width = () => EStyleSheet.value('$width');
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    getWithAxios().then(result => {
+      this.setState({ announcements: result.data.announcements.reverse(), refreshing: false });
+    });
+  }
 
-  // scrollToBeginning = () => {
-  //   this.scrollView.scrollTo( {x: 0} );
-  //   this.setState({scrolledViaPress: true, currentPage: 'Announcements'});
-  // }
+  updateAnnouncement = ({ announcementId, userId }) => {
+    const announcements = this.state.announcements.slice(0);
+    const idx = getIndex('_id', announcements, announcementId);
+    const announcement = announcements[idx];
+    const { likes } = announcement;
+    likes.includes(userId)
+      ? likes.splice( likes.indexOf(userId), 1 )
+      : likes.push(userId);
+    this.setState({ announcements, updated: true });
+  }
 
-  // scrollToEnd = () => {
-  //   this.scrollView.scrollToEnd();
-  //   this.setState({scrolledViaPress: true, currentPage: 'Events'});
-  // }
-
-  // handleScroll = e => {
-  //   const { x } = e.nativeEvent.contentOffset;
-  //   const xPage = x < this.width() / 2 ? firstPageX() : secondPageX();
-  //   if (!this.state.scrolledViaPress) this.setState({ currentPage: getPageTitleByXValue(xPage) });
-  // }
+  componentDidMount() {
+    getWithAxios().then(result => {
+      this.setState({ announcements: result.data.announcements.reverse() });
+    });
+  }
 
   render() {
+    const width = () => EStyleSheet.value('$width');
+    const yellow = () => EStyleSheet.value('$yellow');
+    const imgWidth = width() * .8;
+    const imgHeight = imgWidth / 15 * 8;
+    const padding = width() * .1;
+    const announcements = this.state.announcements &&
+                          this.state.announcements.map((announcement, i) => {
+                            return (
+                              <AnnouncementStrip
+                                announcement={announcement}
+                                finishUpdate={() => this.setState({ updated: false})}
+                                imgHeight={imgHeight}
+                                imgWidth={imgWidth}
+                                key={announcement._id}
+                                padding={padding}
+                                updateAnnouncement={this.updateAnnouncement}
+                                updated={this.state.updated}
+                              />
+                            );
+                          });
     return (
       <View style={styles.screen}>
         <StatusBar barStyle='light-content' />
-        {/* <ImageBackground source={{uri}} style={styles.imgBg}>
-          <View style={styles.imgView}>
-            <Text style={styles.titleText}>Welcome to FCF</Text>
-          </View>
-        </ImageBackground> */}
-        {/* <PagingTitleBar
-          currentPage={this.state.currentPage}
-          pageTitles={getPageTitles}
-          scrollEnabled={false}
-          scrollToBeginning={this.scrollToBeginning}
-          scrollToEnd={this.scrollToEnd}
-        /> */}
-        {/* <View style={styles.scrollViewWrap}> */}
-          {/* <ScrollView
-            ref={scrollView => this.scrollView = scrollView}
-            onScroll={e => this.handleScroll(e)}
-            onMomentumScrollEnd={() => this.setState({scrolledViaPress: false})}
-            scrollEventThrottle={5}
-            horizontal={true}
-            pagingEnabled={true}
-            showsHorizontalScrollIndicator={false}
-          > */}
-            <HomeSubScreen />
-            {/* <EventsSubScreen /> */}
-          {/* </ScrollView> */}
-        {/* </View> */}
+        <Text style={[ styles.headerText, {paddingLeft: padding } ]}>What's New</Text>
+
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              colors={[yellow]}
+              onRefresh={this.onRefresh}
+              refreshing={this.state.refreshing}
+              tintColor={yellow()}
+            />
+          }
+        >
+          {announcements}
+        </ScrollView>
+
       </View>
     );
   };
@@ -77,26 +97,18 @@ export default class HomeScreen extends React.Component {
 
 const styles = EStyleSheet.create({
   screen: {
-    paddingTop: '50rem',
+    paddingTop: '65rem',
+    // paddingLeft: '20rem',
+    // paddingRight: '20rem',
     flex: 1,
     backgroundColor: '$blackBG',
   },
-  // imgBg: {
-  //   height: '100rem',
-  //   width: '$width',
-  // },
-  // imgView: {
-  //   height: '100%',
-  //   width: '100%',
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   backgroundColor: 'rgba(0,0,0,.3)',
-  // },
-  // titleText: {
-  //   color: 'white',
-  //   fontSize: '45rem',
-  // },
-  // scrollViewWrap: {
-  //   flex: 1,
-  // },
+  headerView: {
+    paddingTop: '50rem',
+  },
+  headerText: {
+    marginBottom: '10rem',
+    color: '$white',
+    fontSize: '30rem',
+  },
 });
