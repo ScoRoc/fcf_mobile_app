@@ -5,41 +5,50 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Touchable from './Touchable';
 
 export default PagingTitleBar = props => {
-  const yellow = () => EStyleSheet.value('$yellow');
-  const white = () => EStyleSheet.value('$white');
-
-  const { currentPage, pageTitles, scrollEnabled } = props;
+  const {
+    currentPage,
+    pageTitles,
+    scrollTo,
+    scrollEnabled,
+    scrollToBeginning,
+    scrollToEnd,
+    scrollViewWrapperStyle,
+    textStyle,
+    textWrapperStyle,
+  } = props;
+  const selectedColor = typeof props.selectedColor === 'string' ? props.selectedColor : props.selectedColor();
+  const unselectedColor = typeof props.unselectedColor === 'string' ? props.unselectedColor : props.unselectedColor();
   const titles = pageTitles.map((title, i) => {
-    const color = currentPage === title ? yellow() : white();
+    const color = currentPage === title ? selectedColor : unselectedColor;
     const handlePress = i === 0
-                      ? props.scrollToBeginning
+                      ? scrollToBeginning
                       : i === pageTitles.length - 1
-                      ? props.scrollToEnd
-                      : () => console.log('pressed');
+                        ? scrollToEnd
+                        : () => scrollTo(title);
     return (
       <Touchable
         iosType='opacity'
-        key={i}
+        key={title + i}
         onPress={handlePress}
-        viewStyle={[styles.view, {borderBottomColor: color}]}
+        viewStyle={[ styles.view, { borderBottomColor: color }, textWrapperStyle ]}
       >
-        <Text style={[styles.text, {color}]}>{title}</Text>
+        <Text style={[ styles.text, { color }, textStyle ]}>{title}</Text>
       </Touchable>
     )
   });
   return (
     <View>
       <ScrollView
-        scrollEnabled={scrollEnabled}
+        contentContainerStyle={[ styles.scrollView, scrollViewWrapperStyle ]}
         horizontal={true}
+        scrollEnabled={scrollEnabled}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.scrollView}
       >
         {titles}
       </ScrollView>
     </View>
-  )
-};
+  );
+}
 
 const styles = EStyleSheet.create({
   view: {
@@ -48,7 +57,7 @@ const styles = EStyleSheet.create({
   },
   text: {
     color: 'white',
-    fontSize: '30rem',
+    fontSize: '20rem',
   },
   scrollView: {
     flex: 1,

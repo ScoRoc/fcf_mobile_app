@@ -1,71 +1,138 @@
 import React from 'react';
-import { Button, ImageBackground, StatusBar, Text, View } from 'react-native';
-import { LinearGradient } from 'expo';
+import { Button, StatusBar, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import moment from 'moment';
 
+import HorizontalPagingScroller from '../../components/HorizontalPagingScroller'
 import WodSubScreen from './WodSubScreen';
 
-const uri = 'https://www.placecage.com/c/375/100';
+import wodPages, { firstPageX, secondPageX, thirdPageX, xScrollToValues } from './wod-pages'
 
-export default WodScreen = props => {
-  const blackBG = () => EStyleSheet.value('$blackBG');
-  const blueGradDark = () => EStyleSheet.value('$blueGradDark');
-  const monday = moment().startOf('isoweek');
-  const mondayMonth = monday.format('MMMM');
-  const mondayDate = monday.format('Do');
-  return (
-    <LinearGradient
-      colors={[blackBG(), blueGradDark(), blackBG()]}
-      start={[0.5, .25]}
-      end={[0.5, .9]}
-      locations={[0.01, .01, 1.1]}
-      style={styles.screen}
-    >
-      <StatusBar barStyle='light-content' />
-      <ImageBackground source={{uri}} style={styles.imgBg}>
-        <View style={styles.imgView}>
-          <Text style={styles.titleText}>WOD</Text>
-        </View>
-      </ImageBackground>
-      <View style={styles.dateBanner}>
-        <Text style={styles.dateBannerText}>Week of {mondayMonth} {mondayDate}</Text>
+const { getPageTitleByXValue, getPageTitles } = wodPages();
+
+export default class WodScreen extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      currentPage: 'This week',
+      scrolledViaPress: false,
+    }
+  }
+
+  getXpage = x => {
+    const width = () => EStyleSheet.value('$width');
+    switch (true) {
+      case x < width() / 2:
+        return firstPageX();
+      case x > width() / 2 && x < width() * 1.5:
+      console.log('secondPageX: ', secondPageX())
+        return secondPageX();
+      case x > width() * 1.5 && x < width() * 2.5:
+        console.log('thirdPageX: ', thirdPageX())
+        return thirdPageX();
+    }
+  }
+
+  scrollTo = x => {
+    const xPage = this.getXpage(x);
+    this.setState({ scrolledViaPress: true, currentPage: getPageTitleByXValue(xPage) });
+  }
+
+  scrollToBeginning = () => {
+    this.setState({ scrolledViaPress: true, currentPage: getPageTitles[0] });
+  }
+
+  scrollToEnd = () => {
+    this.setState({ scrolledViaPress: true, currentPage: getPageTitles[ getPageTitles.length - 1 ] });
+  }
+
+  handleScroll = e => {
+    const { x } = e.nativeEvent.contentOffset;
+    const xPage = this.getXpage(x);
+    if (!this.state.scrolledViaPress) this.setState({ currentPage: getPageTitleByXValue(xPage) });
+  }
+
+  render() {
+    const { currentPage } = this.state;
+    const blackBG = () => EStyleSheet.value('$blackBG');
+    const blueGradDark = () => EStyleSheet.value('$blueGradDark');
+    const yellow = () => EStyleSheet.value('$yellow');
+    const white = () => EStyleSheet.value('$white');
+
+    const monday = moment().startOf('isoweek');
+    const mondayMonth = monday.format('MMMM');
+    const mondayDate = monday.format('Do');
+    const width = () => EStyleSheet.value('$width');
+    const padding = width() * .1;
+    const selectedColor = yellow;
+    const unselectedColor = white;
+    return (
+      <View style={styles.screen}>
+        <StatusBar barStyle='light-content' />
+
+        <Text style={[ styles.headerText, { paddingLeft: padding } ]}>WOD</Text>
+
+        {/* <WodSubScreen /> */}
+
+        <HorizontalPagingScroller
+          currentPage={currentPage}
+          handleMomentumScrollEnd={() => this.setState({ scrolledViaPress: false })}
+          handleScroll={this.handleScroll}
+          pagingBarTextStyle={styles.pagingBarTextStyle}
+          pagingBarTextWrapperStyle={styles.pagingBarTextWrapperStyle}
+          pagingBarScrollViewWrapperStyle={styles.pagingBarScrollViewWrapperStyle}
+          pageTitles={getPageTitles}
+          scrollTo={this.scrollTo}
+          scrollToBeginning={this.scrollToBeginning}
+          scrollToEnd={this.scrollToEnd}
+          selectedColor={selectedColor}
+          unselectedColor={unselectedColor}
+          xScrollToValues={xScrollToValues}
+        >
+          <View style={{ width: width(), backgroundColor: 'green' }}>
+            <Text>one</Text>
+          </View>
+
+          <View style={{ width: width(), backgroundColor: 'blue' }}>
+            <Text>two</Text>
+          </View>
+
+          <View style={{ width: width(), backgroundColor: 'purple' }}>
+            <Text>three</Text>
+          </View>
+
+        </HorizontalPagingScroller>
+
       </View>
-      <WodSubScreen />
-    </LinearGradient>
-  )
-};
+    );
+  }
+}
 
 const styles = EStyleSheet.create({
-  $padding: '50rem',
+  $pagingBarSpacing: '20rem',
+
   screen: {
-    paddingTop: '$padding',
+    paddingTop: '65rem',
     flex: 1,
-    // backgroundColor: '$blackBG',
+    backgroundColor: '$blackBG',
   },
-  imgBg: {
-    height: '100rem',
-    width: '$width',
-  },
-  imgView: {
-    height: '100%',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,.3)',
-  },
-  titleText: {
-    color: 'white',
-    fontSize: '70rem',
-  },
-  dateBanner: {
-    padding: '7rem',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '$greyDark',
-  },
-  dateBannerText: {
+  headerText: {
+    marginBottom: '20rem',
     color: '$white',
-    fontSize: '25rem',
+    fontSize: '30rem',
+  },
+  pagingBarScrollViewWrapperStyle: {
+    justifyContent: 'flex-start',
+  },
+  pagingBarTextStyle: {
+    fontSize: '18rem',
+    padding: 0,
+    margin: 0,
+  },
+  pagingBarTextWrapperStyle: {
+    padding: 0,
+    margin: 0,
+    marginLeft: '$pagingBarSpacing',
+    marginRight: '$pagingBarSpacing',
   },
 });
