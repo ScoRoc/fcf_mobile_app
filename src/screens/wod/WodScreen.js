@@ -1,10 +1,12 @@
 import React from 'react';
-import { Button, StatusBar, Text, View } from 'react-native';
+import { Button, Linking, StatusBar, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import moment from 'moment';
 
 import HorizontalPagingScroller from '../../components/HorizontalPagingScroller'
-import WodSubScreen from './WodSubScreen';
+import Touchable from '../../components/Touchable'
+import Wod from './Wod'
+import WodSubScreen from './WodSubScreen'
 
 import wodPages, { firstPageX, secondPageX, thirdPageX, xScrollToValues } from './wod-pages'
 
@@ -66,13 +68,32 @@ export default class WodScreen extends React.Component {
     const padding = width() * .1;
     const selectedColor = yellow;
     const unselectedColor = white;
+
+    // PLACEHOLDER UNTIL GETTING REAL DATA
+    const fakeWods = [
+      <Wod
+        key={0 + 'key'}
+        text={`AMRAP in 15 minutes:
+50 double unders
+50 double kettlebell deadlifts, 2*32/24kg
+50goblet squats, 32/24kg
+50 calorie row
+50 handstand push-ups`}
+        wodDate='Monday 4/8'
+      />,
+      <Wod key={1 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Tuesday 4/9' />,
+      <Wod key={2 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Wednesday 4/10' />,
+      <Wod key={3 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Thursday 4/11' />,
+      <Wod key={4 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Friday 4/12' />,
+      <Wod key={5 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Saturday 4/13' />,
+      <Wod key={6 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Sunday 4/14' />,
+    ];
+    const pageScreens = [<WodSubScreen wods={fakeWods} />, <WodSubScreen wods={fakeWods} />, <WodSubScreen wods={fakeWods} />]
     return (
       <View style={styles.screen}>
         <StatusBar barStyle='light-content' />
 
         <Text style={[ styles.headerText, { paddingLeft: padding } ]}>WOD</Text>
-
-        {/* <WodSubScreen /> */}
 
         <HorizontalPagingScroller
           currentPage={currentPage}
@@ -81,6 +102,8 @@ export default class WodScreen extends React.Component {
           pagingBarTextStyle={styles.pagingBarTextStyle}
           pagingBarTextWrapperStyle={styles.pagingBarTextWrapperStyle}
           pagingBarScrollViewWrapperStyle={styles.pagingBarScrollViewWrapperStyle}
+          // pageScreens={getPageScreens}
+          pageScreens={pageScreens}
           pageTitles={getPageTitles}
           scrollTo={this.scrollTo}
           scrollToBeginning={this.scrollToBeginning}
@@ -88,20 +111,11 @@ export default class WodScreen extends React.Component {
           selectedColor={selectedColor}
           unselectedColor={unselectedColor}
           xScrollToValues={xScrollToValues}
-        >
-          <View style={{ width: width(), backgroundColor: 'green' }}>
-            <Text>one</Text>
-          </View>
+        />
 
-          <View style={{ width: width(), backgroundColor: 'blue' }}>
-            <Text>two</Text>
-          </View>
-
-          <View style={{ width: width(), backgroundColor: 'purple' }}>
-            <Text>three</Text>
-          </View>
-
-        </HorizontalPagingScroller>
+        <Touchable iosType='opacity' onPress={() => Linking.openURL('spotify://app')} viewStyle={styles.rsvp}>
+          <Text style={styles.rsvpText}>RSVP</Text>
+        </Touchable>
 
       </View>
     );
@@ -135,4 +149,14 @@ const styles = EStyleSheet.create({
     marginLeft: '$pagingBarSpacing',
     marginRight: '$pagingBarSpacing',
   },
+  rsvp: {
+    paddingTop: '15rem',
+    paddingBottom: '15rem',
+    backgroundColor: '$yellow',
+  },
+  rsvpText: {
+    fontSize: '20rem',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  }
 });

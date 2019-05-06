@@ -31,10 +31,14 @@ export default class HorizontalPagingScroller extends React.Component {
       pagingBarScrollViewWrapperStyle,
       pagingBarTextStyle,
       pagingBarTextWrapperStyle,
+      pageScreens,
       pageTitles,
       selectedColor,
       unselectedColor,
     } = this.props;
+    const screens = pageScreens.map((screen, i) => {
+      return <View key={i + 'key'} style={styles.screen}>{screen}</View>
+    });
     return (
       <View style={styles.page}>
         <PagingTitleBar
@@ -59,7 +63,7 @@ export default class HorizontalPagingScroller extends React.Component {
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
         >
-          {children}
+          {pageScreens}
         </ScrollView>
       </View>
     );
@@ -68,6 +72,10 @@ export default class HorizontalPagingScroller extends React.Component {
 
 const styles = EStyleSheet.create({
   page: {
-    height: '100%',
+    flex: 1,
+    width: '$width',
+  },
+  screen: {
+    // width: '100%',
   },
 });

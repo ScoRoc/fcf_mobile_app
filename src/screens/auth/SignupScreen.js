@@ -173,7 +173,7 @@ const styles = EStyleSheet.create({
     marginBottom: '8rem',
   },
   submitButton: {
-    height: '$fontSize * 3.6',
+    height: '$fontSize * 3',
     width: '100%',
     alignSelf: 'center',
     justifyContent: 'center',
