@@ -10,11 +10,11 @@ export default class BlogScreen extends React.Component {
   };
 
   render() {
-    const uri = 'www.foundationcrossfit.com/blog/';
+    const url = 'www.foundationcrossfit.com/blog/';
     return (
       <View style={styles.screen}>
         <StatusBar barStyle='light-content' />
-        <Touchable onPress={() => this.props.navigation.navigate('WebView', {uri})} iosType='opacity'>
+        <Touchable onPress={() => this.props.navigation.navigate('WebView', { url })} iosType='opacity'>
           <Text style={styles.text}>Visit the blog</Text>
         </Touchable>
         <Button title='open drawer' onPress={() => this.props.navigation.openDrawer()} />

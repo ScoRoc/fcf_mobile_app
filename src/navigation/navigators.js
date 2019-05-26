@@ -135,7 +135,7 @@ const EventsStack = createStackNavigator(
 const TabNav = createBottomTabNavigator(
   {
     Home: { screen: HomeStack },
-    Wod: { screen: WodScreen },
+    Wod: { screen: WodStack },
     Blog: { screen: BlogStack },
     WodTools: { screen: WodToolsStack },
     Events: { screen: EventsStack },
