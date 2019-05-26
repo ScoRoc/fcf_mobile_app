@@ -55,6 +55,25 @@ const HomeStack = createStackNavigator(
   }
 );
 
+const WodStack = createStackNavigator(
+  {
+    Wod: WodScreen,
+    WebView: WebViewScreen,
+  },
+  {
+    initialRouteName: 'Wod',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: greyDark,
+      },
+      headerTintColor: white,
+      headerTintStyle: {
+        fontWeight: 'bold'
+      }
+    },
+  }
+);
+
 const BlogStack = createStackNavigator(
   {
     Blog: BlogScreen,

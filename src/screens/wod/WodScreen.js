@@ -12,6 +12,8 @@ import wodPages, { firstPageX, secondPageX, thirdPageX, xScrollToValues } from '
 
 const { getPageTitleByXValue, getPageTitles } = wodPages();
 
+const uri = 'https://fcf.sites.zenplanner.com/calendar.cfm';
+
 export default class WodScreen extends React.Component {
   constructor(props) {
     super(props)
@@ -113,7 +115,8 @@ export default class WodScreen extends React.Component {
           xScrollToValues={xScrollToValues}
         />
 
-        <Touchable iosType='opacity' onPress={() => Linking.openURL('spotify://app')} viewStyle={styles.rsvp}>
+        {/* <Touchable iosType='opacity' onPress={() => Linking.openURL('spotify://app')} viewStyle={styles.rsvp}> */}
+        <Touchable iosType='opacity' onPress={() => this.props.navigation.navigate('WebView', {uri})} viewStyle={styles.rsvp}>
           <Text style={styles.rsvpText}>RSVP</Text>
         </Touchable>
 
