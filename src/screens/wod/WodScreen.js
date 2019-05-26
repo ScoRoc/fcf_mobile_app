@@ -9,18 +9,39 @@ import Wod from './Wod'
 import WodSubScreen from './WodSubScreen'
 
 import wodPages, { firstPageX, secondPageX, thirdPageX, xScrollToValues } from './wod-pages'
+import useAxios from '../../utils/axios-helpers';
+import { apiUrl } from '../../utils/global-variables';
+
+const path = `${apiUrl}/wodweek`;
+const { getWithAxios } = useAxios(path);
+
 
 const { getPageTitleByXValue, getPageTitles } = wodPages();
 
 const url = 'https://fcf.sites.zenplanner.com/calendar.cfm';
 
 export default class WodScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  }
+
   constructor(props) {
     super(props)
     this.state = {
       currentPage: 'This week',
+      currentWodWeek: null,
+      pastWodWeeks: [],
       scrolledViaPress: false,
     }
+  }
+
+  getCurrentAndPastWodWeeks = wodWeeks => {
+    const currentAndPastWodWeeks = wodWeeks.reduce((acc, wodWeek) => {
+      return this.isWodWeekForCurrentWeek(wodWeek)
+              ? [ [...acc[0].concat(wodWeek)], acc[1] ]
+              : [ acc[0], [...acc[1].concat(wodWeek)]]
+    }, [[], []] )
+    return currentAndPastWodWeeks
   }
 
   getXpage = x => {
@@ -36,6 +57,19 @@ export default class WodScreen extends React.Component {
         return thirdPageX();
     }
   }
+
+  isFirstDayOfCurrentWeek = day => {
+    const weekStart = moment().startOf('week');
+    return moment(weekStart).isSame( moment(day).format() );
+  }
+
+  isWodWeekForCurrentWeek = wodWeek => this.isFirstDayOfCurrentWeek(wodWeek.weekOf)
+
+  makeWodCompoment = wod => {
+    console.log('wod: ', wod)
+    return <Wod key={wod._id} text={wod.text} wodDate='test date' />
+  }
+  makeWodFromWodWeek = wodWeek => this.makeWodCompoment(wodWeek.wods)
 
   scrollTo = x => {
     const xPage = this.getXpage(x);
@@ -56,8 +90,22 @@ export default class WodScreen extends React.Component {
     if (!this.state.scrolledViaPress) this.setState({ currentPage: getPageTitleByXValue(xPage) });
   }
 
+  comonentDidUpdate = (prevProps, prevState) => {
+    console.log('prevState.currentWodWeek: ', prevState.currentWodWeek)
+    console.log('this.state.currentWodWeek: ', this.state.currentWodWeek)
+  }
+
+  componentDidMount() {
+    getWithAxios().then(result => {
+      const { wodWeeks } = result.data;
+      const [ currentWodWeek, pastWodWeeks ] = this.getCurrentAndPastWodWeeks(wodWeeks);
+      // SHOULD CHECK FOR MULTIPLE WEEKS IN CURRENT WEEK
+      this.setState({ currentWodWeek: currentWodWeek[0], pastWodWeeks });
+    });
+  }
+
   render() {
-    const { currentPage } = this.state;
+    const { currentPage, currentWodWeek, pastWodWeeks } = this.state;
     const blackBG = () => EStyleSheet.value('$blackBG');
     const blueGradDark = () => EStyleSheet.value('$blueGradDark');
     const yellow = () => EStyleSheet.value('$yellow');
@@ -71,6 +119,13 @@ export default class WodScreen extends React.Component {
     const selectedColor = yellow;
     const unselectedColor = white;
 
+    console.log('currentWodWeek: ', currentWodWeek)
+    // console.log('currentWodWeek.wods: ', currentWodWeek && currentWodWeek.wods)
+    // console.log('wods map foo: ', currentWodWeek && currentWodWeek.wods.map(wod => 'yo yo yo'))
+    const currentWodComponents = currentWodWeek ? currentWodWeek.wods.map(wod => this.makeWodCompoment(wod)) : [];
+    // console.log('currentWodWeek: ', currentWodWeek)
+    console.log('currentWodComponents: ', currentWodComponents)
+    // const pastWods = pastWodWeeks.map(this.makeWodFromWodWeek)
     // PLACEHOLDER UNTIL GETTING REAL DATA
     const fakeWods = [
       <Wod
