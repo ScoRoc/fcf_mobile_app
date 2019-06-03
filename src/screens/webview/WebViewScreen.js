@@ -13,13 +13,15 @@ export default class WebViewScreen extends React.Component {
     },
   }
 
-  doesUrlStartWithHttp = url => {
+  addHttpPatternIfMissing = url => ( this.doesUrlStartWithHttpPattern(url) ? url : `http://${url}` )
+
+  doesUrlStartWithHttpPattern = url => {
     const urlBeginning = url.slice(0, 8);
     const regEx = /^(http:\/\/)\w$|^(https:\/\/)$/i;
     return regEx.test(urlBeginning);
   }
 
-  getFullUrl = url => ( this.doesUrlStartWithHttpPattern(url) ? url : `http://${url}` )
+  getFullUrl = url => this.addHttpPatternIfMissing( this.validUrlOrFcfHomePage(url) )
 
   isValidUrl = defaultUrl => url => ( /^\S*\.\w*\.\S*$/i.test(url) ? url : defaultUrl )
 
@@ -27,7 +29,7 @@ export default class WebViewScreen extends React.Component {
 
   render() {
     const partialUrl = this.props.navigation.getParam('url', defaultUrl);
-    const url = this.validUrlOrFcfHomePage(partialUrl);
+    const url = this.getFullUrl(partialUrl);
     return (
       // <View style={styles.view}>
         <WebView source={{ url }} style={styles.webView} />

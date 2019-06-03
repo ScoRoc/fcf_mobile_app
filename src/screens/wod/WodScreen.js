@@ -16,7 +16,7 @@ const path = `${apiUrl}/wodweek`;
 const { getWithAxios } = useAxios(path);
 
 
-const { getPageTitleByXValue, getPageTitles } = wodPages();
+const { getPages, getPageTitleByXValue, getPageTitles } = wodPages();
 
 const url = 'https://fcf.sites.zenplanner.com/calendar.cfm';
 
@@ -91,8 +91,8 @@ export default class WodScreen extends React.Component {
   }
 
   comonentDidUpdate = (prevProps, prevState) => {
-    console.log('prevState.currentWodWeek: ', prevState.currentWodWeek)
-    console.log('this.state.currentWodWeek: ', this.state.currentWodWeek)
+    // console.log('prevState.currentWodWeek: ', prevState.currentWodWeek)
+    // console.log('this.state.currentWodWeek: ', this.state.currentWodWeek)
   }
 
   componentDidMount() {
@@ -119,12 +119,12 @@ export default class WodScreen extends React.Component {
     const selectedColor = yellow;
     const unselectedColor = white;
 
-    console.log('currentWodWeek: ', currentWodWeek)
+    // console.log('currentWodWeek: ', currentWodWeek)
     // console.log('currentWodWeek.wods: ', currentWodWeek && currentWodWeek.wods)
     // console.log('wods map foo: ', currentWodWeek && currentWodWeek.wods.map(wod => 'yo yo yo'))
     const currentWodComponents = currentWodWeek ? currentWodWeek.wods.map(wod => this.makeWodCompoment(wod)) : [];
     // console.log('currentWodWeek: ', currentWodWeek)
-    console.log('currentWodComponents: ', currentWodComponents)
+    // console.log('currentWodComponents: ', currentWodComponents)
     // const pastWods = pastWodWeeks.map(this.makeWodFromWodWeek)
     // PLACEHOLDER UNTIL GETTING REAL DATA
     const fakeWods = [
@@ -145,7 +145,8 @@ export default class WodScreen extends React.Component {
       <Wod key={5 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Saturday 4/13' />,
       <Wod key={6 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Sunday 4/14' />,
     ];
-    const pageScreens = [<WodSubScreen wods={fakeWods} />, <WodSubScreen wods={fakeWods} />, <WodSubScreen wods={fakeWods} />]
+    const pageScreens = Object.values(getPages).map((page, i) => <WodSubScreen key={i + page.title} wods={fakeWods} />)
+    // const pageScreens = [<WodSubScreen wods={fakeWods} />, <WodSubScreen wods={fakeWods} />, <WodSubScreen wods={fakeWods} />]
     return (
       <View style={styles.screen}>
         <StatusBar barStyle='light-content' />

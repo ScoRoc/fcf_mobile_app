@@ -145,6 +145,7 @@ const TabNav = createBottomTabNavigator(
       // stuff here
     }),
     initialRouteName: 'Home', //////////// FIX THIS
+    lazy: false, //////// IS THIS GOING TO CAUSE PERFORMANCE ISSUES ?????
     tabBarOptions: {
       activeTintColor: white,
       inactiveTintColor: greyMedium,

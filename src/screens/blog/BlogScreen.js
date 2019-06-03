@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, StatusBar, Text, View } from 'react-native';
+import { Button, StatusBar, Text, View, WebView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Touchable from '../../components/Touchable';
@@ -11,7 +11,9 @@ export default class BlogScreen extends React.Component {
 
   render() {
     const url = 'www.foundationcrossfit.com/blog/';
+    // const url = 'http://www.foundationcrossfit.com/blog/';
     return (
+      // <WebView source={{ url }} style={{ flex: 1 }} />
       <View style={styles.screen}>
         <StatusBar barStyle='light-content' />
         <Touchable onPress={() => this.props.navigation.navigate('WebView', { url })} iosType='opacity'>
