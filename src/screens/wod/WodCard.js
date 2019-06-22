@@ -7,9 +7,9 @@ import moment from 'moment';
 import LikeButton from '../../components/LikeButton';
 
 import useAxios from '../../utils/axios-helpers';
-import { apiUrl } from '../../utils/global-variables';
+import { urlHostName } from '../../utils/global-variables';
 
-const path = `${apiUrl}/wod/like`;
+const path = `${urlHostName}/wod/like`;
 const { putWithAxios } = useAxios(path);
 
 class WodCard extends React.Component {

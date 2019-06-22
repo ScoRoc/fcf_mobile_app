@@ -24,7 +24,7 @@ export default WodToolTile = props => {
 };
 
 const styles = EStyleSheet.create({
-  $size: '$width' / 2,
+  $size: '$width / 2',
   $margin: '$size / 2',
   view: {
     height: '$size',

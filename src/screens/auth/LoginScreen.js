@@ -6,10 +6,10 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Touchable from '../../components/Touchable';
 
 import { liftUser } from '../../redux/modules/user';
-import { apiUrl, getColor, tokenName } from '../../utils/global-variables';
+import { urlHostName, getColor, tokenName } from '../../utils/global-variables';
 import useAxios from '../../utils/axios-helpers';
 
-const path = `${apiUrl}/user/login`;
+const path = `${urlHostName}/user/login`;
 const { postWithAxios } = useAxios(path);
 
 class LoginScreen extends React.Component {

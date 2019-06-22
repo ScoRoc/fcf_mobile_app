@@ -8,9 +8,9 @@ import ImgSection from './ImgSection';
 import LikeButton from '../../components/LikeButton';
 
 import useAxios from '../../utils/axios-helpers';
-import { apiUrl } from '../../utils/global-variables';
+import { urlHostName } from '../../utils/global-variables';
 
-const path = `${apiUrl}/announcements/like`;
+const path = `${urlHostName}/announcements/like`;
 const { putWithAxios } = useAxios(path);
 
 class AnnouncementStrip extends React.Component {

@@ -6,9 +6,9 @@ import moment from 'moment';
 import WodCardWrapper from './WodCardWrapper';
 
 import useAxios from '../../utils/axios-helpers';
-import { apiUrl } from '../../utils/global-variables';
+import { urlHostName } from '../../utils/global-variables';
 
-const path = `${apiUrl}/wodweek`;
+const path = `${urlHostName}/wodweek`;
 const { getWithAxios } = useAxios(path);
 
 export default class WodSubScreen extends React.Component {

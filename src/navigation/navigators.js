@@ -135,7 +135,7 @@ const EventsStack = createStackNavigator(
 const TabNav = createBottomTabNavigator(
   {
     Home: { screen: HomeStack },
-    Wod: { screen: WodScreen },
+    Wod: { screen: WodStack },
     Blog: { screen: BlogStack },
     WodTools: { screen: WodToolsStack },
     Events: { screen: EventsStack },
@@ -145,6 +145,7 @@ const TabNav = createBottomTabNavigator(
       // stuff here
     }),
     initialRouteName: 'Home', //////////// FIX THIS
+    lazy: false, //////// IS THIS GOING TO CAUSE PERFORMANCE ISSUES ?????
     tabBarOptions: {
       activeTintColor: white,
       inactiveTintColor: greyMedium,
