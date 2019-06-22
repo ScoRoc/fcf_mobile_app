@@ -9,9 +9,9 @@ import eventKeys from './event-keys';
 
 import { getIndex } from '../../utils/helpers';
 import useAxios from '../../utils/axios-helpers';
-import { apiUrl } from '../../utils/global-variables';
+import { urlHostName } from '../../utils/global-variables';
 
-const path = `${apiUrl}/events/bymonth`;
+const path = `${urlHostName}/events/bymonth`;
 const { getWithAxios } = useAxios(path);
 
 const { getEventKeys, getEventTypes } = eventKeys();

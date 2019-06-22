@@ -10,9 +10,9 @@ import WodSubScreen from './WodSubScreen'
 
 import wodPages, { firstPageX, secondPageX, thirdPageX, xScrollToValues } from './wod-pages'
 import useAxios from '../../utils/axios-helpers';
-import { apiUrl } from '../../utils/global-variables';
+import { urlHostName } from '../../utils/global-variables';
 
-const path = `${apiUrl}/wodweek`;
+const path = `${urlHostName}/wodweek`;
 const { getWithAxios } = useAxios(path);
 
 

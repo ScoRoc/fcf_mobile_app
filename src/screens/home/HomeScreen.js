@@ -1,19 +1,22 @@
 import React from 'react';
 import { Dimensions, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
+import { connect } from 'react-redux';
+import io from 'socket.io-client'
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import AnnouncementStrip from './AnnouncementStrip';
 
 import { getIndex } from '../../utils/helpers';
 import useAxios from '../../utils/axios-helpers';
-import { apiUrl } from '../../utils/global-variables';
+import { urlHostName } from '../../utils/global-variables';
 
-const path = `${apiUrl}/announcements`;
-const { getWithAxios } = useAxios(path);
+const path = '/announcements'
+const url = `${urlHostName}${path}`;
+const { getWithAxios } = useAxios(url);
 
 const screenWidth = Dimensions.get('window').width;
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +36,6 @@ export default class HomeScreen extends React.Component {
       this.setState({ announcements: result.data.announcements.reverse(), refreshing: false });
     });
   }
-
   updateAnnouncement = ({ announcementId, userId }) => {
     const announcements = this.state.announcements.slice(0);
     const idx = getIndex('_id', announcements, announcementId);
@@ -46,9 +48,25 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
+    const announcementsSocket = io(url)
+    announcementsSocket.on('announcementLikeUpdate', data => {
+      const { announcement, userId } = data
+      const userIdFromRedux = this.props.user._id
+      if (userId !== userIdFromRedux) {
+        const { announcements } = this.state
+        const newAnnouncements = announcements
+                                  .filter(currentAnnouncement => currentAnnouncement._id !== announcement._id)
+                                  .concat(announcement)
+        this.setState({ announcements: newAnnouncements })
+      }
+    })
     getWithAxios().then(result => {
       this.setState({ announcements: result.data.announcements.reverse() });
     });
+  }
+
+  componentWillUnmount() {
+    announcementsSocket.close()
   }
 
   render() {
@@ -112,3 +130,11 @@ const styles = EStyleSheet.create({
     fontSize: '30rem',
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    user: state.user.user,
+  };
+};
+
+export default connect(mapStateToProps)(HomeScreen);

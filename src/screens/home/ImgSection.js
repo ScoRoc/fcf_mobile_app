@@ -7,9 +7,9 @@ import LikeButton from '../../components/LikeButton';
 import Touchable from '../../components/Touchable';
 
 import useAxios from '../../utils/axios-helpers';
-import { apiUrl } from '../../utils/global-variables';
+import { urlHostName } from '../../utils/global-variables';
 
-const path = `${apiUrl}/announcements/like`;
+const path = `${urlHostName}/announcements/like`;
 const { putWithAxios } = useAxios(path);
 
 class ImgSection extends React.Component {
