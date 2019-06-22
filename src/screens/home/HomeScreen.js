@@ -54,9 +54,11 @@ class HomeScreen extends React.Component {
       const userIdFromRedux = this.props.user._id
       if (userId !== userIdFromRedux) {
         const { announcements } = this.state
-        const newAnnouncements = announcements
-                                  .filter(currentAnnouncement => currentAnnouncement._id !== announcement._id)
-                                  .concat(announcement)
+        const newAnnouncements = announcements.map(mappedAnnouncement => {
+          return mappedAnnouncement._id === announcement._id
+                                            ? announcement
+                                            : mappedAnnouncement
+        })
         this.setState({ announcements: newAnnouncements })
       }
     })
