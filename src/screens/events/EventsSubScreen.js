@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button, ScrollView, RefreshControl, SectionList, Text, View } from 'react-native';
+import { connect } from 'react-redux';
+import moment from 'moment'
 import io from 'socket.io-client'
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -12,13 +14,16 @@ import { getIndex } from '../../utils/helpers';
 import useAxios from '../../utils/axios-helpers';
 import { urlHostName } from '../../utils/global-variables';
 
-const path = '/events/bymonth'
+const path = '/events'
 const url = `${urlHostName}${path}`
-const { getWithAxios } = useAxios(url);
+const urlSortByMonth = `${url}?sort=bymonth`
+const { getWithAxios } = useAxios(urlSortByMonth);
+
+const eventSocket = io(url)
 
 const { getEventKeys, getEventTypes } = eventKeys();
 
-export default class EventsSubScreen extends React.Component {
+class EventsSubScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -77,16 +82,24 @@ export default class EventsSubScreen extends React.Component {
   }
 
   componentDidMount() {
-    const eventSocket = io(url)
     eventSocket.on('eventLikeUpdate', data => {
       const { event, userId } = data
+      const eventMonth = moment(event.startDate).format('YYYY') === moment().year()
+                                                      ? momentedEvent.format('MMMM')
+                                                      : `${moment(event.startDate).format('MMMM')} ${moment(event.startDate).format('YYYY')}`
       const userIdFromRedux = this.props.user._id
       if (userId !== userIdFromRedux) {
         const { events } = this.state
-        const newEvents = events.map(mappedEvent => {
-          return mappedEvent._id === event._id
-                                    ? event
-                                    : mappedEvent
+        const updateMonthEvents = (month, updatedEvent) => {
+          const updatedEvents = month.events.map(mappedEvent => {
+            return mappedEvent._id === updatedEvent._id
+                                      ? updatedEvent
+                                      : mappedEvent
+          })
+          return { ...month, events: updatedEvents }
+        }
+        const newEvents = events.map(month => {
+          return month.month === eventMonth ? updateMonthEvents(month, event) : month
         })
         this.setState({ events: newEvents })
       }
@@ -94,6 +107,10 @@ export default class EventsSubScreen extends React.Component {
     getWithAxios().then(result => {
       this.setState({ events: result.data.sortedEvents, eventTypes: getEventTypes });
     });
+  }
+
+  componentWillUnmount() {
+    eventSocket.close()
   }
 
   render() {
@@ -146,3 +163,11 @@ const styles = EStyleSheet.create({
     fontSize: '30rem'
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    user: state.user.user,
+  };
+};
+
+export default connect(mapStateToProps)(EventsSubScreen)

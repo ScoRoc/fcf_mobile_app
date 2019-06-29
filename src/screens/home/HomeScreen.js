@@ -14,6 +14,8 @@ const path = '/announcements'
 const url = `${urlHostName}${path}`;
 const { getWithAxios } = useAxios(url);
 
+const announcementsSocket = io(url)
+
 const screenWidth = Dimensions.get('window').width;
 
 class HomeScreen extends React.Component {
@@ -48,7 +50,6 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    const announcementsSocket = io(url)
     announcementsSocket.on('announcementLikeUpdate', data => {
       const { announcement, userId } = data
       const userIdFromRedux = this.props.user._id
