@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, ScrollView, RefreshControl, SectionList, Text, View } from 'react-native';
+import io from 'socket.io-client'
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import EventsKey from './EventsKey';
@@ -11,8 +12,9 @@ import { getIndex } from '../../utils/helpers';
 import useAxios from '../../utils/axios-helpers';
 import { urlHostName } from '../../utils/global-variables';
 
-const path = `${urlHostName}/events/bymonth`;
-const { getWithAxios } = useAxios(path);
+const path = '/events/bymonth'
+const url = `${urlHostName}${path}`
+const { getWithAxios } = useAxios(url);
 
 const { getEventKeys, getEventTypes } = eventKeys();
 
@@ -75,6 +77,20 @@ export default class EventsSubScreen extends React.Component {
   }
 
   componentDidMount() {
+    const eventSocket = io(url)
+    eventSocket.on('eventLikeUpdate', data => {
+      const { event, userId } = data
+      const userIdFromRedux = this.props.user._id
+      if (userId !== userIdFromRedux) {
+        const { events } = this.state
+        const newEvents = events.map(mappedEvent => {
+          return mappedEvent._id === event._id
+                                    ? event
+                                    : mappedEvent
+        })
+        this.setState({ events: newEvents })
+      }
+    })
     getWithAxios().then(result => {
       this.setState({ events: result.data.sortedEvents, eventTypes: getEventTypes });
     });
