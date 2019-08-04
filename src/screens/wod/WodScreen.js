@@ -50,26 +50,31 @@ export default class WodScreen extends React.Component {
       case x < width() / 2:
         return firstPageX();
       case x > width() / 2 && x < width() * 1.5:
-      console.log('secondPageX: ', secondPageX())
+      // console.log('secondPageX: ', secondPageX())
         return secondPageX();
       case x > width() * 1.5 && x < width() * 2.5:
-        console.log('thirdPageX: ', thirdPageX())
+        // console.log('thirdPageX: ', thirdPageX())
         return thirdPageX();
     }
   }
 
   isFirstDayOfCurrentWeek = day => {
-    const weekStart = moment().startOf('week');
+    const weekStart = moment().startOf('isoweek');
     return moment(weekStart).isSame( moment(day).format() );
   }
 
   isWodWeekForCurrentWeek = wodWeek => this.isFirstDayOfCurrentWeek(wodWeek.weekOf)
 
   makeWodCompoment = wod => {
-    console.log('wod: ', wod)
-    return <Wod key={wod._id} text={wod.text} wodDate='test date' />
+    // console.log('wod: ', wod)
+    const momentedDate = moment(wod.date)
+    const dayName = momentedDate.format('dddd');
+    const monthDate = momentedDate.format('M');
+    const dayDate = momentedDate.format('D');
+    const wodDate = `${dayName} ${monthDate}/${dayDate}`;
+    return <Wod key={wod._id} text={wod.text} wodDate={wodDate} />
   }
-  makeWodFromWodWeek = wodWeek => this.makeWodCompoment(wodWeek.wods)
+  makeWodFromWodWeek = wodWeek => wodWeek.wods.map(wod => this.makeWodCompoment(wod));
 
   scrollTo = x => {
     const xPage = this.getXpage(x);
@@ -92,7 +97,8 @@ export default class WodScreen extends React.Component {
 
   comonentDidUpdate = (prevProps, prevState) => {
     // console.log('prevState.currentWodWeek: ', prevState.currentWodWeek)
-    // console.log('this.state.currentWodWeek: ', this.state.currentWodWeek)
+    // console.log('this.state.currentWodWeek: ', this.state.currentWodWeek);
+    // console.log('this.state.pastWodWeeks: ', this.state.pastWodWeeks);
   }
 
   componentDidMount() {
@@ -119,34 +125,11 @@ export default class WodScreen extends React.Component {
     const selectedColor = yellow;
     const unselectedColor = white;
 
-    // console.log('currentWodWeek: ', currentWodWeek)
-    // console.log('currentWodWeek.wods: ', currentWodWeek && currentWodWeek.wods)
-    // console.log('wods map foo: ', currentWodWeek && currentWodWeek.wods.map(wod => 'yo yo yo'))
     const currentWodComponents = currentWodWeek ? currentWodWeek.wods.map(wod => this.makeWodCompoment(wod)) : [];
-    // console.log('currentWodWeek: ', currentWodWeek)
-    // console.log('currentWodComponents: ', currentWodComponents)
-    // const pastWods = pastWodWeeks.map(this.makeWodFromWodWeek)
-    // PLACEHOLDER UNTIL GETTING REAL DATA
-    const fakeWods = [
-      <Wod
-        key={0 + 'key'}
-        text={`AMRAP in 15 minutes:
-50 double unders
-50 double kettlebell deadlifts, 2*32/24kg
-50goblet squats, 32/24kg
-50 calorie row
-50 handstand push-ups`}
-        wodDate='Monday 4/8'
-      />,
-      <Wod key={1 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Tuesday 4/9' />,
-      <Wod key={2 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Wednesday 4/10' />,
-      <Wod key={3 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Thursday 4/11' />,
-      <Wod key={4 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Friday 4/12' />,
-      <Wod key={5 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Saturday 4/13' />,
-      <Wod key={6 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Sunday 4/14' />,
-    ];
-    const pageScreens = Object.values(getPages).map((page, i) => <WodSubScreen key={i + page.title} wods={fakeWods} />)
-    // const pageScreens = [<WodSubScreen wods={fakeWods} />, <WodSubScreen wods={fakeWods} />, <WodSubScreen wods={fakeWods} />]
+    const pastWods = pastWodWeeks.map(this.makeWodFromWodWeek)
+    const pageScreens = Object.values(getPages).map((page, i) => (
+      <WodSubScreen key={i + page.title} wods={i === 0 ? currentWodComponents : pastWods} />
+    ));
     return (
       <View style={styles.screen}>
         <StatusBar barStyle='light-content' />
