@@ -1,20 +1,26 @@
+// Libraries
 import React from 'react';
 import { Text, View } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import moment from 'moment';
-
+// Components
 import Icon from '../../components/Icon';
 import Touchable from '../../components/Touchable';
+// String Constants
+import {
+  _DASH, _EMPTYSTRING, _SPACE,
+  EVIL_ICONS, EXTERNAL_LINK, HIGHLIGHT, MMM, WEB_VIEW, YELLOW_$
+} from '../../utils/stringConstants';
 
 const chevron = {
-  color: () => EStyleSheet.value('$yellow'),
+  color: () => EStyleSheet.value(YELLOW_$),
   // library: 'Entypo',
   // name: 'chevron-with-circle-right',
   // library: 'Feather',
   // name: 'external-link',
-  library: 'EvilIcons',
-  name: 'external-link',
+  library: EVIL_ICONS,
+  name: EXTERNAL_LINK,
 }
 
 const EventNameBox = props => {
@@ -22,14 +28,15 @@ const EventNameBox = props => {
   const { library, name } = eventKey;
   const color = eventKey.color();
   const createDateThrough = (start, through) => {
-    const startMonth = moment( moment(start) ).format('MMM');
+    const startMonth = moment( moment(start) ).format(MMM);
     const startDate = moment( moment(start) ).date();
-    const throughMonth = moment( moment(through) ).format('MMM');
+    const throughMonth = moment( moment(through) ).format(MMM);
     const throughDate = moment( moment(through) ).date();
-    return `${startMonth} ${startDate} - ${throughMonth} ${throughDate}`;
+    // 10 25 - 11 05
+    return `${startMonth}${_SPACE}${startDate}${_SPACE}${_DASH}${_SPACE}${throughMonth}${_SPACE}${throughDate}`;
   };
   const isRange = moment(event.throughDate)._isValid;
-  const dateThrough = isRange ? createDateThrough(event.startDate, event.throughDate) : '';
+  const dateThrough = isRange ? createDateThrough(event.startDate, event.throughDate) : _EMPTYSTRING;
   const dateThroughBox = isRange
                         ? <View style={styles.dateThrough}>
                             <Text style={styles.dateThroutText}>{dateThrough}</Text>
@@ -37,8 +44,8 @@ const EventNameBox = props => {
                         : null;
   return (
     <Touchable
-      iosType='highlight'
-      onPress={() => props.navigation.navigate('WebView', { url: event.url })}
+      iosType={HIGHLIGHT}
+      onPress={() => props.navigation.navigate(WEB_VIEW, { url: event.url })}
       style={styles.touchable}
       underlayColor={styles.$underlay}
       viewStyle={styles.titleTile}

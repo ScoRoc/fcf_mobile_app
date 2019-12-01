@@ -1,10 +1,13 @@
+// Libraries
 import React from 'react';
 import { Image, Text, View } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
+// Components
 import Touchable from '../../components/Touchable';
 import ImgSection from './ImgSection';
+// String Constants
+import { HIGHLIGHT, WEB_VIEW } from '../../utils/stringConstants';
 
 const AnnouncementStripText = props => {
   const { announcement, imgWidth, textWrapWidth } = props;
@@ -12,8 +15,8 @@ const AnnouncementStripText = props => {
   return (
     <Touchable
       activeOpacity={.8}
-      iosType='highlight'
-      onPress={() => props.navigation.navigate('WebView', { url })}
+      iosType={HIGHLIGHT}
+      onPress={() => props.navigation.navigate(WEB_VIEW, { url })}
       viewStyle={{ width: imgWidth }}
       underlayColor={styles.$underlay}
     >

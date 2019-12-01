@@ -1,15 +1,20 @@
+// Libraries
 import React from 'react';
 import { Image, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
+// Components
 import LikeButton from '../../components/LikeButton';
 import Touchable from '../../components/Touchable';
-
+// Helper Funcs
 import useAxios from '../../utils/axios-helpers';
 import { urlHostName } from '../../utils/global-variables';
+// String Constants
+import {
+  _EMPTYSTRING, _SLASH, ANNOUNCEMENTS, LIKE, OPACITY,
+} from '../../utils/stringConstants';
 
-const path = `${urlHostName}/announcements/like`;
+const path = `${urlHostName}${_SLASH}${ANNOUNCEMENTS}${_SLASH}${LIKE}`;
 const { putWithAxios } = useAxios(path);
 
 class ImgSection extends React.Component {
@@ -57,14 +62,14 @@ class ImgSection extends React.Component {
 
   render() {
     const { announcement, imgHeight, imgWidth } = this.props;
-    const userId = this.props.user ? this.props.user._id : '';
+    const userId = this.props.user ? this.props.user._id : _EMPTYSTRING;
     const { _id, imgUrl, likes } = announcement;
     const liked = likes.includes(userId);
     return (
       <View style={styles.imgWrap}>
         <Touchable
           activeOpacity={.5}
-          iosType='opacity'
+          iosType={OPACITY}
           onPress={this.handleDoublePress}
           style={{height: imgHeight, width: imgWidth}}
         >

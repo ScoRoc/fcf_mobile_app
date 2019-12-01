@@ -1,16 +1,21 @@
+// Libraries
 import React from 'react';
 import { Image, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
+// Components
 import AnnouncementStripText from './AnnouncementStripText';
 import ImgSection from './ImgSection';
 import LikeButton from '../../components/LikeButton';
-
+// Helper Funcs
 import useAxios from '../../utils/axios-helpers';
 import { urlHostName } from '../../utils/global-variables';
+// String Constants
+import {
+  _SLASH, ANNOUNCEMENTS, HEART, HEART_OUTLINE, LIKE, MATERIAL_COMMUNITY_ICONS
+} from '../../utils/stringConstants';
 
-const path = `${urlHostName}/announcements/like`;
+const path = `${urlHostName}${_SLASH}${ANNOUNCEMENTS}${_SLASH}${LIKE}`;
 const { putWithAxios } = useAxios(path);
 
 class AnnouncementStrip extends React.Component {
@@ -91,10 +96,10 @@ class AnnouncementStrip extends React.Component {
 
         <LikeButton
           addedStyle={{ width: imgWidth }}
-          library={{ liked: 'MaterialCommunityIcons', unliked: 'MaterialCommunityIcons' }}
+          library={{ liked: MATERIAL_COMMUNITY_ICONS, unliked: MATERIAL_COMMUNITY_ICONS }}
           liked={liked}
           likes={likes.length}
-          name={{ liked: 'heart', unliked: 'heart-outline' }}
+          name={{ liked: HEART, unliked: HEART_OUTLINE }}
           updateLike={() => this.updateLike({ announcementId: _id, userId })}
         />
 

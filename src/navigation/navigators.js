@@ -1,11 +1,12 @@
+// Libraries
 import {
   createAppContainer,
-  createBottomTabNavigator,
-  createDrawerNavigator,
-  createStackNavigator,
   createSwitchNavigator,
 } from 'react-navigation';
-
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createStackNavigator } from 'react-navigation-stack';
+// Components
 import CustomDrawer from './CustomDrawer';
 
 import IAPScreen from '../screens/IAPScreen';
@@ -23,7 +24,7 @@ import SignupScreen from '../screens/auth/SignupScreen';
 import UnitConverterScreen from '../screens/wod-tools/unit-converter/UnitConverterScreen';
 import WodScreen from '../screens/wod/WodScreen';
 import WodToolsScreen from '../screens/wod-tools/WodToolsScreen';
-
+// Style Sheet
 import {
   blackBG,
   greyDark,

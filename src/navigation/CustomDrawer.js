@@ -1,13 +1,16 @@
+// Libraries
 import React from 'react';
 import { AsyncStorage, Text, View } from 'react-native';
-import { DrawerItems } from 'react-navigation';
+import { DrawerItems } from 'react-navigation-drawer';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
+// Components
 import Touchable from '../components/Touchable';
-
+// Variables
 import { logout } from '../redux/modules/user';
 import { tokenName } from '../utils/global-variables';
+// String Constants
+import { _$AUTH, OPACITY } from '../utils/stringConstants';
 
 class CustomDrawer extends React.Component {
 
@@ -23,11 +26,11 @@ class CustomDrawer extends React.Component {
   handleLogout = async () => {
     await this.deleteToken()
     this.props.logout();
-    this.props.navigation.navigate('Auth');
+    this.props.navigation.navigate(_$AUTH);
   }
 
   render() {
-    const greeting = this.props.user ? `Hello, ${this.props.user.firstName}` : 'Hellow, how are you today?';
+    const greeting = this.props.user ? `Hello, ${this.props.user.firstName}` : 'Hello, how are you today?';
     return (
       <View style={styles.drawerWrapper}>
 
@@ -35,7 +38,7 @@ class CustomDrawer extends React.Component {
           <Text style={styles.text}>{greeting}</Text>
           <DrawerItems {...this.props} />
           <View style={styles.customDrawerItemsWrapper}>
-            <Touchable iosType='opacity' onPress={this.handleLogout} viewStyle={styles.touchableView}>
+            <Touchable iosType={OPACITY} onPress={this.handleLogout} viewStyle={styles.touchableView}>
               <Text style={styles.customDrawerItems}>Logout</Text>
             </Touchable>
           </View>

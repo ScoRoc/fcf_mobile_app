@@ -1,22 +1,28 @@
+// Libraries
 import React from 'react';
 import { Button, ScrollView, RefreshControl, SectionList, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment'
 import io from 'socket.io-client'
 import EStyleSheet from 'react-native-extended-stylesheet';
-
-import EventsKey from './EventsKey';
+// Components
+import EventLegend from './EventLegend';
 import EventStrip from './EventStrip';
-
+// Keys
 import eventKeys from './event-keys';
-
+// Helper Funcs
 import { getIndex } from '../../utils/helpers';
 import useAxios from '../../utils/axios-helpers';
 import { urlHostName } from '../../utils/global-variables';
+// String Constants
+import {
+  _EQUALS, _SLASH, _QUESTION_MARK,
+  BYMONTH, EVENTS, EVENT_LIKE_UPDATE, MMMM, SORT, WIDTH_$, YELLOW_$, YYYY,
+} from '../../utils/stringConstants';
 
-const path = '/events'
+const path = `${_SLASH}${EVENTS}`
 const url = `${urlHostName}${path}`
-const urlSortByMonth = `${url}?sort=bymonth`
+const urlSortByMonth = `${url}${_QUESTION_MARK}${SORT}${_EQUALS}${BYMONTH}`
 const { getWithAxios } = useAxios(urlSortByMonth);
 
 const eventSocket = io(url)
@@ -82,11 +88,11 @@ class EventsSubScreen extends React.Component {
   }
 
   componentDidMount() {
-    eventSocket.on('eventLikeUpdate', data => {
+    eventSocket.on(EVENT_LIKE_UPDATE, data => {
       const { event, userId } = data
-      const eventMonth = moment(event.startDate).format('YYYY') === moment().year()
-                                                      ? momentedEvent.format('MMMM')
-                                                      : `${moment(event.startDate).format('MMMM')} ${moment(event.startDate).format('YYYY')}`
+      const eventMonth = moment(event.startDate).format(YYYY) === moment().year()
+                        ? momentedEvent.format(MMMM)
+                        : `${moment(event.startDate).format(MMMM)} ${moment(event.startDate).format(YYYY)}`
       const userIdFromRedux = this.props.user._id
       if (userId !== userIdFromRedux) {
         const { events } = this.state
@@ -115,8 +121,8 @@ class EventsSubScreen extends React.Component {
 
   render() {
     const { events, eventTypes, removedTypes } = this.state;
-    const width = () => EStyleSheet.value('$width');
-    const yellow = () => EStyleSheet.value('$yellow');
+    const width = () => EStyleSheet.value(WIDTH_$);
+    const yellow = () => EStyleSheet.value(YELLOW_$);
     const sections = events.map(this.createMonthSection);
     const sectionList = <SectionList
                           sections={sections}
@@ -133,8 +139,8 @@ class EventsSubScreen extends React.Component {
                           keyExtractor={item => item._id}
                         />;
     return (
-      <View style={[styles.screen, {width: width()}]}>
-        <EventsKey filterEventTypes={this.filterEventTypes} removedTypes={removedTypes} />
+      <View style={[styles.screen, { width: width() }]}>
+        <EventLegend filterEventTypes={this.filterEventTypes} removedTypes={removedTypes} />
         {sectionList}
       </View>
     );

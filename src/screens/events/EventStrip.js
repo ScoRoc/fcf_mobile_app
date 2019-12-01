@@ -1,7 +1,8 @@
+// Libraries
 import React from 'react';
 import { Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
+// Components
 import DateBox from './DateBox';
 import EventNameBox from './EventNameBox';
 

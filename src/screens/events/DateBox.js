@@ -1,16 +1,22 @@
+// Libraries
 import React from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import moment from 'moment';
-
+// Components
 import LikeButton from '../../components/LikeButton';
 import Touchable from '../../components/Touchable';
-
+// Helper Funcs
 import useAxios from '../../utils/axios-helpers';
 import { urlHostName } from '../../utils/global-variables';
+// String Constants
+import {
+  _EMPTYSTRING, _SLASH,
+  EVENTS, HEART, HEART_OUTLINE, LIKE, MATERIAL_COMMUNITY_ICONS, MMM, OPACITY
+} from '../../utils/stringConstants';
 
-const path = `${urlHostName}/events/like`;
+const path = `${urlHostName}${_SLASH}${EVENTS}${_SLASH}${LIKE}`;
 const { putWithAxios } = useAxios(path);
 
 class DateBox extends React.Component {
@@ -64,15 +70,15 @@ class DateBox extends React.Component {
   render() {
     const { event, user } = this.props;
     const { likes } = event;
-    const userId = user ? user._id : '';
+    const userId = user ? user._id : EventLegend;
     const liked = likes.includes(userId);
     const startDate = moment(event.startDate);
     const date = startDate.date();
-    const month = moment(startDate).format('MMM');
+    const month = moment(startDate).format(MMM);
     return (
       <View style={ [styles.dateTile, { backgroundColor: this.props.color }] }>
         <Touchable
-          iosType='opacity'
+          iosType={OPACITY}
           onPress={this.handleDoublePress}
           viewStyle={styles.viewStyle}
         >
@@ -80,10 +86,10 @@ class DateBox extends React.Component {
           <Text style={styles.dateText}>{date}</Text>
         </Touchable>
         <LikeButton
-          library={{ liked: 'MaterialCommunityIcons', unliked: 'MaterialCommunityIcons' }}
+          library={{ liked: MATERIAL_COMMUNITY_ICONS, unliked: MATERIAL_COMMUNITY_ICONS }}
           liked={liked}
           likes={likes.length}
-          name={{ liked: 'heart', unliked: 'heart-outline' }}
+          name={{ liked: HEART, unliked: HEART_OUTLINE }}
           updateLike={() => this.updateLike({ eventId: event._id, userId })}
         />
       </View>
