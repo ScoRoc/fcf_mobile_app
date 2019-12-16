@@ -1,60 +1,49 @@
 // Libraries
 import React from 'react';
-import { AsyncStorage, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { DrawerItems } from 'react-navigation-drawer';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 // Components
 import Touchable from '../components/Touchable';
-// Variables
+// Functions
+import { deleteToken } from '../utils/token-helpers';
 import { logout } from '../redux/modules/user';
-import { tokenName } from '../utils/global-variables';
 // String Constants
 import { _$AUTH, OPACITY } from '../utils/stringConstants';
 
-class CustomDrawer extends React.Component {
+const CustomDrawer = props => {
 
-  deleteToken = async () => {
-    try {
-      await AsyncStorage.removeItem(tokenName);
-      return { user: null, token: null }
-    } catch (err) {
-      console.log('err: ', err);
-    }
+  const handleLogout = async () => {
+    await deleteToken()
+    props.logout();
+    props.navigation.navigate(_$AUTH);
   }
 
-  handleLogout = async () => {
-    await this.deleteToken()
-    this.props.logout();
-    this.props.navigation.navigate(_$AUTH);
-  }
+  const greeting = props.user ? `Hello, ${props.user.firstName}` : 'Hello, how are you today?';
+  return (
+    <View style={styles.drawerWrapper}>
 
-  render() {
-    const greeting = this.props.user ? `Hello, ${this.props.user.firstName}` : 'Hello, how are you today?';
-    return (
-      <View style={styles.drawerWrapper}>
-
-        <View style={styles.drawerItemsWrapper} >
-          <Text style={styles.text}>{greeting}</Text>
-          <DrawerItems {...this.props} />
-          <View style={styles.customDrawerItemsWrapper}>
-            <Touchable iosType={OPACITY} onPress={this.handleLogout} viewStyle={styles.touchableView}>
-              <Text style={styles.customDrawerItems}>Logout</Text>
-            </Touchable>
-          </View>
-        </View>
-
-        <View style={styles.socialWrapper}>
-          <Text style={styles.socialText}>Visit us on social at:</Text>
-          <View style={styles.socialLinksWrapper}>
-            <Text>Social 1</Text>
-            <Text>Social 2</Text>
-            <Text>Social 3</Text>
-          </View>
+      <View style={styles.drawerItemsWrapper} >
+        <Text style={styles.text}>{greeting}</Text>
+        <DrawerItems {...props} />
+        <View style={styles.customDrawerItemsWrapper}>
+          <Touchable iosType={OPACITY} onPress={handleLogout} viewStyle={styles.touchableView}>
+            <Text style={styles.customDrawerItems}>Logout</Text>
+          </Touchable>
         </View>
       </View>
-    );
-  }
+
+      <View style={styles.socialWrapper}>
+        <Text style={styles.socialText}>Visit us on social at:</Text>
+        <View style={styles.socialLinksWrapper}>
+          <Text>Social 1</Text>
+          <Text>Social 2</Text>
+          <Text>Social 3</Text>
+        </View>
+      </View>
+    </View>
+  );
 }
 
 const styles = EStyleSheet.create({

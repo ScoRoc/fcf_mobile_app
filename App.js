@@ -8,7 +8,7 @@ import store from './src/redux/store/store';
 import AppContainer from './src/navigation/navigators';
 import { enableScreens } from 'react-native-screens';
 // StyleSheet
-import buildStyleSheet from './variables/style-sheet';
+import buildStyleSheet from './src/utils/style-sheet';
 
 buildStyleSheet(); // Init Extended Style Sheet
 enableScreens(); // Use Screens for react-navigation

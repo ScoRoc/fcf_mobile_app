@@ -1,136 +1,129 @@
-import React from 'react';
-import { AsyncStorage, Button, ImageBackground, Text, TextInput, View } from 'react-native';
+// Libraries
+import React, { useState } from 'react';
+import { Button, ImageBackground, Text, TextInput, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
+// Components
 import Touchable from '../../components/Touchable';
-
+// Helpers
 import { liftUser } from '../../redux/modules/user';
-import { urlHostName, getColor, tokenName } from '../../utils/global-variables';
-import { greyDark, white } from '../../../variables/style-sheet';
+import { urlHostName, getColor } from '../../utils/global-variables';
+import { blackBG } from '../../utils/style-sheet';
 import useAxios from '../../utils/axios-helpers';
+import { setTokenOnDevice } from '../../utils/token-helpers';
+import { _EMPTYSTRING, HEIGHT_$, WIDTH_$, YELLOW_$ } from '../../utils/stringConstants';
 
 const path = `${urlHostName}/user/create`;
 const { postWithAxios } = useAxios(path);
 
-class SignupScreen extends React.Component {
-  static navigationOptions = {
-    header: null,
-  };
-  constructor(props) {
-    super(props)
-    this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-    }
+// keyboard avoiding view article
+// https://www.freecodecamp.org/news/how-to-make-your-react-native-app-respond-gracefully-when-the-keyboard-pops-up-7442c1535580/
+
+const SignupScreen = props => {
+  // State
+  const [firstName, setFirstName] = useState(_EMPTYSTRING);
+  const [lastName, setLastName] = useState(_EMPTYSTRING);
+  const [email, setEmail] = useState(_EMPTYSTRING);
+  const [password, setPassword] = useState(_EMPTYSTRING);
+
+  const handleSuccess = async ({ user, token }) => {
+    await setToken(token);
+    props.liftUser({ user, token });
+    props.navigation.navigate('Main');
   }
 
-  setToken = async token => {
-    try {
-      await AsyncStorage.setItem(tokenName, token);
-    } catch (err) {
-      console.log('err: ', err);
-    }
-  }
-
-  handleSuccess = async ({ user, token }) => {
-    await this.setToken(token);
-    this.props.liftUser({ user, token });
-    this.props.navigation.navigate('Main');
-  }
-
-  handleErr = errMsg => {
+  const handleErr = errMsg => {
     console.log('signup failed with err: ', errMsg);
   }
 
-  handleSubmit = () => {
-    const { firstName, lastName, email, password } = this.state;
+  const handleSubmit = () => {
     postWithAxios({ firstName, lastName, email, password }).then(result => {
       result.data.user
-        ? this.handleSuccess({ user: result.data.user, token: result.data.token })
-        : this.handleErr(result.data._message);
+        ? handleSuccess({ user: result.data.user, token: result.data.token })
+        : handleErr(result.data._message);
     }).catch(err => console.log('err: ', err));
   }
 
-  render() {
-    const { firstName, lastName, email, password } = this.state;
-    const yellow = () => EStyleSheet.value('$yellow');
-    // temp
-    const height = () => EStyleSheet.value('$height');
-    const width = () => EStyleSheet.value('$width');
-    const imgUri = `https://www.placecage.com/c/${width()}/${height()}`;
-    // end temp
-    return (
-      <View style={styles.page}>
-        <ImageBackground blurRadius={4} source={{uri: imgUri}} style={styles.imgBgStyle}>
+  const yellow = () => EStyleSheet.value(YELLOW_$);
+  // temp
+  const height = () => EStyleSheet.value(HEIGHT_$);
+  const width = () => EStyleSheet.value(WIDTH_$);
+  const imgUri = `https://www.placecage.com/c/${width()}/${height()}`;
+  // end temp
+  return (
+    <KeyboardAwareScrollView
+      behavior='padding'
+      contentContainerStyle={styles.page}
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      style={{ backgroundColor: blackBG }}
+    >
+      <ImageBackground blurRadius={4} source={{uri: imgUri}} style={styles.imgBgStyle}>
 
-          <View style={styles.contentWrapper}>
+        <View style={styles.contentWrapper}>
 
-            <View style={styles.logoPlaceholder}></View>
+          <View style={styles.logoPlaceholder}></View>
 
-            <TextInput
-              onChangeText={text => this.setState({ firstName: text })}
-              placeholder='First Name'
-              placeholderTextColor={yellow()}
-              style={[ styles.text, styles.textInput, styles.inputMargin ]}
-              textContentType='givenName'
-              value={firstName}
-            />
+          <TextInput
+            onChangeText={setFirstName}
+            placeholder='First Name'
+            placeholderTextColor={yellow()}
+            style={[ styles.text, styles.textInput, styles.inputMargin ]}
+            textContentType='givenName'
+            value={firstName}
+          />
 
-            <TextInput
-              onChangeText={text => this.setState({ lastName: text })}
-              placeholder='Last Name'
-              placeholderTextColor={yellow()}
-              style={[ styles.text, styles.textInput, styles.inputMargin ]}
-              textContentType='familyName'
-              value={lastName}
-            />
+          <TextInput
+            onChangeText={setLastName}
+            placeholder='Last Name'
+            placeholderTextColor={yellow()}
+            style={[ styles.text, styles.textInput, styles.inputMargin ]}
+            textContentType='familyName'
+            value={lastName}
+          />
 
-            <TextInput
-              autoCapitalize='none'
-              onChangeText={text => this.setState({ email: text })}
-              placeholder='Email'
-              placeholderTextColor={yellow()}
-              style={[ styles.text, styles.textInput, styles.inputMargin ]}
-              textContentType='emailAddress'
-              value={email}
-            />
+          <TextInput
+            autoCapitalize='none'
+            onChangeText={setEmail}
+            placeholder='Email'
+            placeholderTextColor={yellow()}
+            style={[ styles.text, styles.textInput, styles.inputMargin ]}
+            textContentType='emailAddress'
+            value={email}
+          />
 
-            <TextInput
-              autoCapitalize='none'
-              onChangeText={text => this.setState({ password: text })}
-              placeholder='Password'
-              placeholderTextColor={yellow()}
-              style={[ styles.text, styles.textInput, styles.inputMargin ]}
-              secureTextEntry={true}
-              textContentType='password'
-              value={password}
-            />
+          <TextInput
+            autoCapitalize='none'
+            onChangeText={setPassword}
+            placeholder='Password'
+            placeholderTextColor={yellow()}
+            style={[ styles.text, styles.textInput, styles.inputMargin ]}
+            secureTextEntry={true}
+            textContentType='password'
+            value={password}
+          />
 
-            <View style={[ styles.loginTextWrap, styles.inputMargin ]}>
-              <Touchable iosType='opacity' onPress={() => this.props.navigation.navigate('Login')}>
-                <Text style={[ styles.text, styles.smallText, styles.loginTextLink ]}>Log In</Text>
-              </Touchable>
-            </View>
-
+          <View style={[ styles.loginTextWrap, styles.inputMargin ]}>
+            <Touchable iosType='opacity' onPress={() => props.navigation.navigate('Login')}>
+              <Text style={[ styles.text, styles.smallText, styles.loginTextLink ]}>Log In</Text>
+            </Touchable>
           </View>
 
-          <Touchable
-            activeOpacity={.5}
-            iosType='highlight'
-            onPress={this.handleSubmit}
-            underlayColor={ getColor('yellow') }
-            style={styles.submitButton}
-            >
-              <Text style={[ styles.text, styles.submitButtonText ]}>Sign Up</Text>
-            </Touchable>
+        </View>
 
-        </ImageBackground>
-      </View>
-    );
-  }
+        <Touchable
+          activeOpacity={.5}
+          iosType='highlight'
+          onPress={handleSubmit}
+          underlayColor={ getColor('yellow') }
+          style={styles.submitButton}
+          >
+            <Text style={[ styles.text, styles.submitButtonText ]}>Sign Up</Text>
+          </Touchable>
+
+      </ImageBackground>
+    </KeyboardAwareScrollView>
+  );
 }
 
 const styles = EStyleSheet.create({
@@ -195,6 +188,10 @@ const styles = EStyleSheet.create({
     color: '$yellow',
   },
 });
+
+SignupScreen.navigationOptions = {
+  header: null,
+};
 
 const mapStateToProps = state => {
   return {

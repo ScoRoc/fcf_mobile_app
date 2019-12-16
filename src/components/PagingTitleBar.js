@@ -1,47 +1,37 @@
+// Libraries
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, ScrollView, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
+// Components
 import Touchable from './Touchable';
+// String Constants
+import { OPACITY, STRING } from '../utils/stringConstants';
+// Variables
+import { white, yellow } from '../utils/style-sheet';
 
-export default PagingTitleBar = props => {
-  const {
-    currentPage,
-    pageTitles,
-    scrollTo,
-    scrollEnabled,
-    scrollToBeginning,
-    scrollToEnd,
-    scrollViewWrapperStyle,
-    textStyle,
-    textWrapperStyle,
-  } = props;
-  const selectedColor = typeof props.selectedColor === 'string' ? props.selectedColor : props.selectedColor();
-  const unselectedColor = typeof props.unselectedColor === 'string' ? props.unselectedColor : props.unselectedColor();
-  const titles = pageTitles.map((title, i) => {
-    const color = currentPage === title ? selectedColor : unselectedColor;
-    const handlePress = i === 0
-                      ? scrollToBeginning
-                      : i === pageTitles.length - 1
-                        ? scrollToEnd
-                        : () => scrollTo(title);
+const PagingTitleBar = props => {
+  // Components
+  const titles = props.pageTitles.map((title, i) => {
+    const color = props.currentPage.title === title ? props.selectedColor : props.unselectedColor;
     return (
       <Touchable
-        iosType='opacity'
+        iosType={OPACITY}
         key={title + i}
-        onPress={handlePress}
-        viewStyle={[ styles.view, { borderBottomColor: color }, textWrapperStyle ]}
+        onPress={() => props.onPress({ i, title })}
+        viewStyle={[ styles.view, { borderBottomColor: color }, props.styles && props.styles.titleTouchable ]}
       >
-        <Text style={[ styles.text, { color }, textStyle ]}>{title}</Text>
+        <Text style={[ styles.text, { color }, props.styles && props.styles.titleText ]}>{title}</Text>
       </Touchable>
-    )
+    );
   });
+
   return (
     <View>
       <ScrollView
-        contentContainerStyle={[ styles.scrollView, scrollViewWrapperStyle ]}
+        contentContainerStyle={[ styles.scrollView, props.styles && props.styles.scrollView ]}
         horizontal={true}
-        scrollEnabled={scrollEnabled}
+        scrollEnabled={props.scrollEnabled}
         showsHorizontalScrollIndicator={false}
       >
         {titles}
@@ -67,3 +57,25 @@ const styles = EStyleSheet.create({
     backgroundColor: '$blackBG',
   },
 });
+
+PagingTitleBar.propTypes = {
+  currentPage: PropTypes.object,
+  onPress: PropTypes.func,
+  pageTitles: PropTypes.arrayOf(PropTypes.string),
+  scrollEnabled: PropTypes.bool,
+  selectedColor: PropTypes.string,
+  styles: PropTypes.object,
+  unselectedColor: PropTypes.string,
+}
+
+PagingTitleBar.defaultProps = {
+  currentPage: null,
+  onPress: null,
+  pageTitles: null,
+  scrollEnabled: true,
+  selectedColor: yellow,
+  styles: null,
+  unselectedColor: white,
+}
+
+export default PagingTitleBar;

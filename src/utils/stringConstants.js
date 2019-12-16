@@ -4,8 +4,10 @@ export const STRING = 'string';
 export const ANNOUNCEMENTS = 'announcements';
 export const _$ANNOUNCEMENTS = 'Announcements';
 export const EVENTS = 'events';
+export const _$EVENTS = 'Events';
 // StyleSheet
 export const GREYMEDIUM_$ = '$greyMedium';
+export const HEIGHT_$ = '$height';
 export const WIDTH_$ = '$width';
 export const YELLOW_$ = '$yellow';
 // ICONS

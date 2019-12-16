@@ -1,59 +1,75 @@
+// Libraries
 import React from 'react';
 import { Text, TextInput, View } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
+// Components
 import Icon from '../../components/Icon';
 import Touchable from '../../components/Touchable';
-
+// Functions
 import { getColor } from '../../utils/global-variables';
+import { deleteToken } from '../../utils/token-helpers';
+import { logout } from '../../redux/modules/user';
+// String Constants
+import { _$AUTH, OPACITY } from '../../utils/stringConstants';
 
-class ProfileScreen extends React.Component {
-  static navigationOptions = {
-    header: null,
-  };
-  // constructor(props) {
-  //   super(props)
-  //   this.state = {
-  //     email: '',
-  //     password: '',
-  //   }
-  // }
+const ProfileScreen = props => {
 
-  render() {
-    return (
-      <View style={styles.page}>
-        <Text style={[ styles.text, styles.pageTitle ]}>Profile</Text>
-
-        <Touchable
-          iosType='opacity'
-          onPress={() => this.props.navigation.navigate('ChangePassword')}
-          style={styles.profileItem}
-          viewStyle={styles.profileItemInner}
-        >
-            <Text style={styles.text}>Change password</Text>
-            <Icon color={ getColor('yellow') } library={'Entypo'} name={'chevron-thin-right'} size={20} />
-        </Touchable>
-      </View>
-    );
+  const handleLogout = async () => {
+    await deleteToken()
+    props.logout();
+    props.navigation.navigate(_$AUTH);
   }
+
+  const greeting = props.user ? `Hello, ${props.user.firstName}` : 'Hello, how are you today?';
+
+  return (
+    <View style={styles.page}>
+      <Text style={styles.text}>{greeting}</Text>
+      <Text style={[ styles.text, styles.pageTitle ]}>Profile</Text>
+      <Touchable
+        iosType='opacity'
+        onPress={() => props.navigation.navigate('ChangePassword')}
+        style={styles.profileItem}
+        viewStyle={styles.profileItemInner}
+      >
+          <Text style={styles.text}>Change password</Text>
+          <Icon color={ getColor('yellow') } library={'Entypo'} name={'chevron-thin-right'} size={20} />
+      </Touchable>
+
+      <Touchable iosType={OPACITY} onPress={handleLogout} viewStyle={styles.touchableView}>
+        <Text style={styles.logout}>Logout</Text>
+      </Touchable>
+
+      <View style={styles.socialWrapper}>
+        <Text style={[ styles.socialText, styles.text ]}>Visit us on social at:</Text>
+        <View style={styles.socialLinksWrapper}>
+          <Text style={styles.text}>Social 1</Text>
+          <Text style={styles.text}>Social 2</Text>
+          <Text style={styles.text}>Social 3</Text>
+        </View>
+      </View>
+
+    </View>
+  );
 }
 
 const styles = EStyleSheet.create({
   $fontSize: '18rem',
 
+  logout: {
+    color: '$yellow',
+    marginBottom: '50rem',
+    marginTop: '50rem',
+    textAlign: 'center',
+  },
   page: {
-    // paddingBottom: '100rem',
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '$blackBG',
   },
   pageTitle: {
     textAlign: 'center',
-  },
-  text: {
-    color: '$white',
-    fontSize: '$fontSize',
   },
   profileItem: {
     height: '$fontSize * 1.7',
@@ -66,7 +82,25 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  socialWrapper: {
+    //
+  },
+  socialText: {
+    textAlign: 'center',
+  },
+  socialLinksWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  text: {
+    color: '$white',
+    fontSize: '$fontSize',
+  },
 });
+
+ProfileScreen.navigationOptions = {
+  header: null,
+};
 
 const mapStateToProps = state => {
   return {
@@ -75,4 +109,10 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(ProfileScreen);
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch( logout() ),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

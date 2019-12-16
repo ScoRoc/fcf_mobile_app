@@ -6,13 +6,13 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Touchable from '../../components/Touchable';
 
 import { liftUser } from '../../redux/modules/user';
-import { urlHostName, getColor, tokenName } from '../../utils/global-variables';
+import { urlHostName, getColor } from '../../utils/global-variables';
 import useAxios from '../../utils/axios-helpers';
 
 const path = `${urlHostName}/user/password`;
 const { putWithAxios } = useAxios(path);
 
-class LoginScreen extends React.Component {
+class ChangePasswordScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -133,4 +133,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ChangePasswordScreen);

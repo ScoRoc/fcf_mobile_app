@@ -10,16 +10,21 @@ import { createStackNavigator } from 'react-navigation-stack';
 import CustomDrawer from './CustomDrawer';
 
 import IAPScreen from '../screens/IAPScreen';
-import ChangePasswordScreen from '../screens/profile/ChangePasswordScreen';
-import ProfileScreen from '../screens/profile/ProfileScreen';
 import WebViewScreen from '../screens/webview/WebViewScreen';
 
 import BlogScreen from '../screens/blog/BlogScreen';
+import ChangePasswordScreen from '../screens/profile/ChangePasswordScreen';
 import EventsScreen from '../screens/events/EventsScreen';
 import HomeScreen from '../screens/home/HomeScreen';
+//
+// testing
+import HomeScreen_NEW from '../screens/home/HomeScreen_NEW';
+//
+//
 import LoadingScreen from '../screens/auth/LoadingScreen';
 import LoginScreen from '../screens/auth/LoginScreen';
 import PercentTableScreen from '../screens/wod-tools/percent-table/PercentTableScreen';
+import ProfileScreen from '../screens/profile/ProfileScreen';
 import SignupScreen from '../screens/auth/SignupScreen';
 import UnitConverterScreen from '../screens/wod-tools/unit-converter/UnitConverterScreen';
 import WodScreen from '../screens/wod/WodScreen';
@@ -35,11 +40,11 @@ import {
   tabHeight,
   white,
   yellow,
-} from '../../variables/style-sheet';
+} from '../utils/style-sheet';
 
 const HomeStack = createStackNavigator(
   {
-    Home: HomeScreen,
+    Home: HomeScreen_NEW,
     WebView: WebViewScreen,
   },
   {
@@ -114,61 +119,24 @@ const WodToolsStack = createStackNavigator(
   }
 );
 
-const EventsStack = createStackNavigator(
-  {
-    Events: EventsScreen,
-    WebView: WebViewScreen,
-  },
-  {
-    initialRouteName: 'Events',
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: greyDark,
-      },
-      headerTintColor: white,
-      headerTintStyle: {
-        fontWeight: 'bold'
-      }
-    },
-  }
-);
-
-const TabNav = createBottomTabNavigator(
-  {
-    Home: { screen: HomeStack },
-    Wod: { screen: WodStack },
-    Blog: { screen: BlogStack },
-    WodTools: { screen: WodToolsStack },
-    Events: { screen: EventsStack },
-  },
-  {
-    defaultNavigationOptions: ({ navigation }) => ({
-      // stuff here
-    }),
-    initialRouteName: 'Home', //////////// FIX THIS
-    lazy: false, //////// IS THIS GOING TO CAUSE PERFORMANCE ISSUES ?????
-    tabBarOptions: {
-      activeTintColor: white,
-      inactiveTintColor: greyMedium,
-      activeBackgroundColor: greyMediumDark,
-      // activeBackgroundColor: blackBG,
-      inactiveBackgroundColor: greyDarkExtra,
-      style: {
-        height: tabHeight,
-      },
-      tabStyle: {
-        // paddingBottom: 35
-      },
-      labelStyle: {
-        paddingBottom: 31,
-        fontSize: 15
-      },
-      safeAreaInset: {
-        bottom: 'never'
-      },
-    },
-  },
-);
+// const EventsStack = createStackNavigator(
+//   {
+//     Events: EventsScreen,
+//     WebView: WebViewScreen,
+//   },
+//   {
+//     initialRouteName: 'Events',
+//     defaultNavigationOptions: {
+//       headerStyle: {
+//         backgroundColor: greyDark,
+//       },
+//       headerTintColor: white,
+//       headerTintStyle: {
+//         fontWeight: 'bold'
+//       }
+//     },
+//   }
+// );
 
 const ProfileStack = createStackNavigator(
   {
@@ -189,28 +157,67 @@ const ProfileStack = createStackNavigator(
   }
 );
 
-const MainDrawer = createDrawerNavigator(
+const TabNav = createBottomTabNavigator(
   {
-    Home: TabNav,
-    Profile: ProfileStack,
-    // Schedule: Schedule, // MAKE THESE COMPONENTS
-    // ContactUs: ContactUs, // MAKE THESE COMPONENTS
+    Home: { screen: HomeStack },
+    Wod: { screen: WodStack },
+    Blog: { screen: BlogStack },
+    WodTools: { screen: WodToolsStack },
+    // Events: { screen: EventsStack },
+    Profile: { screen: ProfileStack },
   },
   {
-    contentComponent: CustomDrawer,
-    drawerPosition: 'right',
-    // drawerBackgroundColor: '#411',
-    drawerBackgroundColor: greyDark,
-    contentOptions: {
-      activeTintColor: 'yellow',
-      inactiveTintColor: greyLightDark,
-      // activeBackgroundColor: '#622',
+    defaultNavigationOptions: ({ navigation }) => ({
+      // stuff here
+    }),
+    initialRouteName: 'Home', //////////// FIX THIS
+    lazy: false, //////// IS THIS GOING TO CAUSE PERFORMANCE ISSUES ?????
+    tabBarOptions: {
+      activeTintColor: white,
+      inactiveTintColor: greyMedium,
       activeBackgroundColor: greyMediumDark,
-      // inactiveBackgroundColor: '#311',
-      inactiveBackgroundColor: blackBG,
-    }
-  }
+      // activeBackgroundColor: blackBG,
+      inactiveBackgroundColor: greyDarkExtra,
+      style: {
+        height: tabHeight,
+        marginTop: 0,
+      },
+      tabStyle: {
+        // paddingBottom: 35
+      },
+      labelStyle: {
+        paddingBottom: 31,
+        fontSize: 15
+      },
+      safeAreaInset: {
+        bottom: 'never'
+      },
+    },
+  },
 );
+
+// const MainDrawer = createDrawerNavigator(
+//   {
+//     Home: TabNav,
+//     Profile: ProfileStack,
+//     // Schedule: Schedule, // MAKE THESE COMPONENTS
+//     // ContactUs: ContactUs, // MAKE THESE COMPONENTS
+//   },
+//   {
+//     contentComponent: CustomDrawer,
+//     drawerPosition: 'right',
+//     // drawerBackgroundColor: '#411',
+//     drawerBackgroundColor: greyDark,
+//     contentOptions: {
+//       activeTintColor: 'yellow',
+//       inactiveTintColor: greyLightDark,
+//       // activeBackgroundColor: '#622',
+//       activeBackgroundColor: greyMediumDark,
+//       // inactiveBackgroundColor: '#311',
+//       inactiveBackgroundColor: blackBG,
+//     }
+//   }
+// );
 
 const AuthStack = createStackNavigator(
   {
@@ -226,7 +233,8 @@ const AppSwitch = createSwitchNavigator(
   {
     Loading: LoadingScreen,
     Auth: AuthStack,
-    Main: MainDrawer
+    // Main: MainDrawer
+    Main: TabNav,
   },
   {
     initialRouteName: 'Loading'
