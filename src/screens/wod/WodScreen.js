@@ -14,7 +14,7 @@ import wodPages from './wod-pages'
 import useAxios from '../../utils/axios-helpers';
 import { urlHostName } from '../../utils/global-variables';
 // Variables
-import { white, yellow } from '../../utils/style-sheet';
+import { white, yellow } from '../../style-sheet';
 
 const path = `${urlHostName}/wodweek`;
 const { getWithAxios } = useAxios(path);

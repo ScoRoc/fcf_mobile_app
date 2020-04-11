@@ -1,11 +1,9 @@
-import React from 'react';
+import React from 'reactn';
 import { AsyncStorage, Button, Text, TextInput, View } from 'react-native';
-import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Touchable from '../../components/Touchable';
 
-import { liftUser } from '../../redux/modules/user';
 import { urlHostName, getColor } from '../../utils/global-variables';
 import useAxios from '../../utils/axios-helpers';
 
@@ -30,7 +28,7 @@ class ChangePasswordScreen extends React.Component {
 
   handleSubmit = () => {
     const { email, password } = this.state;
-    putWithAxios({ id: this.props.user._id, password }).then(result => {
+    putWithAxios({ id: this.global.user._id, password }).then(result => {
       // console.log('updatedUser: ', result.data.updatedUser)
       result.data.updatedUser
         ? this.handleSuccess()
@@ -120,17 +118,4 @@ const styles = EStyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
-  return {
-    user: state.user.user,
-    token: state.user.token,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    liftUser: ({ user, token }) => dispatch( liftUser({ user, token }) ),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ChangePasswordScreen);
+export default ChangePasswordScreen;

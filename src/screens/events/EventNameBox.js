@@ -1,7 +1,6 @@
 // Libraries
 import React from 'react';
 import { Text, View } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import moment from 'moment';
 // Components
@@ -104,4 +103,4 @@ const styles = EStyleSheet.create({
   },
 });
 
-export default withNavigation(EventNameBox);
+export default EventNameBox;

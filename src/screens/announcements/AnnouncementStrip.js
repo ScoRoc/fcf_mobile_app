@@ -1,7 +1,6 @@
 // Libraries
-import React from 'react';
+import React from 'reactn';
 import { Image, Text, View } from 'react-native';
-import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 // Components
 import AnnouncementStripText from './AnnouncementStripText';
@@ -49,7 +48,7 @@ class AnnouncementStrip extends React.Component {
     if (delta < DOUBLE_PRESS_DELAY) {
       this.updateLike({
         announcementId: this.props.announcement._id,
-        userId: this.props.user._id,
+        userId: this.global.user._id,
       });
     }
     this.lastPress = time;
@@ -72,7 +71,7 @@ class AnnouncementStrip extends React.Component {
       updateAnnouncement,
       updated
     } = this.props;
-    const userId = this.props.user && this.props.user._id;
+    const userId = this.global.user && this.global.user._id;
     const { _id, imgUrl, likes } = announcement;
     const liked = likes.includes(userId);
     return (
@@ -137,10 +136,4 @@ const styles = EStyleSheet.create({
   }
 });
 
-const mapStateToProps = state => {
-  return {
-    user: state.user.user,
-  };
-};
-
-export default connect(mapStateToProps)(AnnouncementStrip);
+export default AnnouncementStrip;

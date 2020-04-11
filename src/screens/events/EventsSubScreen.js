@@ -1,7 +1,7 @@
 // Libraries
-import React from 'react';
+import React from 'reactn';
 import { Button, ScrollView, RefreshControl, SectionList, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import moment from 'moment'
 import io from 'socket.io-client'
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -93,7 +93,7 @@ class EventsSubScreen extends React.Component {
       const eventMonth = moment(event.startDate).format(YYYY) === moment().year()
                         ? momentedEvent.format(MMMM)
                         : `${moment(event.startDate).format(MMMM)} ${moment(event.startDate).format(YYYY)}`
-      const userIdFromRedux = this.props.user._id
+      const userIdFromRedux = this.global.user._id
       if (userId !== userIdFromRedux) {
         const { events } = this.state
         const updateMonthEvents = (month, updatedEvent) => {
@@ -170,10 +170,11 @@ const styles = EStyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
-  return {
-    user: state.user.user,
-  };
-};
+// const mapStateToProps = state => {
+//   return {
+//     user: state.user.user,
+//   };
+// };
 
-export default connect(mapStateToProps)(EventsSubScreen)
+// export default connect(mapStateToProps)(EventsSubScreen);
+export default EventsSubScreen;

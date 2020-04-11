@@ -3,7 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet'
 // Components
 import WodSubScreen from './WodSubScreen';
 // Style Sheet
-import { width } from '../../utils/style-sheet';
+import { width } from '../../style-sheet';
 
 const getBounds = idx => {
   const multiplier = .5 + idx;

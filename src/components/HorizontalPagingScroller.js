@@ -6,7 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 // Components
 import PagingTitleBar from './PagingTitleBar'
 // Variables
-import { white, yellow } from '../utils/style-sheet';
+import { white, yellow } from '../style-sheet';
 
 const HorizontalPagingScroller = props => {
   // Refs

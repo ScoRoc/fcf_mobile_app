@@ -1,7 +1,6 @@
 // Libraries
 import React from 'react';
 import { Image, Text, View } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 // Components
 import Touchable from '../../components/Touchable';
@@ -35,4 +34,4 @@ const styles = EStyleSheet.create({
   }
 });
 
-export default withNavigation(AnnouncementStripText);
+export default AnnouncementStripText;

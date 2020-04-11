@@ -8,7 +8,7 @@ import Touchable from './Touchable';
 // String Constants
 import { OPACITY, STRING } from '../utils/stringConstants';
 // Variables
-import { white, yellow } from '../utils/style-sheet';
+import { white, yellow } from '../style-sheet';
 
 const PagingTitleBar = props => {
   // Components

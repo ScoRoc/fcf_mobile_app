@@ -1,7 +1,6 @@
 // Libraries
-import React from 'react';
+import React, { useGlobal } from 'reactn';
 import { Text, TextInput, View } from 'react-native';
-import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 // Components
 import Icon from '../../components/Icon';
@@ -9,16 +8,18 @@ import Touchable from '../../components/Touchable';
 // Functions
 import { getColor } from '../../utils/global-variables';
 import { deleteToken } from '../../utils/token-helpers';
-import { logout } from '../../redux/modules/user';
 // String Constants
 import { _$AUTH, OPACITY } from '../../utils/stringConstants';
 
 const ProfileScreen = props => {
+  // Global State
+  const [user, setUser] = useGlobal('user');
 
   const handleLogout = async () => {
     await deleteToken()
-    props.logout();
-    props.navigation.navigate(_$AUTH);
+    setUser({ self: null, token: null });
+    // props.logout();
+    // props.navigation.navigate(_$AUTH);
   }
 
   const greeting = props.user ? `Hello, ${props.user.firstName}` : 'Hello, how are you today?';
@@ -102,17 +103,4 @@ ProfileScreen.navigationOptions = {
   header: null,
 };
 
-const mapStateToProps = state => {
-  return {
-    user: state.user.user,
-    token: state.user.token,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    logout: () => dispatch( logout() ),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
+export default ProfileScreen;

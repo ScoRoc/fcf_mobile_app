@@ -9,7 +9,7 @@ import Touchable from '../../components/Touchable'
 // Utils
 import useAxios from '../../utils/axios-helpers';
 // Variables
-import { white, yellow } from '../../utils/style-sheet';
+import { white, yellow } from '../../style-sheet';
 import { urlHostName } from '../../utils/global-variables';
 // String Constants
 import { ANNOUNCEMENTS, EVENTS, WIDTH_$ } from '../../utils/stringConstants';

@@ -1,11 +1,9 @@
 // Libraries
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useGlobal, useState } from 'reactn';
 import { Text, View } from 'react-native';
-import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import axios from 'axios';
 // Helpers
-import { liftUser } from '../../redux/modules/user';
 import { deleteToken, getToken, setTokenOnDevice } from '../../utils/token-helpers';
 import { _TOKEN_NAME, urlHostName } from '../../utils/global-variables';
 import { _EMPTYSTRING, NONE, STRING } from '../../utils/global-variables';
@@ -15,9 +13,11 @@ const path = `${urlHostName}/user/validate`;
 const { postWithAxios } = useAxios(path);
 
 const LoadingScreen = props => {
+  // Global State
+  const [user, setUser] = useGlobal(null);
+  
   // State
   const [token, setToken] = useState(null);
-  const [user, setUser] = useState(null);
 
   // Effects
   useEffect(() => {
@@ -36,8 +36,9 @@ const LoadingScreen = props => {
 
   const handleSuccess = async ({ user, token }) => {
     await setTokenOnDevice(token);
-    props.liftUser({ user, token });
-    props.navigation.navigate('Main');
+    setUser({ self: user, token });
+    // props.liftUser({ user, token });
+    // props.navigation.navigate('Main');
   }
 
   const handleValidateFail = err => {
@@ -74,17 +75,4 @@ const styles = EStyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
-  return {
-    user: state.user.user,
-    token: state.user.token,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    liftUser: ({ user, token }) => dispatch( liftUser({ user, token }) ),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoadingScreen);
+export default LoadingScreen;

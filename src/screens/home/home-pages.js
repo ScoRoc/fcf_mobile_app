@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import EventsScreen from '../events/EventsScreen';
 import HomeScreen from './HomeScreen';
 // Style Sheet
-import { width } from '../../utils/style-sheet';
+import { width } from '../../style-sheet';
 // String Constants
 import { _$ANNOUNCEMENTS, _$EVENTS } from '../../utils/stringConstants';
 

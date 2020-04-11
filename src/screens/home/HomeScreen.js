@@ -1,7 +1,6 @@
 // Libraries
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useGlobal, useState } from 'reactn';
 import { Dimensions, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
-import { connect } from 'react-redux';
 import io from 'socket.io-client'
 import EStyleSheet from 'react-native-extended-stylesheet';
 // Components
@@ -24,6 +23,8 @@ const announcementsSocket = io(url)
 const screenWidth = Dimensions.get(WINDOW).width;
 
 const HomeScreen = props => {
+  // Global State
+  const [user] = useGlobal('user');
   // State
   const [announcements, setAnnouncements] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
@@ -32,7 +33,7 @@ const HomeScreen = props => {
   useEffect(() => {
     announcementsSocket.on(ANNOUCEMENT_LIKE_UPDATE, data => {
       const { announcement, userId } = data
-      const userIdFromRedux = props.user._id
+      const userIdFromRedux = user._id
       if (userId !== userIdFromRedux) {
         const newAnnouncements = announcements.map(mappedAnnouncement => {
           return mappedAnnouncement._id === announcement._id
@@ -132,10 +133,4 @@ HomeScreen.navigationOptions = {
   header: null,
 };
 
-const mapStateToProps = state => {
-  return {
-    user: state.user.user,
-  };
-};
-
-export default connect(mapStateToProps)(HomeScreen);
+export default HomeScreen;

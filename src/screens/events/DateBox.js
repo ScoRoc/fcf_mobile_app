@@ -1,7 +1,6 @@
 // Libraries
-import React from 'react';
+import React from 'reactn';
 import { Text, View } from 'react-native';
-import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import moment from 'moment';
 // Components
@@ -55,7 +54,7 @@ class DateBox extends React.Component {
     if (delta < DOUBLE_PRESS_DELAY) {
       this.updateLike({
         eventId: this.props.event._id,
-        userId: this.props.user._id,
+        userId: this.global.user._id,
       });
     }
     this.lastPress = time;
@@ -68,9 +67,9 @@ class DateBox extends React.Component {
   }
 
   render() {
-    const { event, user } = this.props;
+    const { event } = this.props;
     const { likes } = event;
-    const userId = user ? user._id : EventLegend;
+    const userId = this.global.user ? this.global.user._id : EventLegend;
     const liked = likes.includes(userId);
     const startDate = moment(event.startDate);
     const date = startDate.date();
@@ -119,10 +118,4 @@ const styles = EStyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
-  return {
-    user: state.user.user,
-  };
-};
-
-export default connect(mapStateToProps)(DateBox);
+export default DateBox;

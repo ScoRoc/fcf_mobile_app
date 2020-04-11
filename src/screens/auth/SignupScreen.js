@@ -1,15 +1,13 @@
 // Libraries
-import React, { useState } from 'react';
+import React, { useGlobal, useState } from 'reactn';
 import { Button, ImageBackground, Text, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 // Components
 import Touchable from '../../components/Touchable';
 // Helpers
-import { liftUser } from '../../redux/modules/user';
 import { urlHostName, getColor } from '../../utils/global-variables';
-import { blackBG } from '../../utils/style-sheet';
+import { blackBG } from '../../style-sheet';
 import useAxios from '../../utils/axios-helpers';
 import { setTokenOnDevice } from '../../utils/token-helpers';
 import { _EMPTYSTRING, HEIGHT_$, WIDTH_$, YELLOW_$ } from '../../utils/stringConstants';
@@ -21,6 +19,8 @@ const { postWithAxios } = useAxios(path);
 // https://www.freecodecamp.org/news/how-to-make-your-react-native-app-respond-gracefully-when-the-keyboard-pops-up-7442c1535580/
 
 const SignupScreen = props => {
+  // Global State
+  const [user, setUser] = useGlobal('user');
   // State
   const [firstName, setFirstName] = useState(_EMPTYSTRING);
   const [lastName, setLastName] = useState(_EMPTYSTRING);
@@ -29,8 +29,9 @@ const SignupScreen = props => {
 
   const handleSuccess = async ({ user, token }) => {
     await setToken(token);
-    props.liftUser({ user, token });
-    props.navigation.navigate('Main');
+    setUser({ self: user, token });
+    // props.liftUser({ user, token });
+    // props.navigation.navigate('Main');
   }
 
   const handleErr = errMsg => {
@@ -193,17 +194,4 @@ SignupScreen.navigationOptions = {
   header: null,
 };
 
-const mapStateToProps = state => {
-  return {
-    user: state.user.user,
-    token: state.user.token,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    liftUser: ({ user, token }) => dispatch( liftUser({ user, token }) ),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignupScreen);
+export default SignupScreen;
