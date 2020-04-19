@@ -13,7 +13,7 @@ import buildStyleSheet from './src/style-sheet';
 buildStyleSheet(); // Init Extended Style Sheet
 
 YellowBox.ignoreWarnings([
-    'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?'
+  'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?',
 ]);
 
 setGlobal({
@@ -31,15 +31,11 @@ export default function App() {
   const [user] = useGlobal('user');
 
   // Return
-  return isAppLoading
-          ? <SplashScreen />
-          : (
-            <NavigationContainer>
-              {
-                user.token === null
-                  ? <AuthNavigator />
-                  : <MainTabsNavigator />
-              }
-            </NavigationContainer>
-          );
-};
+  return isAppLoading ? (
+    <SplashScreen />
+  ) : (
+    <NavigationContainer>
+      {user.token === null ? <AuthNavigator /> : <MainTabsNavigator />}
+    </NavigationContainer>
+  );
+}
