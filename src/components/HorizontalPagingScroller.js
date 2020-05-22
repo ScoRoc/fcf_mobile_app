@@ -1,73 +1,53 @@
-import React from 'react'
+// Libraries
+import React, { useRef } from 'react'
+import PropTypes from 'prop-types';
 import { ScrollView, View } from 'react-native'
 import EStyleSheet from 'react-native-extended-stylesheet';
-
+// Components
 import PagingTitleBar from './PagingTitleBar'
+// Variables
+import { white, yellow } from '../style-sheet';
 
-export default class HorizontalPagingScroller extends React.Component {
+const HorizontalPagingScroller = props => {
+  // Refs
+  const scrollView = useRef(null);
 
-  scrollTo = title => {
-    const scrollToValue = this.props.xScrollToValues[title]();
-    this.scrollView.scrollTo({ x: scrollToValue });
-    this.props.scrollTo(scrollToValue);
+  // Functions
+  const handlePress = ({ i, title }) => {
+    scrollView.current.scrollTo({ x: props.pages[i].lowerVisibleBounds });
+    props.onTitlePress({ i, title });
   }
 
-  scrollToBeginning = () => {
-    this.scrollView.scrollTo({ x: 0 });
-    this.props.scrollToBeginning();
-  }
-
-  scrollToEnd = () => {
-    this.scrollView.scrollToEnd();
-    this.props.scrollToEnd();
-  }
-
-  render() {
-    const {
-      children,
-      currentPage,
-      handleMomentumScrollEnd,
-      handleScroll,
-      pagingBarScrollViewWrapperStyle,
-      pagingBarTextStyle,
-      pagingBarTextWrapperStyle,
-      pageScreens,
-      pageTitles,
-      selectedColor,
-      unselectedColor,
-    } = this.props;
-    const screens = pageScreens.map((screen, i) => {
-      return <View key={i + 'key'} style={styles.screen}>{screen}</View>
-    });
-    return (
-      <View style={styles.page}>
-        <PagingTitleBar
-          currentPage={currentPage}
-          pageTitles={pageTitles}
-          scrollTo={this.scrollTo}
-          scrollEnabled={false}
-          scrollToBeginning={this.scrollToBeginning}
-          scrollToEnd={this.scrollToEnd}
-          scrollViewWrapperStyle={pagingBarScrollViewWrapperStyle}
-          selectedColor={selectedColor}
-          unselectedColor={unselectedColor}
-          textStyle={pagingBarTextStyle}
-          textWrapperStyle={pagingBarTextWrapperStyle}
-        />
-        <ScrollView
-          horizontal
-          onMomentumScrollEnd={handleMomentumScrollEnd}
-          onScroll={e => handleScroll(e)}
-          pagingEnabled
-          ref={ref => this.scrollView = ref}
-          scrollEventThrottle={16}
-          showsHorizontalScrollIndicator={false}
-        >
-          {pageScreens}
-        </ScrollView>
+  const pages = props.pages.map((Page, i) => {
+    console.log('Page: ', Page)
+      return <View key={`${i}key`} style={styles.screen}>
+        <Page.component />
       </View>
-    );
-  }
+  });
+  return (
+    <View style={styles.page}>
+      <PagingTitleBar
+        currentPage={props.currentPage}
+        onPress={handlePress}
+        pageTitles={props.pages.map(screen => screen.title)}
+        scrollEnabled={props.titleScrollEnabled}
+        selectedColor={props.selectedColor}
+        styles={props.styles}
+        unselectedColor={props.unselectedColor}
+      />
+      <ScrollView
+        horizontal
+        onMomentumScrollEnd={props.onMomentumScrollEnd}
+        onScroll={e => props.onScroll(e)}
+        pagingEnabled
+        ref={scrollView}
+        scrollEventThrottle={16}
+        showsHorizontalScrollIndicator={false}
+      >
+        {pages}
+      </ScrollView>
+    </View>
+  );
 }
 
 const styles = EStyleSheet.create({
@@ -79,3 +59,29 @@ const styles = EStyleSheet.create({
     // width: '100%',
   },
 });
+
+HorizontalPagingScroller.propTypes = {
+  currentPage: PropTypes.object,
+  onMomentumScrollEnd: PropTypes.func,
+  onScroll: PropTypes.func,
+  onTitlePress: PropTypes.func,
+  pages: PropTypes.arrayOf(PropTypes.object),
+  selectedColor: PropTypes.string,
+  styles: PropTypes.object,
+  titleScrollEnabled: PropTypes.bool,
+  unselectedColor: PropTypes.string,
+}
+
+HorizontalPagingScroller.defaultProps = {
+  currentPage: null,
+  onMomentumScrollEnd: null,
+  onScroll: null,
+  onTitlePress: null,
+  pages: null,
+  selectedColor: yellow,
+  styles: null,
+  titleScrollEnabled: true,
+  unselectedColor: white,
+}
+
+export default HorizontalPagingScroller;

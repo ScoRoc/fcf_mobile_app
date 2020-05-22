@@ -1,21 +1,41 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import { Provider } from 'react-redux';
-import store from './src/redux/store/store';
+// Libraries
+import React, { setGlobal, useGlobal } from 'reactn';
+import { NavigationContainer } from '@react-navigation/native';
+import { YellowBox } from 'react-native';
+// Components
+import SplashScreen from './src/screens/Splash/SplashScreen';
+// Navigators
+import AuthNavigator from './src/navigation/AuthNavigator';
+import MainTabsNavigator from './src/navigation/MainTabsNavigator';
+// StyleSheet
+import buildStyleSheet from './src/style-sheet';
 
-import AppContainer from './src/navigation/navigators';
+buildStyleSheet(); // Init Extended Style Sheet
 
-import buildStyleSheet from './variables/style-sheet';
+YellowBox.ignoreWarnings([
+  'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?',
+]);
 
-buildStyleSheet();
+setGlobal({
+  isAppLoading: false,
+  isLoggingOut: false,
+  user: {
+    self: null,
+    token: null,
+  },
+});
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <AppContainer />
-      </Provider>
-    );
-  }
-};
+export default function App() {
+  // Global State
+  const [isAppLoading] = useGlobal('isLoading');
+  const [user] = useGlobal('user');
+
+  // Return
+  return isAppLoading ? (
+    <SplashScreen />
+  ) : (
+    <NavigationContainer>
+      {user.token === null ? <AuthNavigator /> : <MainTabsNavigator />}
+    </NavigationContainer>
+  );
+}

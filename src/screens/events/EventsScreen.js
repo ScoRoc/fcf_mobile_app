@@ -1,15 +1,18 @@
+// Libraries
 import React from 'react';
 import { ImageBackground, ScrollView, StatusBar, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
+// Components
 import EventsSubScreen from './EventsSubScreen';
+// String Constants
+import { _$ANNOUNCEMENTS, LIGHT_CONTENT, WIDTH_$ } from '../../utils/stringConstants';
 
 export default class EventsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       scrolledViaPress: false,
-      currentPage: 'Announcements',
+      currentPage: _$ANNOUNCEMENTS,
     };
   }
 
@@ -18,12 +21,12 @@ export default class EventsScreen extends React.Component {
   };
 
   render() {
-    const width = () => EStyleSheet.value('$width');
+    const width = () => EStyleSheet.value(WIDTH_$);
     const padding = width() * .1;
     return (
       // <View style={[ styles.screen, { paddingLeft: padding, paddingRight: padding } ]}>
       <View style={styles.screen}>
-        <StatusBar barStyle='light-content' />
+        <StatusBar barStyle={LIGHT_CONTENT} />
         <Text style={styles.header}>Events</Text>
         <EventsSubScreen />
       </View>

@@ -1,184 +1,131 @@
-import React from 'react';
+// Libraries
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { Button, Linking, StatusBar, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import moment from 'moment';
-
+// Components
 import HorizontalPagingScroller from '../../components/HorizontalPagingScroller'
 import Touchable from '../../components/Touchable'
 import Wod from './Wod'
 import WodSubScreen from './WodSubScreen'
-
-import wodPages, { firstPageX, secondPageX, thirdPageX, xScrollToValues } from './wod-pages'
+// Helpers
+import wodPages from './wod-pages'
 import useAxios from '../../utils/axios-helpers';
 import { urlHostName } from '../../utils/global-variables';
+// Variables
+import { white, yellow } from '../../style-sheet';
 
 const path = `${urlHostName}/wodweek`;
 const { getWithAxios } = useAxios(path);
 
-
-const { getPages, getPageTitleByXValue, getPageTitles } = wodPages();
-
 const url = 'https://fcf.sites.zenplanner.com/calendar.cfm';
 
-export default class WodScreen extends React.Component {
-  static navigationOptions = {
-    header: null,
-  }
+const WodScreen = props => {
+  // State
+  const [currentPage, setCurrentPage] = useState(wodPages[0]);
+  const [currentWodWeek, setCurrentWodWeek] = useState(null);
+  const [pastWodWeeks, setPastWodWeeks] = useState([]);
+  const [scrolledViaPress, setScrolledViaPress] = useState(false);
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      currentPage: 'This week',
-      currentWodWeek: null,
-      pastWodWeeks: [],
-      scrolledViaPress: false,
-    }
-  }
+  // Effects
+  useEffect(() => {
+    getWithAxios().then(result => {
+      const { wodWeeks } = result.data;
+      const [ currentWodWeek, pastWodWeeks ] = getCurrentAndPastWodWeeks(wodWeeks);
+      // SHOULD CHECK FOR MULTIPLE WEEKS IN CURRENT WEEK
+      setCurrentWodWeek(currentWodWeek[0]);
+      setPastWodWeeks(pastWodWeeks);
+    });
+  }, []);
 
-  getCurrentAndPastWodWeeks = wodWeeks => {
+  const getCurrentAndPastWodWeeks = wodWeeks => {
     const currentAndPastWodWeeks = wodWeeks.reduce((acc, wodWeek) => {
-      return this.isWodWeekForCurrentWeek(wodWeek)
+      return isWodWeekForCurrentWeek(wodWeek)
               ? [ [...acc[0].concat(wodWeek)], acc[1] ]
               : [ acc[0], [...acc[1].concat(wodWeek)]]
     }, [[], []] )
     return currentAndPastWodWeeks
   }
 
-  getXpage = x => {
-    const width = () => EStyleSheet.value('$width');
-    switch (true) {
-      case x < width() / 2:
-        return firstPageX();
-      case x > width() / 2 && x < width() * 1.5:
-      console.log('secondPageX: ', secondPageX())
-        return secondPageX();
-      case x > width() * 1.5 && x < width() * 2.5:
-        console.log('thirdPageX: ', thirdPageX())
-        return thirdPageX();
+  const getPageByX = x => {
+    return wodPages.filter(page => {
+      return x > page.lowerScrollBounds && x < page.upperScrollBounds;
+    })[0];
+  }
+
+  const handleScroll = e => {
+    if (!scrolledViaPress) {
+      const { x } = e.nativeEvent.contentOffset;
+      const newPage = getPageByX(x);
+      setCurrentPage(newPage);
     }
   }
 
-  isFirstDayOfCurrentWeek = day => {
-    const weekStart = moment().startOf('week');
+  const handleTitlePress = ({ i, title }) => {
+    setCurrentPage(wodPages[i]);
+    setScrolledViaPress(true);
+  }
+
+  const isFirstDayOfCurrentWeek = day => {
+    const weekStart = moment().startOf('isoweek');
     return moment(weekStart).isSame( moment(day).format() );
   }
 
-  isWodWeekForCurrentWeek = wodWeek => this.isFirstDayOfCurrentWeek(wodWeek.weekOf)
+  const isWodWeekForCurrentWeek = wodWeek => isFirstDayOfCurrentWeek(wodWeek.weekOf)
 
-  makeWodCompoment = wod => {
-    console.log('wod: ', wod)
-    return <Wod key={wod._id} text={wod.text} wodDate='test date' />
+  const makeWodCompoment = wod => {
+    const momentedDate = moment(wod.date)
+    const dayName = momentedDate.format('dddd');
+    const monthDate = momentedDate.format('M');
+    const dayDate = momentedDate.format('D');
+    const wodDate = `${dayName} ${monthDate}/${dayDate}`;
+    return <Wod key={wod._id} text={wod.text} wodDate={wodDate} />
   }
-  makeWodFromWodWeek = wodWeek => this.makeWodCompoment(wodWeek.wods)
+  const makeWodFromWodWeek = wodWeek => wodWeek.wods.map(makeWodCompoment);
 
-  scrollTo = x => {
-    const xPage = this.getXpage(x);
-    this.setState({ scrolledViaPress: true, currentPage: getPageTitleByXValue(xPage) });
-  }
+  const blackBG = () => EStyleSheet.value('$blackBG');
+  const blueGradDark = () => EStyleSheet.value('$blueGradDark');
 
-  scrollToBeginning = () => {
-    this.setState({ scrolledViaPress: true, currentPage: getPageTitles[0] });
-  }
+  const monday = moment().startOf('isoweek');
+  const mondayMonth = monday.format('MMMM');
+  const mondayDate = monday.format('Do');
+  const width = () => EStyleSheet.value('$width');
+  const padding = width() * .1;
+  const selectedColor = yellow;
+  const unselectedColor = white;
 
-  scrollToEnd = () => {
-    this.setState({ scrolledViaPress: true, currentPage: getPageTitles[ getPageTitles.length - 1 ] });
-  }
+  const currentWodComponents = currentWodWeek ? currentWodWeek.wods.map(makeWodCompoment) : [];
+  const pastWods = pastWodWeeks.map(makeWodFromWodWeek)
+  const pages = wodPages.map((page, i) => {
+    page.component = () => <WodSubScreen key={i + page.title} wods={i === 0 ? currentWodComponents : pastWods} />
+    return page;
+  });
+  return (
+    <View style={styles.screen}>
+      <StatusBar barStyle='light-content' />
 
-  handleScroll = e => {
-    const { x } = e.nativeEvent.contentOffset;
-    const xPage = this.getXpage(x);
-    if (!this.state.scrolledViaPress) this.setState({ currentPage: getPageTitleByXValue(xPage) });
-  }
+      <Text style={[ styles.headerText, { paddingLeft: padding } ]}>WOD</Text>
 
-  comonentDidUpdate = (prevProps, prevState) => {
-    // console.log('prevState.currentWodWeek: ', prevState.currentWodWeek)
-    // console.log('this.state.currentWodWeek: ', this.state.currentWodWeek)
-  }
+      <HorizontalPagingScroller
+        currentPage={currentPage}
+        onMomentumScrollEnd={() => setScrolledViaPress(false)}
+        onScroll={handleScroll}
+        onTitlePress={handleTitlePress}
+        pages={pages}
+        selectedColor={yellow}
+        styles={null}
+        titleScrollEnabled={false}
+        unselectedColor={white}
+      />
 
-  componentDidMount() {
-    getWithAxios().then(result => {
-      const { wodWeeks } = result.data;
-      const [ currentWodWeek, pastWodWeeks ] = this.getCurrentAndPastWodWeeks(wodWeeks);
-      // SHOULD CHECK FOR MULTIPLE WEEKS IN CURRENT WEEK
-      this.setState({ currentWodWeek: currentWodWeek[0], pastWodWeeks });
-    });
-  }
+      {/* <Touchable iosType='opacity' onPress={() => Linking.openURL('spotify://app')} viewStyle={styles.rsvp}> */}
+      <Touchable iosType='opacity' onPress={() => props.navigation.navigate('WebView', { url })} viewStyle={styles.rsvp}>
+        <Text style={styles.rsvpText}>RSVP</Text>
+      </Touchable>
 
-  render() {
-    const { currentPage, currentWodWeek, pastWodWeeks } = this.state;
-    const blackBG = () => EStyleSheet.value('$blackBG');
-    const blueGradDark = () => EStyleSheet.value('$blueGradDark');
-    const yellow = () => EStyleSheet.value('$yellow');
-    const white = () => EStyleSheet.value('$white');
-
-    const monday = moment().startOf('isoweek');
-    const mondayMonth = monday.format('MMMM');
-    const mondayDate = monday.format('Do');
-    const width = () => EStyleSheet.value('$width');
-    const padding = width() * .1;
-    const selectedColor = yellow;
-    const unselectedColor = white;
-
-    // console.log('currentWodWeek: ', currentWodWeek)
-    // console.log('currentWodWeek.wods: ', currentWodWeek && currentWodWeek.wods)
-    // console.log('wods map foo: ', currentWodWeek && currentWodWeek.wods.map(wod => 'yo yo yo'))
-    const currentWodComponents = currentWodWeek ? currentWodWeek.wods.map(wod => this.makeWodCompoment(wod)) : [];
-    // console.log('currentWodWeek: ', currentWodWeek)
-    // console.log('currentWodComponents: ', currentWodComponents)
-    // const pastWods = pastWodWeeks.map(this.makeWodFromWodWeek)
-    // PLACEHOLDER UNTIL GETTING REAL DATA
-    const fakeWods = [
-      <Wod
-        key={0 + 'key'}
-        text={`AMRAP in 15 minutes:
-50 double unders
-50 double kettlebell deadlifts, 2*32/24kg
-50goblet squats, 32/24kg
-50 calorie row
-50 handstand push-ups`}
-        wodDate='Monday 4/8'
-      />,
-      <Wod key={1 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Tuesday 4/9' />,
-      <Wod key={2 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Wednesday 4/10' />,
-      <Wod key={3 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Thursday 4/11' />,
-      <Wod key={4 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Friday 4/12' />,
-      <Wod key={5 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Saturday 4/13' />,
-      <Wod key={6 + 'key'} text='150 medicine ball clean wall ball shots (20/14) for time' wodDate='Sunday 4/14' />,
-    ];
-    const pageScreens = Object.values(getPages).map((page, i) => <WodSubScreen key={i + page.title} wods={fakeWods} />)
-    // const pageScreens = [<WodSubScreen wods={fakeWods} />, <WodSubScreen wods={fakeWods} />, <WodSubScreen wods={fakeWods} />]
-    return (
-      <View style={styles.screen}>
-        <StatusBar barStyle='light-content' />
-
-        <Text style={[ styles.headerText, { paddingLeft: padding } ]}>WOD</Text>
-
-        <HorizontalPagingScroller
-          currentPage={currentPage}
-          handleMomentumScrollEnd={() => this.setState({ scrolledViaPress: false })}
-          handleScroll={this.handleScroll}
-          pagingBarTextStyle={styles.pagingBarTextStyle}
-          pagingBarTextWrapperStyle={styles.pagingBarTextWrapperStyle}
-          pagingBarScrollViewWrapperStyle={styles.pagingBarScrollViewWrapperStyle}
-          // pageScreens={getPageScreens}
-          pageScreens={pageScreens}
-          pageTitles={getPageTitles}
-          scrollTo={this.scrollTo}
-          scrollToBeginning={this.scrollToBeginning}
-          scrollToEnd={this.scrollToEnd}
-          selectedColor={selectedColor}
-          unselectedColor={unselectedColor}
-          xScrollToValues={xScrollToValues}
-        />
-
-        {/* <Touchable iosType='opacity' onPress={() => Linking.openURL('spotify://app')} viewStyle={styles.rsvp}> */}
-        <Touchable iosType='opacity' onPress={() => this.props.navigation.navigate('WebView', { url })} viewStyle={styles.rsvp}>
-          <Text style={styles.rsvpText}>RSVP</Text>
-        </Touchable>
-
-      </View>
-    );
-  }
+    </View>
+  );
 }
 
 const styles = EStyleSheet.create({
@@ -219,3 +166,17 @@ const styles = EStyleSheet.create({
     textAlign: 'center',
   }
 });
+
+WodScreen.navigationOptions = {
+  header: null,
+}
+
+WodScreen.propTypes = {
+  //
+}
+
+WodScreen.defaultProps = {
+  //
+}
+
+export default WodScreen;

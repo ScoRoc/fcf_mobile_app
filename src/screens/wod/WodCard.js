@@ -1,6 +1,5 @@
-import React from 'react';
+import React from 'reactn';
 import { Text, View } from 'react-native';
-import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import moment from 'moment';
 
@@ -40,7 +39,7 @@ class WodCard extends React.Component {
   render() {
     const { wod } = this.props;
     const { attended, likes } = wod;
-    const userId = this.props.user ? this.props.user._id : '';
+    const userId = this.global.user ? this.global.user._id : '';
     const liked = likes.includes(userId);
     const attendedChecked = attended.includes(userId);
     const day = moment(wod.date).format('dddd');
@@ -140,10 +139,4 @@ const styles = EStyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
-  return {
-    user: state.user.user,
-  };
-};
-
-export default connect(mapStateToProps)(WodCard);
+export default WodCard;

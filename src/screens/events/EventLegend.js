@@ -1,16 +1,19 @@
+// Libraries
 import React from 'react';
 import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
+// Components
 import EventKey from './EventKey';
-
+// Keys
 import eventKeys from './event-keys';
+// String Constants
+import { WIDTH_$ } from '../../utils/stringConstants';
 
 const { getEventKeys, getKeysText } = eventKeys();
 const numOfKeys = getKeysText.length;
 
-export default EventsKey = props => {
-  const width = () => EStyleSheet.value('$width');
+export default EventLegend = props => {
+  const width = () => EStyleSheet.value(WIDTH_$);
   const createEachKey = (evtKey, i) => {
     const [key, value] = evtKey;
     return <EventKey

@@ -1,7 +1,7 @@
 import { Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-const { height, width } = Dimensions.get('window');
+export const { height, width } = Dimensions.get('window');
 const baseScreenWidth = 375; // from iPhoneX vertical
 
 export const tabHeight = 80;

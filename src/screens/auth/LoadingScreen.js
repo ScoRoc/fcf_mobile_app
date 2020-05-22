@@ -1,95 +1,71 @@
-import React from 'react';
-import { AsyncStorage, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+// Libraries
+import React, { useEffect, useGlobal, useState } from 'reactn';
+import { Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
-import { liftUser } from '../../redux/modules/user';
-import { urlHostName, tokenName } from '../../utils/global-variables';
-import useAxios from '../../utils/axios-helpers';
-
 import axios from 'axios';
+// Helpers
+import { deleteToken, getToken, setTokenOnDevice } from '../../utils/token-helpers';
+import { _TOKEN_NAME, urlHostName } from '../../utils/global-variables';
+import { _EMPTYSTRING, NONE, STRING } from '../../utils/global-variables';
+import useAxios from '../../utils/axios-helpers';
 
 const path = `${urlHostName}/user/validate`;
 const { postWithAxios } = useAxios(path);
 
-class LoadingScreen extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      //
+const LoadingScreen = props => {
+  // Global State
+  const [user, setUser] = useGlobal(null);
+  
+  // State
+  const [token, setToken] = useState(null);
+
+  // Effects
+  useEffect(() => {
+    const retreiveToken = async () => {
+      const token = await getToken();
+      typeof token !== STRING || token === _EMPTYSTRING
+        ? tokenFail()
+        : tokenSuccess(token);
     }
-  }
+    retreiveToken();
+  }, []);
 
-  deleteToken = async () => {
-    try {
-      await AsyncStorage.removeItem(tokenName);
-      return { user: null, token: null }
-    } catch (err) {
-      console.log('err: ', err);
-    }
-  }
-
-  tokenFail = async () => {
-    const clearedState = await this.deleteToken();
-    this.setState(clearedState);
-    this.props.navigation.navigate('Auth');
-  }
-
-  setToken = async token => {
-    try {
-      await AsyncStorage.setItem(tokenName, token);
-    } catch (err) {
-      console.log('err: ', err);
-    }
-  }
-
-  handleSuccess = async ({ user, token }) => {
-    // console.log('in handleSuccess')
-    await this.setToken(token);
-    this.props.liftUser({ user, token });
-    this.props.navigation.navigate('Main');
-  }
-
-  handleErr = errMsg => {
+  const handleErr = errMsg => {
     console.log('signup failed with err: ', errMsg);
   }
 
-  handleValidateFail = err => {
-    console.log('err: ', err);
-    this.tokenFail();
+  const handleSuccess = async ({ user, token }) => {
+    await setTokenOnDevice(token);
+    setUser({ self: user, token });
+    // props.liftUser({ user, token });
+    // props.navigation.navigate('Main');
   }
 
-  tokenSuccess = token => {
+  const handleValidateFail = err => {
+    console.log('err: ', err);
+    tokenFail();
+  }
+
+  const tokenFail = async () => {
+    const { token, user } = await deleteToken();
+    setToken(token);
+    setUser(user);
+    props.navigation.navigate('Auth');
+  }
+
+  const tokenSuccess = token => {
     postWithAxios({ token }).then(async result => {
       result.data.user
-        ? this.handleSuccess({ user: result.data.user, token: result.data.token })
-        : this.handleErr(result.data._message);
-    }).catch(err => this.handleValidateFail(err));
+        ? handleSuccess({ user: result.data.user, token: result.data.token })
+        : handleErr(result.data._message);
+    }).catch(err => handleValidateFail(err));
   }
 
-  getToken = async () => {
-    try {
-      return await AsyncStorage.getItem(tokenName) || null;
-    } catch (err) {
-      console.log('err: ', err);
-    }
-  }
-
-  componentDidMount = async () => {
-    // () => this.props.navigation.navigate('Auth')
-    const token = await this.getToken();
-    typeof token !== 'string' || token === 'none' || token === ''
-      ? this.tokenFail()
-      : this.tokenSuccess(token);
-  }
-
-  render() {
-    return (
-      <View style={styles.view}>
-        <Text>loading screen</Text>
-      </View>
-    );
-  }
+  return (
+    <View style={styles.view}>
+      <Text>loading screen</Text>
+    </View>
+  );
 }
 
 const styles = EStyleSheet.create({
@@ -99,17 +75,4 @@ const styles = EStyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
-  return {
-    user: state.user.user,
-    token: state.user.token,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    liftUser: ({ user, token }) => dispatch( liftUser({ user, token }) ),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoadingScreen);
+export default LoadingScreen;
