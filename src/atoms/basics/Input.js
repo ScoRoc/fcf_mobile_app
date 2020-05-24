@@ -12,7 +12,7 @@ export const forwardedProps = [...props, 'cursor', 'd', 'fill', 'stroke', 'trans
 export const shouldForwardProp = createShouldForwardProp(forwardedProps);
 
 const Input = styled(TextInput, { shouldForwardProp })(
-  { className: 'Input' },
+  // { className: 'Input' },
   (
     { custonPropName }, // write your own prop name and styles associated with it
   ) =>

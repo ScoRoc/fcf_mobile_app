@@ -12,7 +12,7 @@ export const forwardedProps = [...props, 'cursor', 'd', 'fill', 'stroke', 'trans
 export const shouldForwardProp = createShouldForwardProp(forwardedProps);
 
 const TouchableAndroid = styled(TouchableNativeFeedback, { shouldForwardProp })(
-  { className: 'TouchableAndroid' },
+  // { className: 'TouchableAndroid' },
   (
     { custonPropName }, // write your own prop name and styles associated with it
   ) =>

@@ -12,7 +12,7 @@ export const forwardedProps = [...props, 'cursor', 'd', 'fill', 'stroke', 'trans
 export const shouldForwardProp = createShouldForwardProp(forwardedProps);
 
 const Img = styled(Image, { shouldForwardProp })(
-  { className: 'Img' },
+  // { className: 'Img' },
   (
     { custonPropName }, // write your own prop name and styles associated with it
   ) =>

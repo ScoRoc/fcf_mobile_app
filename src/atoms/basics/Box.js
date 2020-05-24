@@ -1,4 +1,5 @@
 // Libraries
+import { View } from 'react-native';
 import styled, { css } from '@emotion/native';
 import { animated } from 'react-spring';
 import { createShouldForwardProp, props } from '@styled-system/should-forward-prop';
@@ -10,8 +11,8 @@ export const forwardedProps = [...props, 'cursor', 'd', 'fill', 'stroke', 'trans
 
 export const shouldForwardProp = createShouldForwardProp(forwardedProps);
 
-const Box = styled('View', { shouldForwardProp })(
-  { className: 'Box' },
+const Box = styled(View, { shouldForwardProp })(
+  // { className: 'Box' },
   (
     { custonPropName }, // write your own prop name and styles associated with it
   ) =>

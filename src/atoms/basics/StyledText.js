@@ -1,7 +1,6 @@
 // Libraries
 import { Text } from 'react-native';
 import styled, { css } from '@emotion/native';
-import { animated } from 'react-spring';
 import { createShouldForwardProp, props } from '@styled-system/should-forward-prop';
 // Custom Props
 import systemProps from 'theme/system-props.js';
@@ -12,7 +11,7 @@ export const forwardedProps = [...props, 'cursor', 'd', 'fill', 'stroke', 'trans
 export const shouldForwardProp = createShouldForwardProp(forwardedProps);
 
 const StyledText = styled(Text, { shouldForwardProp })(
-  { className: 'StyledText' },
+  // { className: 'StyledText' },
   (
     { custonPropName }, // write your own prop name and styles associated with it
   ) =>
@@ -28,6 +27,4 @@ const StyledText = styled(Text, { shouldForwardProp })(
   systemProps,
 );
 
-const AnimatedStyledText = animated(StyledText);
-
-export { AnimatedStyledText, StyledText };
+export default StyledText;

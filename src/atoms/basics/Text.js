@@ -1,17 +1,17 @@
+// Libraries
 import React from 'react';
-import PropTypes from 'prop-types';
-import { StyledText } from './StyledText';
+import { animated } from 'react-spring';
+// StyledText
+import StyledText from './StyledText';
 
-const Text = ({ children, ...props }) => {
-  return <StyledText {...props}>{children}</StyledText>;
+// Text
+
+const Text = props => {
+  return <StyledText {...props}>{props.children}</StyledText>;
 };
 
 Text.displayName = Text;
 
-StyledText.propTypes = {
-  children: PropTypes.children,
-};
+const AnimatedText = animated(StyledText);
 
-StyledText.defaultProps = {
-  children: null,
-};
+export { AnimatedText, Text };

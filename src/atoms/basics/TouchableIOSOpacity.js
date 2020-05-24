@@ -12,7 +12,7 @@ export const forwardedProps = [...props, 'cursor', 'd', 'fill', 'stroke', 'trans
 export const shouldForwardProp = createShouldForwardProp(forwardedProps);
 
 const TouchableIOSOpacity = styled(TouchableOpacity, { shouldForwardProp })(
-  { className: 'TouchableIOSOpacity' },
+  // { className: 'TouchableIOSOpacity' },
   (
     { custonPropName }, // write your own prop name and styles associated with it
   ) =>
