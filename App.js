@@ -1,12 +1,17 @@
 // Libraries
-import React, { setGlobal, useGlobal } from 'reactn';
+import React, { addReducers, setGlobal, useGlobal } from 'reactn';
 import { NavigationContainer } from '@react-navigation/native';
 import { YellowBox } from 'react-native';
 // Components
-import SplashScreen from './src/screens/Splash/SplashScreen';
+import SplashScreen from './src/screens-OLD/Splash/SplashScreen';
 // Navigators
 import AuthNavigator from './src/navigation/AuthNavigator';
 import MainTabsNavigator from './src/navigation/MainTabsNavigator';
+// Reducers
+// import homeReducers from './src/screens/Home/logic/HomeLogic/reducers';
+
+// TODO delete after refactor (also delete the extended stylesheet package)
+
 // StyleSheet
 import buildStyleSheet from './src/style-sheet';
 
@@ -23,6 +28,40 @@ setGlobal({
     self: null,
     token: null,
   },
+});
+
+addReducers({
+  // ...homeReducers,
+  //  ...eventReducers,
+  //  ...usersReducers,
+  //  ...wodToolsReducers,
+  //  ...profileReducers,
+  // authenticateUser: (globalState, dispatch) => ({ isUserAuthenticated: true }),
+  //   clearUser: (globalState, dispatch) => ({ user: null }),
+  //   deauthenticateUser: (globalState, dispatch) => ({ isUserAuthenticated: false }),
+  //   login: async (globalState, dispatch, user) => {
+  //     await dispatch.setUser(user);
+  //     await dispatch.authenticateUser();
+  //   },
+  //   logout: async (globalState, dispatch) => {
+  //     await dispatch.clearUser();
+  //     await dispatch.deauthenticateUser();
+  //   },
+  //   setCache: (globalState, dispatch, { data, key }) => {
+  //     console.log('key: ', key);
+  //     console.log('data: ', data);
+  //     return { cache: { ...globalState.cache, [key]: data } };
+  //   },
+  //   setUser: async (globalState, dispatch, user) => {
+  //     await dispatch.setCache({ data: user, key: 'user' });
+  //     return { user };
+  //   },
+  //   // updateUserCache: (globalState, dispatch, user) => ({ // Do I actually need this ???
+  //   //   cache: {
+  //   //     ...globalState.cache,
+  //   //     [user._id]: user,
+  //   //   },
+  //   // }),
 });
 
 export default function App() {
