@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 // Components
 import BlogScreen from '../screens-OLD/blog/BlogScreen';
 import ChangePasswordScreen from '../screens-OLD/profile/ChangePasswordScreen';
-import Home from '../screens/Home';
+import Home from 'screens/Home';
 // import HomeScreen_NEW from '../screens-OLD/home/HomeScreen_NEW';
 import PercentTableScreen from '../screens-OLD/wod-tools/percent-table/PercentTableScreen';
 import ProfileScreen from '../screens-OLD/profile/ProfileScreen';
