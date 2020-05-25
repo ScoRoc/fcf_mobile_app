@@ -7,13 +7,20 @@ import moment from 'moment';
 import LikeButton from '../../components/LikeButton';
 import Touchable from '../../components/Touchable';
 // Helper Funcs
-import useAxios from '../../utils/axios-helpers';
-import { urlHostName } from '../../utils/global-variables';
+import useAxios from '../../utils-OLD/axios-helpers';
+import { urlHostName } from '../../utils-OLD/global-variables';
 // String Constants
 import {
-  _EMPTYSTRING, _SLASH,
-  EVENTS, HEART, HEART_OUTLINE, LIKE, MATERIAL_COMMUNITY_ICONS, MMM, OPACITY
-} from '../../utils/stringConstants';
+  _EMPTYSTRING,
+  _SLASH,
+  EVENTS,
+  HEART,
+  HEART_OUTLINE,
+  LIKE,
+  MATERIAL_COMMUNITY_ICONS,
+  MMM,
+  OPACITY,
+} from '../../utils-OLD/stringConstants';
 
 const path = `${urlHostName}${_SLASH}${EVENTS}${_SLASH}${LIKE}`;
 const { putWithAxios } = useAxios(path);
@@ -26,25 +33,27 @@ class DateBox extends React.Component {
 
   updateLikeInfo = () => {
     const likes = this.state.likes === 0 ? 1 : 0;
-    this.setState({liked: !this.state.liked, likes})
-  }
+    this.setState({ liked: !this.state.liked, likes });
+  };
 
   handleSuccess = async ({ eventId, userId }) => {
     this.props.updateEvent({ eventId, userId });
-  }
+  };
 
   handleErr = err => {
     console.log('signup failed with err: ', err);
-  }
+  };
 
   updateLike = ({ eventId, userId }) => {
-    putWithAxios({ eventId, userId }).then(result => {
-      // console.log('result.data: ', result.data);
-      result.data.updatedEvent
-        ? this.handleSuccess({ eventId, userId })
-        : this.handleErr(result.data.err);
-    }).catch(err => console.log('err: ', err));
-  }
+    putWithAxios({ eventId, userId })
+      .then(result => {
+        // console.log('result.data: ', result.data);
+        result.data.updatedEvent
+          ? this.handleSuccess({ eventId, userId })
+          : this.handleErr(result.data.err);
+      })
+      .catch(err => console.log('err: ', err));
+  };
 
   // iksent from GitHub
   handleDoublePress = date => {
@@ -75,12 +84,8 @@ class DateBox extends React.Component {
     const date = startDate.date();
     const month = moment(startDate).format(MMM);
     return (
-      <View style={ [styles.dateTile, { backgroundColor: this.props.color }] }>
-        <Touchable
-          iosType={OPACITY}
-          onPress={this.handleDoublePress}
-          viewStyle={styles.viewStyle}
-        >
+      <View style={[styles.dateTile, { backgroundColor: this.props.color }]}>
+        <Touchable iosType={OPACITY} onPress={this.handleDoublePress} viewStyle={styles.viewStyle}>
           <Text style={styles.monthText}>{month}</Text>
           <Text style={styles.dateText}>{date}</Text>
         </Touchable>
@@ -94,7 +99,7 @@ class DateBox extends React.Component {
       </View>
     );
   }
-};
+}
 
 const styles = EStyleSheet.create({
   $dateBoxWidth: '$width / 5',

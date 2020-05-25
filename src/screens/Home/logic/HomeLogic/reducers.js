@@ -29,23 +29,21 @@ const homeReducers = {
   //   },
   // };
   // },
-  // setAnnouncements: async (
-  // globalState,
-  // dispatch,
-  // { data, direction = QUERY_STRING.DIRECTION.DESC.value },
-  // ) => {
-  //   const announcementData = data.reduce((announcements, announcement) => {
-  //     announcements[announcement._id] = announcement;
-  //     return announcements;
-  //   }, {});
-  //   const newAnnouncementsState = {
-  //     ...globalState.announcements,
-  //     data: announcementData,
-  //     // direction: direction || globalState.announcements.direction,
-  //   };
-  //   await dispatch.setCache({ data: newAnnouncementsState, key: 'announcements' });
-  //   return { announcements: newAnnouncementsState };
-  // },
+  setAnnouncements: async (globalState, dispatch, { announcements }) => {
+    const announcementData = announcements.reduce((_announcements, announcement) => {
+      _announcements[announcement._id] = announcement;
+      return _announcements;
+    }, {});
+
+    const newAnnouncementsState = {
+      ...globalState.announcements,
+      data: announcementData,
+      // direction: direction || globalState.announcements.direction,
+    };
+
+    await dispatch.setCache({ data: newAnnouncementsState, key: 'announcements' });
+    return { announcements: newAnnouncementsState };
+  },
 };
 
 export default homeReducers;

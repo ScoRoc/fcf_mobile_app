@@ -1,5 +1,6 @@
 // Libraries
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { StatusBar } from 'react-native';
 // import { Button, Linking, StatusBar, Text, View } from 'react-native';
 import moment from 'moment';
@@ -7,89 +8,51 @@ import moment from 'moment';
 import { Box, Text } from 'atoms';
 // Organisms
 import PageCarousel from 'organisms/PageCarousel';
-// Components
-// import HorizontalPagingScroller from '../../components/HorizontalPagingScroller';
-// import Touchable from '../../components/Touchable'
-// // Utils
-// import useAxios from '../../utils/axios-helpers';
-// // Variables
-// import { white, yellow } from '../../style-sheet';
-// import { urlHostName } from '../../utils/global-variables';
-// // String Constants
-// import { ANNOUNCEMENTS, EVENTS, WIDTH_$ } from '../../utils/stringConstants';
-// // Pages
-// import homePages from './home-pages';
-
-// const path = `${urlHostName}/wodweek`;
-// const { getWithAxios } = useAxios(path);
+// Home Organisms
+import { Announcements, Events } from '../../organisms';
+import EventsScreen from '../../../../screens-OLD/events/EventsScreen';
+import HomeScreen from '../../../../screens-OLD/home/HomeScreen';
 
 // const url = 'https://fcf.sites.zenplanner.com/calendar.cfm';
 
-const HomeTemplate = ({ children, ...props }) => {
-  // State
-  // const [currentPage, setCurrentPage] = useState(homePages[0])
-  // const [scrolledViaPress, setScrolledViaPress] = useState(false);
-
-  // const getPageByX = x => {
-  //   return homePages.filter(page => {
-  //     return x > page.lowerScrollBounds && x < page.upperScrollBounds;
-  //   })[0];
-  // }
-
-  // const handleTitlePress = ({ i, title }) => {
-  //   setCurrentPage(homePages[i]);
-  //   setScrolledViaPress(true);
-  // }
-
-  // const handleScroll = e => {
-  //   if (!scrolledViaPress) {
-  //     const { x } = e.nativeEvent.contentOffset;
-  //     const newPage = getPageByX(x);
-  //     setCurrentPage(newPage);
-  //   }
-  // }
+const HomeTemplate = ({ announcements, children, ...props }) => {
+  console.log('announcements in HomeTemplate: ', announcements);
 
   return (
-    <Box backgroundColor='honeydew' flex={1} paddingTop={65}>
+    <Box backgroundColor='darkgrey' flex={1} paddingTop={60}>
       <StatusBar barStyle='light-content' />
 
-      <Text color='indigo'>Yo, HomeTemplate</Text>
+      <Text color='indigo' fontSize={40} marginBottom={20} marginLeft={10}>
+        What's Happenin, C
+      </Text>
 
-      <PageCarousel flex={1}>
-        <Box bg='blue' flex={1}>
-          <Text>item 1</Text>
-        </Box>
-        <Box flex={1}>
-          <Text>item 2</Text>
-        </Box>
-        <Box bg='green' flex={1}>
-          <Text>item 3</Text>
-        </Box>
-        <Box flex={1}>
-          <Text>item 4</Text>
-        </Box>
-        <Box flex={1}>
-          <Text>item 5</Text>
-        </Box>
+      <PageCarousel
+        flex={1}
+        onTitlePress={() => console.log('pressed')}
+        styles={{ titleTextStyle: { activeColor: 'yellow', inActiveColor: 'black' } }}
+        titles={['Announcements', 'Events']}
+      >
+        <Announcements
+          announcements={announcements?.data ? Object.values(announcements.data) : []}
+        />
+        <Events />
+        {/* <HomeScreen /> */}
+        {/* <EventsScreen /> */}
       </PageCarousel>
-
-      {/* <HorizontalPagingScroller
-        currentPage={currentPage}
-        onMomentumScrollEnd={() => setScrolledViaPress(false)}
-        onScroll={handleScroll}
-        onTitlePress={handleTitlePress}
-        pages={homePages}
-        selectedColor={yellow}
-        styles={null}
-        titleScrollEnabled={false}
-        unselectedColor={white}
-      /> */}
     </Box>
   );
 };
 
 HomeTemplate.navigationOptions = {
   header: null,
+};
+
+HomeTemplate.propTypes = {
+  announcements: PropTypes.object.isRequired,
+};
+
+HomeTemplate.defaultProps = {
+  announcements: {},
 };
 
 export default HomeTemplate;

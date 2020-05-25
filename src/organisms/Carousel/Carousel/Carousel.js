@@ -1,24 +1,46 @@
 // Libraries
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 // Atoms
 import { Box, Scrollview, Text } from 'atoms';
 
 // Carousel
 
-const Carousel = ({ children, contentContainerStyle, scrollViewProps, showBullets, ...props }) => {
+const Carousel = ({
+  children,
+  contentContainerStyle,
+  scrollViewProps,
+  scrollX,
+  showBullets,
+  ...props
+}) => {
   // State
 
   const [interval, setInterval] = useState(1);
   const [intervals, setIntervals] = useState(children.length || 1);
-  const [width, setWidth] = useState(1);
+  const [scrollViewWidth, setScrollViewWidth] = useState(1);
+
+  // Refs
+
+  const scrollviewRef = useRef(null);
+
+  // Effects
+
+  // is this a double of handleContentSizeChange ??
+  // useEffect(() => {
+  //   setIntervals(children.length);
+  // }, [children.length]);
+
+  useEffect(() => {
+    scrollviewRef.current.scrollTo({ x: scrollX });
+  }, [scrollX]);
 
   // Functions
 
-  const handleScroll = e => {
+  const handleScroll = event => {
     const getInterval = offset => {
       for (let i = 1; i <= intervals; i++) {
-        if (offset < (width / intervals) * i) {
+        if (offset < (scrollViewWidth / intervals) * i) {
           return i;
         }
         if (i === intervals) {
@@ -26,12 +48,13 @@ const Carousel = ({ children, contentContainerStyle, scrollViewProps, showBullet
         }
       }
     };
-    setInterval(getInterval(e.nativeEvent.contentOffset.x));
-    props?.onScroll?.(e);
+    const currentInterval = getInterval(event.nativeEvent.contentOffset.x);
+    setInterval(currentInterval);
+    props?.onScroll?.({ currentInterval, event });
   };
 
   const handleContentSizeChange = (_width, _height) => {
-    setWidth(_width);
+    setScrollViewWidth(_width);
     setIntervals(children.length);
     props?.onContentSizeChange?.(_width, _height);
   };
@@ -57,15 +80,13 @@ const Carousel = ({ children, contentContainerStyle, scrollViewProps, showBullet
   return (
     <Box {...props}>
       <Scrollview
-        contentContainerStyle={{
-          width: `${100 * intervals}%`,
-          ...contentContainerStyle,
-        }}
+        contentContainerStyle={contentContainerStyle}
         decelerationRate='fast'
         horizontal
         onContentSizeChange={handleContentSizeChange}
         onScroll={handleScroll}
         pagingEnabled
+        ref={scrollviewRef}
         scrollEventThrottle={200}
         showsHorizontalScrollIndicator={false}
         {...scrollViewProps}
@@ -85,12 +106,14 @@ const Carousel = ({ children, contentContainerStyle, scrollViewProps, showBullet
 Carousel.propTypes = {
   contentContainerStyle: PropTypes.object, // valid ScrollView contentContainerStyle object
   scrollViewProps: PropTypes.object, // object containing any ScrollView props
+  scrollX: PropTypes.number, // number that Scrollview should scroll to
   showBullets: PropTypes.bool,
 };
 
 Carousel.defaultProps = {
   contentContainerStyle: null,
   scrollViewProps: null,
+  scrollX: 0,
   showBullets: false,
 };
 

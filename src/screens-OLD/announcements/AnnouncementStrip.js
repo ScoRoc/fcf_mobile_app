@@ -7,38 +7,45 @@ import AnnouncementStripText from './AnnouncementStripText';
 import ImgSection from './ImgSection';
 import LikeButton from '../../components/LikeButton';
 // Helper Funcs
-import useAxios from '../../utils/axios-helpers';
-import { urlHostName } from '../../utils/global-variables';
+import useAxios from '../../utils-OLD/axios-helpers';
+import { urlHostName } from '../../utils-OLD/global-variables';
 // String Constants
 import {
-  _SLASH, ANNOUNCEMENTS, HEART, HEART_OUTLINE, LIKE, MATERIAL_COMMUNITY_ICONS
-} from '../../utils/stringConstants';
+  _SLASH,
+  ANNOUNCEMENTS,
+  HEART,
+  HEART_OUTLINE,
+  LIKE,
+  MATERIAL_COMMUNITY_ICONS,
+} from '../../utils-OLD/stringConstants';
 
 const path = `${urlHostName}${_SLASH}${ANNOUNCEMENTS}${_SLASH}${LIKE}`;
 const { putWithAxios } = useAxios(path);
 
 class AnnouncementStrip extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.lastPress = null;
   }
 
   handleSuccess = async ({ announcementId, userId }) => {
     this.props.updateAnnouncement({ announcementId, userId });
-  }
+  };
 
   handleErr = err => {
     console.log('signup failed with err: ', err);
-  }
+  };
 
   updateLike = ({ announcementId, userId }) => {
-    putWithAxios({ announcementId, userId }).then(result => {
-      // console.log('result.data: ', result.data);
-      result.data.updatedAnnouncement
-        ? this.handleSuccess({ announcementId, userId })
-        : this.handleErr(result.data.err);
-    }).catch(err => console.log('err: ', err));
-  }
+    putWithAxios({ announcementId, userId })
+      .then(result => {
+        // console.log('result.data: ', result.data);
+        result.data.updatedAnnouncement
+          ? this.handleSuccess({ announcementId, userId })
+          : this.handleErr(result.data.err);
+      })
+      .catch(err => console.log('err: ', err));
+  };
 
   // iksent from GitHub
   handleDoublePress = date => {
@@ -69,14 +76,13 @@ class AnnouncementStrip extends React.Component {
       imgWidth,
       padding,
       updateAnnouncement,
-      updated
+      updated,
     } = this.props;
     const userId = this.global.user && this.global.user._id;
     const { _id, imgUrl, likes } = announcement;
     const liked = likes.includes(userId);
     return (
-      <View style={[ styles.announcementStrip, { paddingLeft: padding, paddingRight: padding } ]}>
-
+      <View style={[styles.announcementStrip, { paddingLeft: padding, paddingRight: padding }]}>
         <View style={styles.imgSectionWrapper}>
           <ImgSection
             announcement={announcement}
@@ -101,12 +107,10 @@ class AnnouncementStrip extends React.Component {
           name={{ liked: HEART, unliked: HEART_OUTLINE }}
           updateLike={() => this.updateLike({ announcementId: _id, userId })}
         />
-
       </View>
     );
   }
-};
-
+}
 
 const styles = EStyleSheet.create({
   $spacing: '20rem',
@@ -133,7 +137,7 @@ const styles = EStyleSheet.create({
     marginTop: '$spacing',
     color: '$white',
     fontSize: '16rem',
-  }
+  },
 });
 
 export default AnnouncementStrip;

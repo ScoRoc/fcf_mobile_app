@@ -5,7 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 // Components
 import EventsSubScreen from './EventsSubScreen';
 // String Constants
-import { _$ANNOUNCEMENTS, LIGHT_CONTENT, WIDTH_$ } from '../../utils/stringConstants';
+import { _$ANNOUNCEMENTS, LIGHT_CONTENT, WIDTH_$ } from '../../utils-OLD/stringConstants';
 
 export default class EventsScreen extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ export default class EventsScreen extends React.Component {
 
   render() {
     const width = () => EStyleSheet.value(WIDTH_$);
-    const padding = width() * .1;
+    const padding = width() * 0.1;
     return (
       // <View style={[ styles.screen, { paddingLeft: padding, paddingRight: padding } ]}>
       <View style={styles.screen}>
@@ -31,8 +31,8 @@ export default class EventsScreen extends React.Component {
         <EventsSubScreen />
       </View>
     );
-  };
-};
+  }
+}
 
 const styles = EStyleSheet.create({
   screen: {

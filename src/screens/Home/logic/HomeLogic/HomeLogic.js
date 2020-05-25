@@ -3,24 +3,23 @@ import React, { useDispatch, useEffect, useGlobal } from 'reactn';
 import axios from 'axios';
 // Home Templates
 import HomeTemplate from '../../templates';
+// Constants
+
+import { API, PATHS } from 'utils/constants';
 // Announcement Constants
 // import { IMG_UPDATE } from '../../constants';
-// Announcement API Helpers
-// import { buildPatch } from './apiHelpers';
-// Constants
-// import { API, PATHS, QUERY_STRING } from 'utils/constants';
 
 // URL Deets
 
 // const baseUrl = `${API.PROD}${PATHS.ANNOUNCEMENTS}`;
-// const baseUrl = PATHS.ANNOUNCEMENTS;
+const baseUrl = `${API.DEV}${PATHS.ANNOUNCEMENTS}`;
 
 // HomeLogic
 
 const HomeLogic = () => {
   // Global
 
-  // const [announcements] = useGlobal('announcements');
+  const [announcements] = useGlobal('announcements');
   // const [isLoading, setIsLoading] = useGlobal('isLoading');
   // const [user] = useGlobal('user');
 
@@ -28,19 +27,13 @@ const HomeLogic = () => {
 
   // const removeAnnouncement = useDispatch('removeAnnouncement');
   // const setAnnouncement = useDispatch('setAnnouncement');
-  // const setHome = useDispatch('setHome');
+  const setAnnouncements = useDispatch('setAnnouncements');
 
   // Effects
 
-  // useEffect(() => {
-  // getHome().then(res => {
-  //   console.log('res in HomeLogic: ', res);
-  //   // res.status === 200 ? handleSuccess(res) : handleErrors(res);
-  //   setIsLoading(false);
-  //   setHome(res.data.announcements);
-  // });
-  // getHome({ direction: 'desc' });
-  // }, []);
+  useEffect(() => {
+    getAnnouncements();
+  }, []);
 
   // API Callbacks
 
@@ -58,26 +51,19 @@ const HomeLogic = () => {
   //   return true;
   // };
 
-  // const getHome = ({ direction = QUERY_STRING.DIRECTION.DESC.value } = {}) => {
-  // const getHome = async () => {
-  //   setIsLoading(true);
-  //   // need to build queryString iterator
-  //   await axios
-  //     .get(baseUrl, {
-  //       // params: {
-  //       //   [QUERY_STRING.DIRECTION.PARAM.value]: direction,
-  //       // },
-  //     })
-  //     .then(res => {
-  //       console.log('res in HomeLogic: ', res);
-  //       // res.status === 200 ? handleSuccess(res) : handleErrors(res);
-  //       setIsLoading(false);
-  //       // setHome({ data: res.data.announcements, direction });
-  //       setHome({ data: res.data.announcements });
-  //       // TODO Fix return to be based off if error or not
-  //     });
-  //   return true;
-  // };
+  const getAnnouncements = async () => {
+    try {
+      const res = await axios.get(baseUrl);
+      // console.log('res in AnnouncementsLogic: ', res);
+      // console.log('res.data in AnnouncementsLogic: ', res.data);
+      // res.status === 200 ? handleSuccess(res) : handleErrors(res);
+      // TODO Fix return to be based off if error or not
+      setAnnouncements({ announcements: res.data.announcements });
+      return true;
+    } catch (err) {
+      console.log('err: ', err);
+    }
+  };
 
   // const patchAnnouncement = async ({
   //   _id,
@@ -184,12 +170,12 @@ const HomeLogic = () => {
 
   return (
     <HomeTemplate
-    // deleteAnnouncement={deleteAnnouncement}
-    // isLoading={isLoading}
-    // patchAnnouncement={patchAnnouncement}
-    // postAnnouncement={postAnnouncement}
-    // announcements={sortedWods}
-    // announcements={Object.values(announcements.data)}
+      announcements={announcements}
+      // announcements={sortedWods}
+      // deleteAnnouncement={deleteAnnouncement}
+      // isLoading={isLoading}
+      // patchAnnouncement={patchAnnouncement}
+      // postAnnouncement={postAnnouncement}
     />
   );
 };

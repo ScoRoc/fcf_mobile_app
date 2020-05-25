@@ -4,43 +4,41 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Touchable from '../../components/Touchable';
 
-import { urlHostName, getColor } from '../../utils/global-variables';
-import useAxios from '../../utils/axios-helpers';
+import { urlHostName, getColor } from '../../utils-OLD/global-variables';
+import useAxios from '../../utils-OLD/axios-helpers';
 
 const path = `${urlHostName}/user/password`;
 const { putWithAxios } = useAxios(path);
 
 class ChangePasswordScreen extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       password: '',
-    }
+    };
   }
 
   handleSuccess = () => {
     this.props.navigation.navigate('Profile');
-  }
+  };
 
   handleErr = errMsg => {
     console.log('signup failed with err: ', errMsg);
-  }
+  };
 
   handleSubmit = () => {
     const { email, password } = this.state;
     putWithAxios({ id: this.global.user._id, password }).then(result => {
       // console.log('updatedUser: ', result.data.updatedUser)
-      result.data.updatedUser
-        ? this.handleSuccess()
-        : this.handleErr(result.data);
+      result.data.updatedUser ? this.handleSuccess() : this.handleErr(result.data);
     });
-  }
+  };
 
   render() {
     const { email, password } = this.state;
     return (
       <View style={styles.page}>
-        <Text style={[ styles.pageTitle, styles.text ]}>Change your password</Text>
+        <Text style={[styles.pageTitle, styles.text]}>Change your password</Text>
 
         <View style={styles.contentWrapper}>
           <Text style={styles.text}>Password</Text>
@@ -48,23 +46,21 @@ class ChangePasswordScreen extends React.Component {
             autoCapitalize='none'
             onChangeText={text => this.setState({ password: text })}
             secureTextEntry={true}
-            style={[ styles.text, styles.textInput ]}
+            style={[styles.text, styles.textInput]}
             textContentType='password'
             value={password}
           />
 
           <Touchable
-            activeOpacity={.5}
+            activeOpacity={0.5}
             iosType='highlight'
             onPress={this.handleSubmit}
-            underlayColor={ getColor('yellow') }
+            underlayColor={getColor('yellow')}
             style={styles.submitButton}
           >
-            <Text style={[ styles.text, styles.submitButtonText ]}>Submit</Text>
+            <Text style={[styles.text, styles.submitButtonText]}>Submit</Text>
           </Touchable>
-
         </View>
-
       </View>
     );
   }

@@ -6,11 +6,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 // Components
 import Touchable from '../../components/Touchable';
 // Helpers
-import { urlHostName, getColor } from '../../utils/global-variables';
-import useAxios from '../../utils/axios-helpers';
-import { getToken, setTokenOnDevice } from '../../utils/token-helpers';
+import { urlHostName, getColor } from '../../utils-OLD/global-variables';
+import useAxios from '../../utils-OLD/axios-helpers';
+import { getToken, setTokenOnDevice } from '../../utils-OLD/token-helpers';
 import { blackBG } from '../../style-sheet';
-import { _EMPTYSTRING, HEIGHT_$, WIDTH_$, YELLOW_$ } from '../../utils/stringConstants';
+import { _EMPTYSTRING, HEIGHT_$, WIDTH_$, YELLOW_$ } from '../../utils-OLD/stringConstants';
 
 const path = `${urlHostName}/user/login`;
 const { postWithAxios } = useAxios(path);
@@ -26,8 +26,8 @@ const LoginScreen = props => {
   React.useEffect(() => {
     postWithAxios({ email: 'q@q.com', password: 'password' }).then(result => {
       result.data.user
-      ? handleSuccess({ user: result.data.user, token: result.data.token })
-      : handleErr(result.data._message);
+        ? handleSuccess({ user: result.data.user, token: result.data.token })
+        : handleErr(result.data._message);
     });
   }, []);
 
@@ -36,11 +36,11 @@ const LoginScreen = props => {
     // props.liftUser({ user, token });
     setUser({ self: user, token });
     // props.navigation.navigate('Main');
-  }
+  };
 
   const handleErr = errMsg => {
     console.log('signup failed with err: ', errMsg);
-  }
+  };
 
   const handleSubmit = () => {
     postWithAxios({ email, password }).then(result => {
@@ -48,7 +48,7 @@ const LoginScreen = props => {
         ? handleSuccess({ user: result.data.user, token: result.data.token })
         : handleErr(result.data._message);
     });
-  }
+  };
 
   const yellow = () => EStyleSheet.value(YELLOW_$);
   // temp
@@ -63,10 +63,8 @@ const LoginScreen = props => {
       resetScrollToCoords={{ x: 0, y: 0 }}
       style={{ backgroundColor: blackBG }}
     >
-      <ImageBackground blurRadius={4} source={{uri: imgUri}} style={styles.imgBgStyle}>
-
+      <ImageBackground blurRadius={4} source={{ uri: imgUri }} style={styles.imgBgStyle}>
         <View style={styles.contentWrapper}>
-
           <View style={styles.logoPlaceholder}></View>
 
           <TextInput
@@ -74,7 +72,7 @@ const LoginScreen = props => {
             onChangeText={setEmail}
             placeholder='Email'
             placeholderTextColor={yellow()}
-            style={[ styles.text, styles.textInput, styles.inputMargin ]}
+            style={[styles.text, styles.textInput, styles.inputMargin]}
             textContentType='emailAddress'
             value={email}
           />
@@ -84,33 +82,31 @@ const LoginScreen = props => {
             onChangeText={setPassword}
             placeholder='Password'
             placeholderTextColor={yellow()}
-            style={[ styles.text, styles.textInput, styles.inputMargin ]}
+            style={[styles.text, styles.textInput, styles.inputMargin]}
             textContentType='password'
             value={password}
           />
 
-          <View style={[ styles.signupTextWrap, styles.inputMargin ]}>
+          <View style={[styles.signupTextWrap, styles.inputMargin]}>
             <Touchable iosType='opacity' onPress={() => props.navigation.navigate('Signup')}>
-              <Text style={[ styles.text, styles.smallText, styles.signupTextLink ]}>Sign Up</Text>
+              <Text style={[styles.text, styles.smallText, styles.signupTextLink]}>Sign Up</Text>
             </Touchable>
           </View>
-
         </View>
 
         <Touchable
-          activeOpacity={.5}
+          activeOpacity={0.5}
           iosType='highlight'
           onPress={handleSubmit}
-          underlayColor={ getColor('yellow') }
+          underlayColor={getColor('yellow')}
           style={styles.submitButton}
         >
-          <Text style={[ styles.text, styles.submitButtonText ]}>Log In</Text>
+          <Text style={[styles.text, styles.submitButtonText]}>Log In</Text>
         </Touchable>
-
       </ImageBackground>
     </KeyboardAwareScrollView>
   );
-}
+};
 
 const styles = EStyleSheet.create({
   $fontSize: '28rem',

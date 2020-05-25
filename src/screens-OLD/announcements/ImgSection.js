@@ -6,12 +6,16 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import LikeButton from '../../components/LikeButton';
 import Touchable from '../../components/Touchable';
 // Helper Funcs
-import useAxios from '../../utils/axios-helpers';
-import { urlHostName } from '../../utils/global-variables';
+import useAxios from '../../utils-OLD/axios-helpers';
+import { urlHostName } from '../../utils-OLD/global-variables';
 // String Constants
 import {
-  _EMPTYSTRING, _SLASH, ANNOUNCEMENTS, LIKE, OPACITY,
-} from '../../utils/stringConstants';
+  _EMPTYSTRING,
+  _SLASH,
+  ANNOUNCEMENTS,
+  LIKE,
+  OPACITY,
+} from '../../utils-OLD/stringConstants';
 
 const path = `${urlHostName}${_SLASH}${ANNOUNCEMENTS}${_SLASH}${LIKE}`;
 const { putWithAxios } = useAxios(path);
@@ -24,33 +28,35 @@ class ImgSection extends React.Component {
 
   handleSuccess = async ({ announcementId, userId }) => {
     this.props.updateAnnouncement({ announcementId, userId });
-  }
+  };
 
   handleErr = err => {
     console.log('signup failed with err: ', err);
-  }
+  };
 
   updateLike = ({ announcementId, userId }) => {
-    putWithAxios({ announcementId, userId }).then(result => {
-      // console.log('result.data: ', result.data);
-      result.data.updatedAnnouncement
-        ? this.handleSuccess({ announcementId, userId })
-        : this.handleErr(result.data.err);
-    }).catch(err => console.log('err: ', err));
-  }
+    putWithAxios({ announcementId, userId })
+      .then(result => {
+        // console.log('result.data: ', result.data);
+        result.data.updatedAnnouncement
+          ? this.handleSuccess({ announcementId, userId })
+          : this.handleErr(result.data.err);
+      })
+      .catch(err => console.log('err: ', err));
+  };
 
   // iksent from GitHub
   handleDoublePress = date => {
     const time = new Date().getTime();
-  	const delta = time - this.lastPress;
-  	const DOUBLE_PRESS_DELAY = 400;
-  	if (delta < DOUBLE_PRESS_DELAY) {
+    const delta = time - this.lastPress;
+    const DOUBLE_PRESS_DELAY = 400;
+    if (delta < DOUBLE_PRESS_DELAY) {
       this.updateLike({
         announcementId: this.props.announcement._id,
         userId: this.global.user._id,
       });
-  	}
-  	this.lastPress = time;
+    }
+    this.lastPress = time;
   };
 
   componentDidUpdate(prevProps) {
@@ -67,12 +73,12 @@ class ImgSection extends React.Component {
     return (
       <View style={styles.imgWrap}>
         <Touchable
-          activeOpacity={.5}
+          activeOpacity={0.5}
           iosType={OPACITY}
           onPress={this.handleDoublePress}
-          style={{height: imgHeight, width: imgWidth}}
+          style={{ height: imgHeight, width: imgWidth }}
         >
-          <Image style={{height: imgHeight, width: imgWidth}} source={{uri: imgUrl}} />
+          <Image style={{ height: imgHeight, width: imgWidth }} source={{ uri: imgUrl }} />
         </Touchable>
         {/* <LikeButton
           addedStyle={{ width: imgWidth }}
@@ -85,7 +91,7 @@ class ImgSection extends React.Component {
       </View>
     );
   }
-};
+}
 
 const styles = EStyleSheet.create({
   $spacing: '10rem',

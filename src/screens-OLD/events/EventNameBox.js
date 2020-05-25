@@ -8,9 +8,16 @@ import Icon from '../../components/Icon';
 import Touchable from '../../components/Touchable';
 // String Constants
 import {
-  _DASH, _EMPTYSTRING, _SPACE,
-  EVIL_ICONS, EXTERNAL_LINK, HIGHLIGHT, MMM, WEB_VIEW, YELLOW_$
-} from '../../utils/stringConstants';
+  _DASH,
+  _EMPTYSTRING,
+  _SPACE,
+  EVIL_ICONS,
+  EXTERNAL_LINK,
+  HIGHLIGHT,
+  MMM,
+  WEB_VIEW,
+  YELLOW_$,
+} from '../../utils-OLD/stringConstants';
 
 const chevron = {
   color: () => EStyleSheet.value(YELLOW_$),
@@ -20,27 +27,29 @@ const chevron = {
   // name: 'external-link',
   library: EVIL_ICONS,
   name: EXTERNAL_LINK,
-}
+};
 
 const EventNameBox = props => {
   const { event, eventKey } = props;
   const { library, name } = eventKey;
   const color = eventKey.color();
   const createDateThrough = (start, through) => {
-    const startMonth = moment( moment(start) ).format(MMM);
-    const startDate = moment( moment(start) ).date();
-    const throughMonth = moment( moment(through) ).format(MMM);
-    const throughDate = moment( moment(through) ).date();
+    const startMonth = moment(moment(start)).format(MMM);
+    const startDate = moment(moment(start)).date();
+    const throughMonth = moment(moment(through)).format(MMM);
+    const throughDate = moment(moment(through)).date();
     // 10 25 - 11 05
     return `${startMonth}${_SPACE}${startDate}${_SPACE}${_DASH}${_SPACE}${throughMonth}${_SPACE}${throughDate}`;
   };
   const isRange = moment(event.throughDate)._isValid;
-  const dateThrough = isRange ? createDateThrough(event.startDate, event.throughDate) : _EMPTYSTRING;
-  const dateThroughBox = isRange
-                        ? <View style={styles.dateThrough}>
-                            <Text style={styles.dateThroutText}>{dateThrough}</Text>
-                          </View>
-                        : null;
+  const dateThrough = isRange
+    ? createDateThrough(event.startDate, event.throughDate)
+    : _EMPTYSTRING;
+  const dateThroughBox = isRange ? (
+    <View style={styles.dateThrough}>
+      <Text style={styles.dateThroutText}>{dateThrough}</Text>
+    </View>
+  ) : null;
   return (
     <Touchable
       iosType={HIGHLIGHT}
@@ -50,7 +59,7 @@ const EventNameBox = props => {
       viewStyle={styles.titleTile}
     >
       <View style={styles.titleView}>
-        <Text style={[styles.titleText, {color}]}>{event.eventText}</Text>
+        <Text style={[styles.titleText, { color }]}>{event.eventText}</Text>
         <Icon color={chevron.color()} library={chevron.library} name={chevron.name} size={25} />
       </View>
       <View style={styles.icons}>

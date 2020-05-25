@@ -6,16 +6,16 @@ import HomeScreen from './HomeScreen';
 // Style Sheet
 import { width } from '../../style-sheet';
 // String Constants
-import { _$ANNOUNCEMENTS, _$EVENTS } from '../../utils/stringConstants';
+import { _$ANNOUNCEMENTS, _$EVENTS } from '../../utils-OLD/stringConstants';
 
 const getBounds = idx => {
-  const multiplier = .5 + idx;
+  const multiplier = 0.5 + idx;
   return {
     lower: width * (multiplier - 1),
     lowerVisible: width * idx,
     upper: width * multiplier,
-  }
-}
+  };
+};
 
 const homePages = [
   {
@@ -29,8 +29,7 @@ const homePages = [
 ].map((page, i) => {
   const { lower, lowerVisible, upper } = getBounds(i);
   page.lowerScrollBounds = lower;
-  page.lowerVisibleBounds = lowerVisible,
-  page.upperScrollBounds = upper;
+  (page.lowerVisibleBounds = lowerVisible), (page.upperScrollBounds = upper);
   return page;
 });
 

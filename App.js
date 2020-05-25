@@ -9,7 +9,7 @@ import SplashScreen from './src/screens-OLD/Splash/SplashScreen';
 import AuthNavigator from './src/navigation/AuthNavigator';
 import MainTabsNavigator from './src/navigation/MainTabsNavigator';
 // Reducers
-// import homeReducers from './src/screens/Home/logic/HomeLogic/reducers';
+import homeReducers from './src/screens/Home/logic/HomeLogic/reducers';
 // Themes
 import themes, { THEME_NAMES } from 'theme/themes';
 
@@ -25,6 +25,8 @@ buildStyleSheet(); // Init Extended Style Sheet
 // ]);
 
 setGlobal({
+  announcements: {},
+  events: {},
   isAppLoading: false,
   isLoggingOut: false,
   themeName: THEME_NAMES.MAIN,
@@ -32,10 +34,11 @@ setGlobal({
     self: null,
     token: null,
   },
+  wods: {},
 });
 
 addReducers({
-  // ...homeReducers,
+  ...homeReducers,
   //  ...eventReducers,
   //  ...usersReducers,
   //  ...wodToolsReducers,
@@ -51,11 +54,9 @@ addReducers({
   //     await dispatch.clearUser();
   //     await dispatch.deauthenticateUser();
   //   },
-  //   setCache: (globalState, dispatch, { data, key }) => {
-  //     console.log('key: ', key);
-  //     console.log('data: ', data);
-  //     return { cache: { ...globalState.cache, [key]: data } };
-  //   },
+  setCache: (globalState, dispatch, { data, key }) => {
+    return { cache: { ...globalState.cache, [key]: data } };
+  },
   //   setUser: async (globalState, dispatch, user) => {
   //     await dispatch.setCache({ data: user, key: 'user' });
   //     return { user };
