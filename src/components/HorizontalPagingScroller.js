@@ -1,10 +1,10 @@
 // Libraries
-import React, { useRef } from 'react'
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView, View } from 'react-native'
+import { ScrollView, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 // Components
-import PagingTitleBar from './PagingTitleBar'
+import PagingTitleBar from './PagingTitleBar';
 // Variables
 import { white, yellow } from '../style-sheet';
 
@@ -16,14 +16,19 @@ const HorizontalPagingScroller = props => {
   const handlePress = ({ i, title }) => {
     scrollView.current.scrollTo({ x: props.pages[i].lowerVisibleBounds });
     props.onTitlePress({ i, title });
-  }
+  };
 
   const pages = props.pages.map((Page, i) => {
-    console.log('Page: ', Page)
-      return <View key={`${i}key`} style={styles.screen}>
+    console.log('Page: ', Page);
+    return (
+      <View key={`${i}key`} style={styles.screen}>
         <Page.component />
       </View>
+    );
   });
+
+  const intervals = 2;
+
   return (
     <View style={styles.page}>
       <PagingTitleBar
@@ -36,19 +41,22 @@ const HorizontalPagingScroller = props => {
         unselectedColor={props.unselectedColor}
       />
       <ScrollView
+        // contentContainerStyle={{ width: `${100 * intervals}%` }}
+        decelerationRate="fast"
         horizontal
         onMomentumScrollEnd={props.onMomentumScrollEnd}
         onScroll={e => props.onScroll(e)}
         pagingEnabled
         ref={scrollView}
         scrollEventThrottle={16}
+        // scrollEventThrottle={200}
         showsHorizontalScrollIndicator={false}
       >
         {pages}
       </ScrollView>
     </View>
   );
-}
+};
 
 const styles = EStyleSheet.create({
   page: {
@@ -70,7 +78,7 @@ HorizontalPagingScroller.propTypes = {
   styles: PropTypes.object,
   titleScrollEnabled: PropTypes.bool,
   unselectedColor: PropTypes.string,
-}
+};
 
 HorizontalPagingScroller.defaultProps = {
   currentPage: null,
@@ -82,6 +90,6 @@ HorizontalPagingScroller.defaultProps = {
   styles: null,
   titleScrollEnabled: true,
   unselectedColor: white,
-}
+};
 
 export default HorizontalPagingScroller;
