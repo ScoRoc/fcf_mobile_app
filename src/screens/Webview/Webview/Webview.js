@@ -5,10 +5,12 @@ import { StatusBar } from 'react-native';
 import { WebView } from 'react-native-webview';
 // Atoms
 import { Box, Text, TouchableIOSOpacity } from 'atoms';
+// Constants
+// import { FULL_URLS } from 'utils/constants';
 
 // Webview
 
-const Webview = ({ navigation, route, uri }) => {
+const Webview = ({ navigation, route }) => {
   // Refs
 
   const webviewRef = useRef(null);
@@ -23,7 +25,8 @@ const Webview = ({ navigation, route, uri }) => {
         // containerStyle={{ backgroundColor: 'green' }}
         ref={webviewRef}
         // renderLoading={} // function that returns a loading indicator, startInLoadingState must be true
-        source={{ uri: route?.params?.url || uri }}
+        // source={{ uri: route?.params?.url || FULL_URLS.FCF_BLOG }}
+        source={{ uri: route?.params?.url }}
         // startInLoadingState
         // style={{ flex: 0, height: 200 }}
       />

@@ -84,9 +84,6 @@ const MainTabsNavigator = () => (
     <MainTabs.Screen component={WodScreen} name={NAV.WOD} />
     <MainTabs.Screen component={Blog} name={NAV.BLOG} />
     {/* <MainTabs.Screen component={BlogScreen} name={NAV.BLOG} /> */}
-    {/* <MainTabs.Screen name={NAV.BLOG}>
-      {props => <Webview uri={FULL_URLS.FCF_BLOG} />}
-    </MainTabs.Screen> */}
     <MainTabs.Screen component={WodToolsNavigator} name={NAV.WOD_TOOLS} />
     <MainTabs.Screen component={ProfileNavigator} name={NAV.PROFILE} />
   </MainTabs.Navigator>

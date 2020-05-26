@@ -38,11 +38,13 @@ const AnnouncementStrip = ({ announcement, onImgPress, onImgDoublePress, ...prop
   };
 
   const handleLike = e => {
+    // TODO ADD LIKE VIA SOCKET
     console.log('liking...');
     console.log('e: ', e);
   };
 
   const handleStripPress = e => {
+    // TODO TRACK USER VIEW BY SENDING TO BACKEND
     console.log('pressed strip...');
     navigation.navigate(NAV.WEB_VIEW, { url: announcement.url });
   };
