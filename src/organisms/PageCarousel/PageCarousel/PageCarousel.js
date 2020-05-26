@@ -1,30 +1,48 @@
 // Libraries
-import React, { useEffect, useState } from 'react';
-import { Dimensions } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Dimensions } from 'react-native';
+import { useSpring } from 'react-spring';
 // Atoms
-import { Box, Text, TouchableIOSOpacity } from 'atoms';
+import { AnimatedBox, Box, TouchableIOSOpacity } from 'atoms';
+import StyledText from 'atoms/basics/StyledText';
 // Organisms
 import Carousel from 'organisms/Carousel';
 
 // PageCarousel
 
-const PageCarousel = ({ children, onTitlePress, titles, styles, ...props }) => {
+const PageCarousel = ({ children, onTitlePress, showSlider, styles, titles, ...props }) => {
   // Dimensions
 
   const { width } = Dimensions.get('window');
 
   // State
 
+  const [currentTitle, setCurrentTitle] = useState(titles[0]);
   const [intervals, setIntervals] = useState(children.length);
-  const [scrollX, setScrollX] = useState(0);
-  const [scrollToX, setScrollToX] = useState(0);
+  const [scrollX, setScrollX] = useState(0); // current scroll x position
+  const [scrollToX, setScrollToX] = useState(0); // x position to scroll to
+  const [titleDimensions, setTitleDimensions] = useState({});
+
+  // Refs
+
+  const titleRefs = useRef({});
 
   // Effects
 
   useEffect(() => {
     setIntervals(children.length);
   }, [children.length]);
+
+  useEffect(() => {
+    Object.entries(titleRefs.current).forEach(([key, val]) => {
+      val?.measure((x, y, width, height, pageX, pageY) => {
+        const newDimensions = titleDimensions;
+        newDimensions[key] = { x, y, width, height, pageX, pageY };
+        setTitleDimensions(newDimensions);
+      });
+    });
+  }, [titleRefs.current]);
 
   // Functions
 
@@ -41,9 +59,14 @@ const PageCarousel = ({ children, onTitlePress, titles, styles, ...props }) => {
 
     const isActive = scrollX > prevPageOffset && scrollX < nextPageOffset;
 
+    if (currentTitle !== title && isActive) {
+      setCurrentTitle(title);
+    }
+
     const handlePress = e => {
       onTitlePress?.({ event: e, index: i, title });
       setScrollToX(width * i);
+      setCurrentTitle(title);
     };
 
     // Style
@@ -53,30 +76,48 @@ const PageCarousel = ({ children, onTitlePress, titles, styles, ...props }) => {
 
     return (
       <TouchableIOSOpacity key={title} onPress={handlePress} style={styles?.titleTouchableStyle}>
-        <Text
+        <StyledText // need ref so much use StyledText, not custom Text component
           color={isActive ? activeColor : inActiveColor}
           fontSize={30}
           marginLeft={10}
           marginRight={10}
+          ref={ref => (titleRefs.current[title] = ref)}
           style={titleTextStyle}
         >
           {title}
-        </Text>
+        </StyledText>
       </TouchableIOSOpacity>
     );
+  });
+
+  // Animation
+
+  const springProps = useSpring({
+    marginLeft: titleDimensions[currentTitle]?.pageX || 10,
+    width: titleDimensions[currentTitle]?.width || 50,
   });
 
   // Return
 
   return (
     <Box flex={1} {...props}>
-      {/* <Box flexDirection='row' style={styles.titleContainerStyle || {}}> */}
-      <Box flexDirection='row'>{_titles}</Box>
+      <Box marginBottom={2}>
+        <Box flexDirection='row'>{_titles}</Box>
+        {showSlider && (
+          <AnimatedBox
+            backgroundColor={styles.titleTextStyle.activeColor}
+            borderRadius='50%'
+            height={3}
+            style={springProps}
+          />
+        )}
+      </Box>
       <Carousel
         color='orange'
         contentContainerStyle={{ width: `${100 * children.length}%` }}
         flex={1}
         onScroll={handleScroll}
+        scrollViewProps={{ onMomentumScrollEnd: () => setScrollToX(scrollX) }}
         scrollX={scrollToX}
       >
         {children}
@@ -87,6 +128,7 @@ const PageCarousel = ({ children, onTitlePress, titles, styles, ...props }) => {
 
 PageCarousel.propTypes = {
   onTitlePress: PropTypes.func,
+  showSlider: PropTypes.bool,
   // have to comment out bc RN thinks this is required
   // styles: PropTypes.shape({
   // titleContainerStyle: PropTypes.object, // valid View style object
@@ -101,8 +143,8 @@ PageCarousel.propTypes = {
 };
 
 PageCarousel.defaultProps = {
-  children: null,
   onTitlePress: null,
+  showSlider: false,
   styles: { titleTextStyle: { activeColor: 'green', inActiveColor: 'black' } },
   titles: null,
 };

@@ -3,17 +3,15 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 // Atoms
-import { Box, Img, Text, TouchableIOSOpacity } from 'atoms';
+import { Box, Img, Text, TouchableNoFeedback } from 'atoms';
 // Announcement Organisms
-// import LikeStrip from '../LikeStrip';
-import LikeStripFOO from './LikeStripFOO';
+import LikeStrip from '../LikeStrip/LikeStrip';
 // Announcement Constants
 import { IMAGES } from '../../constants';
 
 // AnnouncementStrip
 
-const AnnouncementStrip = ({ announcement }) => {
-  console.log('announcement: ', announcement);
+const AnnouncementStrip = ({ announcement, onImgPress, ...props }) => {
   // Dimensions
 
   const { width } = Dimensions.get('window');
@@ -21,6 +19,13 @@ const AnnouncementStrip = ({ announcement }) => {
 
   const imgHeight = imgWidth / IMAGES.ASPECT_RATIO;
   const margin = Math.floor(width * 0.1);
+
+  // Functions
+
+  const handlePress = e => {
+    props.navigation.navigate(WEB_VIEW, { url: announcement.url });
+    onImgPress?.(e);
+  };
 
   // Return
 
@@ -32,15 +37,21 @@ const AnnouncementStrip = ({ announcement }) => {
       marginTop={20}
       paddingBottom={20}
       paddingTop={20}
+      {...props}
     >
       {announcement?.image?.cloudinary?.croppedUrl ? (
-        <TouchableIOSOpacity marginBottom={20} marginLeft={margin} marginRight={margin}>
+        <TouchableNoFeedback
+          marginBottom={20}
+          marginLeft={margin}
+          marginRight={margin}
+          onPress={handlePress}
+        >
           <Img
             height={imgHeight}
             source={{ uri: announcement?.image?.cloudinary?.croppedUrl }}
             width={imgWidth}
           />
-        </TouchableIOSOpacity>
+        </TouchableNoFeedback>
       ) : (
         <Box
           backgroundColor='grey'
@@ -55,17 +66,24 @@ const AnnouncementStrip = ({ announcement }) => {
       <Text marginBottom={20} paddingLeft={10} paddingRight={10}>
         {announcement.description}
       </Text>
-      <LikeStripFOO marginLeft={10} marginRight={10} width={width - margin * 2} />
+      <LikeStrip
+        likes={announcement.likedBy.length}
+        marginLeft={margin}
+        marginRight={margin}
+        width={width - margin * 2}
+      />
     </Box>
   );
 };
 
 AnnouncementStrip.propTypes = {
   announcement: PropTypes.object, // announcement db object
+  onImgPress: PropTypes.func,
 };
 
 AnnouncementStrip.defaultProps = {
   announcement: null,
+  onImgPress: null,
 };
 
 export default AnnouncementStrip;

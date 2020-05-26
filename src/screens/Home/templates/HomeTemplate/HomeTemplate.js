@@ -28,7 +28,8 @@ const HomeTemplate = ({ announcements, children, ...props }) => {
 
       <PageCarousel
         flex={1}
-        onTitlePress={() => console.log('pressed')}
+        // onTitlePress={() => console.log('pressed')}
+        showSlider
         styles={{ titleTextStyle: { activeColor: 'yellow', inActiveColor: 'black' } }}
         titles={['Announcements', 'Events']}
       >

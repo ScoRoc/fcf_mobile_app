@@ -6,21 +6,28 @@ import { Box, Text } from 'atoms';
 
 // LikeStrip
 
-const LikeStrip = ({ children }) => {
+const LikeStrip = ({ children, likes, ...props }) => {
   return (
-    <Box>
+    <Box
+      alignItems='center'
+      bg='darkslategrey'
+      flexDirection='row'
+      height={40}
+      justifyContent='space-evenly'
+      {...props}
+    >
       <Text>[heart]</Text>
-      <Text>42</Text>
+      <Text>{likes}</Text>
     </Box>
   );
 };
 
 LikeStrip.propTypes = {
-  children: PropTypes.element,
+  likes: PropTypes.number.isRequired,
 };
 
 LikeStrip.defaultProps = {
-  children: null,
+  likes: null,
 };
 
 export default LikeStrip;

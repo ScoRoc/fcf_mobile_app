@@ -10,7 +10,6 @@ import { AnnouncementStrip } from './organisms';
 // Announcements
 
 const Announcements = ({ announcements }) => {
-  console.log('announcements in Announcements: ', announcements);
   // State
 
   const [refreshing, setRefreshing] = useState(false);
