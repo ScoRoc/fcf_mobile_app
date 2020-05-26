@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 // Components
 import LoginScreen from '../screens-OLD/auth/LoginScreen';
 import SignupScreen from '../screens-OLD/auth/SignupScreen';
+// Constants
+import { NAV } from 'utils/constants';
 
 const Stack = createStackNavigator();
 
@@ -13,18 +15,18 @@ export default function AuthNavigator() {
 
   // Return
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName={NAV.LOGIN}>
       <Stack.Screen
         component={LoginScreen}
-        name="Login"
+        name={NAV.LOGIN}
         options={{ animationTypeForReplace: isLoggingOut ? 'pop' : 'push' }}
       />
       <Stack.Screen
         component={SignupScreen}
-        name="Signup"
+        name={NAV.SIGNUP}
         options={{
           animationTypeForReplace: isLoggingOut ? 'pop' : 'push',
-          title: 'Signup',
+          title: NAV.SIGNUP,
         }}
       />
     </Stack.Navigator>

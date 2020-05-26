@@ -1,9 +1,13 @@
-const API = {
+export const API = {
   DEV: 'http://localhost:3001',
   PROD: 'FOOBAR',
 };
 
-// const FULL_PATHS = { // TODO
+export const FULL_URLS = {
+  FCF_BLOG: 'http://www.foundationcrossfit.com/blog/',
+};
+
+// export const FULL_PATHS = { // TODO
 //   ANNOUNCEMENTS: '/app/announcements',
 //   APP: '/app',
 //   AUTH: '/auth',
@@ -16,7 +20,7 @@ const API = {
 //   WODS: '/app/wods',
 // };
 
-const PATHS = {
+export const PATHS = {
   ANNOUNCEMENTS: '/announcements',
   APP: '/app',
   AUTH: '/auth',
@@ -28,7 +32,7 @@ const PATHS = {
   WODS: '/wods',
 };
 
-// const QUERY_STRING = { // TODO
+// export const QUERY_STRING = { // TODO
 //   CREATED_BY_USER: {
 //     PARAM: {
 //       key: 'PARAM',
@@ -63,4 +67,4 @@ const PATHS = {
 // };
 
 // export { API, FULL_PATHS, PATHS, QUERY_STRING }; // TODO
-export { API, PATHS };
+// export { API, PATHS };

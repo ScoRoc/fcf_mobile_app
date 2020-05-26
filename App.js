@@ -7,7 +7,7 @@ import { ThemeProvider } from 'emotion-theming';
 import SplashScreen from './src/screens-OLD/Splash/SplashScreen';
 // Navigators
 import AuthNavigator from './src/navigation/AuthNavigator';
-import MainTabsNavigator from './src/navigation/MainTabsNavigator';
+import MainNavigator from './src/navigation/MainNavigator';
 // Reducers
 import homeReducers from './src/screens/Home/logic/HomeLogic/reducers';
 // Themes
@@ -84,7 +84,7 @@ export default function App() {
         <SplashScreen />
       ) : (
         <NavigationContainer>
-          {user.token === null ? <AuthNavigator /> : <MainTabsNavigator />}
+          {user.token === null ? <AuthNavigator /> : <MainNavigator />}
         </NavigationContainer>
       )}
     </ThemeProvider>

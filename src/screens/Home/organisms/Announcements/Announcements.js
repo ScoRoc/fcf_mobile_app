@@ -37,6 +37,8 @@ const Announcements = ({ announcements }) => {
           // imgHeight={imgHeight}
           // imgWidth={imgWidth}
           key={announcement._id}
+          // onImgDoublePress={() => console.log('double...')}
+          // onImgPress={() => console.log('single...')}
           // padding={padding}
           // updateAnnouncement={updateAnnouncement}
           // updated={updated}

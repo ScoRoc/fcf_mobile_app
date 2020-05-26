@@ -16,7 +16,7 @@ const baseUrl = `${API.DEV}${PATHS.ANNOUNCEMENTS}`;
 
 // HomeLogic
 
-const HomeLogic = () => {
+const HomeLogic = ({ navigation, route }) => {
   // Global
 
   const [announcements] = useGlobal('announcements');
@@ -174,6 +174,8 @@ const HomeLogic = () => {
       // announcements={sortedWods}
       // deleteAnnouncement={deleteAnnouncement}
       // isLoading={isLoading}
+      navigation={navigation}
+      route={route}
       // patchAnnouncement={patchAnnouncement}
       // postAnnouncement={postAnnouncement}
     />

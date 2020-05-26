@@ -2,11 +2,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // Atoms
-import { Box, Text } from 'atoms';
+import { Box, Text, TouchableIOSOpacity } from 'atoms';
 
 // LikeStrip
 
-const LikeStrip = ({ children, likes, ...props }) => {
+const LikeStrip = ({ children, likes, onHeartPress, ...props }) => {
   return (
     <Box
       alignItems='center'
@@ -16,7 +16,9 @@ const LikeStrip = ({ children, likes, ...props }) => {
       justifyContent='space-evenly'
       {...props}
     >
-      <Text>[heart]</Text>
+      <TouchableIOSOpacity onPress={onHeartPress}>
+        <Text>[heart]</Text>
+      </TouchableIOSOpacity>
       <Text>{likes}</Text>
     </Box>
   );
@@ -24,10 +26,12 @@ const LikeStrip = ({ children, likes, ...props }) => {
 
 LikeStrip.propTypes = {
   likes: PropTypes.number.isRequired,
+  onHeartPress: PropTypes.func,
 };
 
 LikeStrip.defaultProps = {
   likes: null,
+  onHeartPress: null,
 };
 
 export default LikeStrip;
