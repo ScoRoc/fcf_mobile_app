@@ -20,11 +20,19 @@ export const HomeContext = createContext({});
 
 // HomeTemplate
 
-const HomeTemplate = ({ announcements, children, navigation, route, ...props }) => {
+const HomeTemplate = ({
+  announcements,
+  children,
+  getAnnouncements,
+  navigation,
+  route,
+  viewAnnouncement,
+  ...props
+}) => {
   console.log('announcements in HomeTemplate: ', announcements);
 
   return (
-    <HomeContext.Provider value={{ navigation, route }}>
+    <HomeContext.Provider value={{ navigation, route, viewAnnouncement }}>
       <Box backgroundColor='darkgrey' flex={1} paddingTop={60}>
         <StatusBar barStyle='light-content' />
 
@@ -41,6 +49,7 @@ const HomeTemplate = ({ announcements, children, navigation, route, ...props }) 
         >
           <Announcements
             announcements={announcements?.data ? Object.values(announcements.data) : []}
+            getAnnouncements={getAnnouncements}
           />
           <Events />
           {/* <HomeScreen /> */}
@@ -57,14 +66,18 @@ HomeTemplate.navigationOptions = {
 
 HomeTemplate.propTypes = {
   announcements: PropTypes.object.isRequired,
+  getAnnouncements: PropTypes.func.isRequired,
   navigation: PropTypes.object, // react-navigation navigation object
   route: PropTypes.object, // react-navigation route object
+  viewAnnouncement: PropTypes.func.isRequired,
 };
 
 HomeTemplate.defaultProps = {
   announcements: {},
+  getAnnouncements: null,
   navigation: null,
   route: null,
+  viewAnnouncement: null,
 };
 
 export default HomeTemplate;

@@ -29,6 +29,7 @@ export const PATHS = {
   LOGIN: '/login',
   ROOT: '/',
   USERS: '/users',
+  VIEWED_BY: '/viewedBy',
   WODS: '/wods',
 };
 

@@ -1,5 +1,5 @@
 // Libraries
-import React, { useContext } from 'react';
+import React, { useContext, useGlobal } from 'reactn';
 import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 // Atoms
@@ -18,9 +18,13 @@ import { NAV } from 'utils/constants';
 // AnnouncementStrip
 
 const AnnouncementStrip = ({ announcement, onImgPress, onImgDoublePress, ...props }) => {
+  // Global
+
+  const [user] = useGlobal('user');
+
   // Context
 
-  const { navigation } = useContext(HomeContext);
+  const { navigation, viewAnnouncement } = useContext(HomeContext);
 
   // Dimensions
 
@@ -44,9 +48,10 @@ const AnnouncementStrip = ({ announcement, onImgPress, onImgDoublePress, ...prop
   };
 
   const handleStripPress = e => {
-    // TODO TRACK USER VIEW BY SENDING TO BACKEND
-    console.log('pressed strip...');
     navigation.navigate(NAV.WEB_VIEW, { url: announcement.url });
+    if (!announcement.viewedBy.includes(user._id)) {
+      viewAnnouncement({ announcementId: announcement._id, viewedByUserId: user._id });
+    }
   };
 
   // Return
@@ -75,7 +80,7 @@ const AnnouncementStrip = ({ announcement, onImgPress, onImgDoublePress, ...prop
           />
         )}
 
-        <Text marginBottom={20} paddingLeft={10} paddingRight={10}>
+        <Text fontSize={18} marginBottom={20} paddingLeft={margin} paddingRight={margin}>
           {announcement.description}
         </Text>
         <LikeStrip

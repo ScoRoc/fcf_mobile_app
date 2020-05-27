@@ -1,5 +1,5 @@
 // Libraries
-import React, { useState } from 'react';
+import React, { useGlobal, useState } from 'reactn';
 import { Dimensions, RefreshControl, StatusBar } from 'react-native';
 import PropTypes from 'prop-types';
 // Atoms
@@ -9,20 +9,20 @@ import { AnnouncementStrip } from './organisms';
 
 // Announcements
 
-const Announcements = ({ announcements }) => {
+const Announcements = ({ announcements, getAnnouncements }) => {
+  const [allAnnouncements] = useGlobal('announcements');
   // State
 
   const [refreshing, setRefreshing] = useState(false);
 
   // Functions
 
-  const onRefresh = () => {
+  const onRefresh = async () => {
     console.log('onRefresh...');
-    // setRefreshing(true);
-    // getWithAxios().then(result => {
-    //   setAnnouncements(result.data.announcements.reverse());
-    //   setRefreshing(false);
-    // });
+    setRefreshing(true);
+    await getAnnouncements();
+    setRefreshing(false);
+    console.log('allAnnouncements: ', allAnnouncements);
   };
 
   // Components
@@ -74,10 +74,12 @@ Announcements.propTypes = {
     // announcement shape
     // }), // TODO should this be required ??
   ),
+  getAnnouncements: PropTypes.func.isRequired,
 };
 
 Announcements.defaultProps = {
   announcements: null,
+  getAnnouncements: null,
 };
 
 export default Announcements;

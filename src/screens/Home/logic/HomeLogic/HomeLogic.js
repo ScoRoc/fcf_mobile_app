@@ -26,7 +26,7 @@ const HomeLogic = ({ navigation, route }) => {
   // Dispatch
 
   // const removeAnnouncement = useDispatch('removeAnnouncement');
-  // const setAnnouncement = useDispatch('setAnnouncement');
+  const setAnnouncement = useDispatch('setAnnouncement');
   const setAnnouncements = useDispatch('setAnnouncements');
 
   // Effects
@@ -37,20 +37,6 @@ const HomeLogic = ({ navigation, route }) => {
 
   // API Callbacks
 
-  // const deleteAnnouncement = async _id => {
-  //   const url = `${baseUrl}/${_id}`;
-
-  //   // setIsLoading(true);
-  //   await axios.delete(url).then(res => {
-  //     console.log('res: ', res);
-  //     // const updatedHome = {};
-  //     // setIsLoading(false);
-  //     removeAnnouncement(_id);
-  //     // TODO Fix return to be based off if error or not
-  //   });
-  //   return true;
-  // };
-
   const getAnnouncements = async () => {
     try {
       const res = await axios.get(baseUrl);
@@ -60,6 +46,17 @@ const HomeLogic = ({ navigation, route }) => {
       // TODO Fix return to be based off if error or not
       setAnnouncements({ announcements: res.data.announcements });
       return true;
+    } catch (err) {
+      console.log('err: ', err);
+    }
+  };
+
+  const viewAnnouncement = async ({ announcementId, viewedByUserId }) => {
+    const url = `${API.DEV}${PATHS.ANNOUNCEMENTS}/${announcementId}${PATHS.VIEWED_BY}`;
+    try {
+      const res = await axios.patch(url, {}, { params: { viewedByUserId } });
+      console.log('res: ', res);
+      setAnnouncement({ announcement: res.data });
     } catch (err) {
       console.log('err: ', err);
     }
@@ -113,46 +110,6 @@ const HomeLogic = ({ navigation, route }) => {
   //   return true;
   // };
 
-  // const postAnnouncement = async ({ crop, description, dimensions, imgFile, url }) => {
-  //   console.log('in post');
-  //   // TODO handle error validation
-  //   // if (!date) throw new Error();
-  //   if (!description || !dimensions || !imgFile || !url) {
-  //     console.log('description, dimensions, imgFile, and url need to be filled out');
-  //     return false;
-  //   }
-
-  //   if (!crop || crop.height <= 0 || crop.width <= 0) {
-  //     console.log('crop must exist and have a height and width larger than 0');
-  //     return false;
-  //   }
-
-  //   const formData = new FormData();
-  //   formData.set('cropHeight', crop.height);
-  //   formData.set('cropWidth', crop.width);
-  //   formData.set('cropX', crop.x);
-  //   formData.set('cropY', crop.y);
-  //   formData.set('description', description);
-  //   formData.append('imgFile', imgFile);
-  //   formData.set('imgHeight', dimensions.height);
-  //   formData.set('imgWidth', dimensions.width);
-  //   formData.set('url', url);
-
-  //   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-
-  //   const qs = `?${QUERY_STRING.CREATED_BY_USER.PARAM.value}=${user._id}`;
-  //   const postUrl = `${baseUrl}${qs}`;
-  //   // setIsLoading(true);
-  //   await axios.post(postUrl, formData, config).then(res => {
-  //     console.log('res: ', res);
-  //     // res.status === 200 ? handleSuccess(res) : handleErrors(res);
-  //     // setIsLoading(false);
-  //     setAnnouncement({ announcement: res.data.announcement });
-  //     // TODO Fix return to be based off if error or not
-  //   });
-  //   return true;
-  // };
-
   // Sorted Home
 
   // TODO fix sorting
@@ -172,12 +129,12 @@ const HomeLogic = ({ navigation, route }) => {
     <HomeTemplate
       announcements={announcements}
       // announcements={sortedWods}
-      // deleteAnnouncement={deleteAnnouncement}
+      getAnnouncements={getAnnouncements}
       // isLoading={isLoading}
       navigation={navigation}
       route={route}
       // patchAnnouncement={patchAnnouncement}
-      // postAnnouncement={postAnnouncement}
+      viewAnnouncement={viewAnnouncement}
     />
   );
 };

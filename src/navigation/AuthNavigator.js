@@ -19,13 +19,14 @@ export default function AuthNavigator() {
       <Stack.Screen
         component={LoginScreen}
         name={NAV.LOGIN}
-        options={{ animationTypeForReplace: isLoggingOut ? 'pop' : 'push' }}
+        options={{ animationTypeForReplace: isLoggingOut ? 'pop' : 'push', headerShown: false }}
       />
       <Stack.Screen
         component={SignupScreen}
         name={NAV.SIGNUP}
         options={{
           animationTypeForReplace: isLoggingOut ? 'pop' : 'push',
+          headerShown: false,
           title: NAV.SIGNUP,
         }}
       />

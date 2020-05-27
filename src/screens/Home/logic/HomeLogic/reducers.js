@@ -10,25 +10,25 @@ const homeReducers = {
   //   delete announcements.data[_id];
   //   return { announcements };
   // },
-  // setAnnouncement: async (globalState, dispatch, { announcement }) => {
-  // console.log('announcement in setAnnouncement: ', announcement);
-  // await dispatch.setCache({
-  //   data: {
-  //     ...globalState.announcements,
-  //     data: { ...globalState.announcements.data, [announcement._id]: announcement },
-  //   },
-  //   key: 'announcements',
-  // });
-  // return {
-  //   announcements: {
-  //     data: { ...globalState.announcements.data, [announcement._id]: announcement },
-  //     // announcements:
-  //     // direction === QUERY_STRING.DIRECTION.DESC.value
-  //     //   ? [announcement, ...globalState.announcements.data]
-  //     //   : [...globalState.announcements.data, announcement],
-  //   },
-  // };
-  // },
+  setAnnouncement: async (globalState, dispatch, { announcement }) => {
+    console.log('announcement in setAnnouncement: ', announcement);
+    await dispatch.setCache({
+      data: {
+        ...globalState.announcements,
+        data: { ...globalState.announcements.data, [announcement._id]: announcement },
+      },
+      key: 'announcements',
+    });
+    return {
+      announcements: {
+        data: { ...globalState.announcements.data, [announcement._id]: announcement },
+        // announcements:
+        // direction === QUERY_STRING.DIRECTION.DESC.value
+        //   ? [announcement, ...globalState.announcements.data]
+        //   : [...globalState.announcements.data, announcement],
+      },
+    };
+  },
   setAnnouncements: async (globalState, dispatch, { announcements }) => {
     const announcementData = announcements.reduce((_announcements, announcement) => {
       _announcements[announcement._id] = announcement;

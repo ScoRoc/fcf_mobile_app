@@ -3,6 +3,7 @@ import React, { useGlobal, useState } from 'reactn';
 import { Button, ImageBackground, Text, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import axios from 'axios';
 // Components
 import Touchable from '../../components/Touchable';
 // Helpers
@@ -19,22 +20,53 @@ const LoginScreen = props => {
   // Global State
   const [user, setUser] = useGlobal('user');
   // State
-  const [email, setEmail] = useState(_EMPTYSTRING);
-  const [password, setPassword] = useState(_EMPTYSTRING);
+  const [email, setEmail] = useState('super@super.com');
+  const [password, setPassword] = useState('password');
 
   // FAKE REMOVE
   React.useEffect(() => {
-    postWithAxios({ email: 'q@q.com', password: 'password' }).then(result => {
-      result.data.user
-        ? handleSuccess({ user: result.data.user, token: result.data.token })
-        : handleErr(result.data._message);
-    });
+    // const fooGetUser = async id => {
+    //   const path = `http://localhost:3001/users/${id}`;
+    //   const res = await axios.get(path);
+    //   res && setUser(res.data.user);
+    // };
+
+    // TOKEN ISNT SAVING
+    // FIND OUT HOW TO HANDLE TOKEN FOR MOBILE
+
+    // const fakeLogin = async () => {
+    //   const path = 'http://localhost:3001/auth';
+    //   const res = await axios.get(path);
+    //   // res.data.user ? handleSuccess({ user: res.data.user }) : handleErr(res.data._message);
+    //   console.log('res.data: ', res.data);
+    //   res.status === 200 ? fooGetUser(res.data._id) : handleErr(res.data._message);
+    // };
+    const fakeLogin = async () => {
+      const path = 'http://localhost:3001/auth';
+      const res = await axios.post(
+        path,
+        { email: 'super@super.com', password: 'password' },
+        {
+          params: {
+            loginFrom: 'app',
+          },
+        },
+      );
+      res ? setUser(res.data.user) : handleErr(res.data._message);
+    };
+    fakeLogin();
+
+    // postWithAxios({ email: 'q@q.com', password: 'password' }).then(result => {
+    //   result.data.user
+    //     ? handleSuccess({ user: result.data.user, token: result.data.token })
+    //     : handleErr(result.data._message);
+    // });
   }, []);
 
-  const handleSuccess = async ({ user, token }) => {
-    await setTokenOnDevice(token);
+  const handleSuccess = async ({ user }) => {
+    // await setTokenOnDevice(token);
     // props.liftUser({ user, token });
-    setUser({ self: user, token });
+    setUser(user);
     // props.navigation.navigate('Main');
   };
 
@@ -42,12 +74,23 @@ const LoginScreen = props => {
     console.log('signup failed with err: ', errMsg);
   };
 
-  const handleSubmit = () => {
-    postWithAxios({ email, password }).then(result => {
-      result.data.user
-        ? handleSuccess({ user: result.data.user, token: result.data.token })
-        : handleErr(result.data._message);
-    });
+  const handleSubmit = async () => {
+    // postWithAxios({ email, password }).then(result => {
+    //   result.data.user
+    // ? handleSuccess({ user: result.data.user, token: result.data.token })
+    // : handleErr(result.data._message);
+    // });
+    const path = 'http://localhost:3001/auth';
+    const res = await axios.post(
+      path,
+      { email, password },
+      {
+        params: {
+          loginFrom: 'app',
+        },
+      },
+    );
+    res ? handleSuccess({ user: res.data.user }) : handleErr(res.data._message);
   };
 
   const yellow = () => EStyleSheet.value(YELLOW_$);

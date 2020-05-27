@@ -55,7 +55,7 @@ const Webview = ({ navigation, route }) => {
 };
 
 Webview.propTypes = {
-  navigation: PropTypes.element, // react-navigation navigation object
+  navigation: PropTypes.object, // react-navigation navigation object
   route: PropTypes.object, // react-navigation route object
 };
 
