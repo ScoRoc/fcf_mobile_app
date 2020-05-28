@@ -1,50 +1,77 @@
 // Libraries
-import React, { useGlobal, useState } from 'reactn';
-import { Dimensions, RefreshControl, StatusBar } from 'react-native';
+import React, { useContext, useEffect, useGlobal, useState } from 'reactn';
+import { RefreshControl, StatusBar } from 'react-native';
 import PropTypes from 'prop-types';
 // Atoms
-import { Box, Scrollview, Text } from 'atoms';
-// Announcement Organisms
-import { AnnouncementStrip } from './organisms';
+import { Box, Scrollview } from 'atoms';
+// Announcement Molecules
+import { AnnouncementStrip } from './molecules';
+// Constants
+import { NAV } from 'utils/constants';
 
 // Announcements
 
-const Announcements = ({ announcements, getAnnouncements }) => {
-  const [allAnnouncements] = useGlobal('announcements');
+const Announcements = ({ context, ...props }) => {
+  // Global
+
+  const [announcements] = useGlobal('announcements');
+  const [user] = useGlobal('user');
+
   // State
 
   const [refreshing, setRefreshing] = useState(false);
 
+  // Context
+
+  const { getAnnouncements, navigation, setAnnouncement, socket, viewAnnouncement } = useContext(
+    context,
+  );
+
+  // Effects
+
+  useEffect(() => {
+    socket.on('invalidLike', msg => console.log('msg: ', msg));
+    // TODO verify is other sockets are receiving an update here
+    socket.on('newLike', announcement => setAnnouncement({ announcement }));
+  }, []);
+
   // Functions
 
-  const onRefresh = async () => {
-    console.log('onRefresh...');
+  const handleLike = ({ announcement, e }) => {
+    announcement.likedBy.includes(user._id)
+      ? announcement.likedBy.splice(announcement.likedBy.indexOf(user._id), 1)
+      : announcement.likedBy.push(user._id);
+    setAnnouncement({ announcement });
+    socket.emit('like', { announcementId: announcement._id, userId: user._id });
+  };
+
+  const handleStripPress = ({ announcement, e }) => {
+    navigation.navigate(NAV.WEB_VIEW, { url: announcement.url });
+    if (!announcement.viewedBy.includes(user._id)) {
+      viewAnnouncement({ announcementId: announcement._id, viewedByUserId: user._id });
+    }
+  };
+
+  const handleRefresh = async () => {
     setRefreshing(true);
     await getAnnouncements();
     setRefreshing(false);
-    console.log('allAnnouncements: ', allAnnouncements);
   };
 
   // Components
 
-  const announcementStrips =
-    announcements &&
-    announcements.map(announcement => {
-      return (
-        <AnnouncementStrip
-          announcement={announcement}
-          // finishUpdate={() => setUpdated(false)}
-          // imgHeight={imgHeight}
-          // imgWidth={imgWidth}
-          key={announcement._id}
-          // onImgDoublePress={() => console.log('double...')}
-          // onImgPress={() => console.log('single...')}
-          // padding={padding}
-          // updateAnnouncement={updateAnnouncement}
-          // updated={updated}
-        />
-      );
-    });
+  const announcementStrips = announcements?.data
+    ? Object.values(announcements.data).map(announcement => {
+        return (
+          <AnnouncementStrip
+            announcement={announcement}
+            onLike={handleLike}
+            onPress={handleStripPress}
+            key={announcement._id}
+          />
+        );
+      })
+    : [];
 
   // Return
 
@@ -55,7 +82,7 @@ const Announcements = ({ announcements, getAnnouncements }) => {
         refreshControl={
           <RefreshControl
             colors={['red']}
-            onRefresh={onRefresh}
+            onRefresh={handleRefresh}
             refreshing={refreshing}
             tintColor={'red'}
           />
@@ -67,19 +94,12 @@ const Announcements = ({ announcements, getAnnouncements }) => {
   );
 };
 
-Announcements.propTypes = {
-  announcements: PropTypes.arrayOf(
-    PropTypes.object,
-    // PropTypes.shape({
-    // announcement shape
-    // }), // TODO should this be required ??
-  ),
-  getAnnouncements: PropTypes.func.isRequired,
+Announcements.propType = {
+  context: PropTypes.element.isRequired, // TODO context element ??
 };
 
 Announcements.defaultProps = {
-  announcements: null,
-  getAnnouncements: null,
+  context: null,
 };
 
 export default Announcements;

@@ -67,5 +67,11 @@ export const PATHS = {
 //   },
 // };
 
+export const SOCKETS = {
+  NAMESPACES: {
+    ANNOUNCEMENTS: '/announcements',
+  },
+};
+
 // export { API, FULL_PATHS, PATHS, QUERY_STRING }; // TODO
 // export { API, PATHS };

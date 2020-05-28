@@ -1,5 +1,5 @@
 // Libraries
-import React, { useContext, useGlobal } from 'reactn';
+import React, { useGlobal } from 'reactn';
 import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 // Atoms
@@ -7,24 +7,25 @@ import { Box, Img, Text, TouchableIOSHighlight } from 'atoms';
 // Organisms
 import DoubleTouch from 'organisms/DoubleTouch';
 // Home Context
-import { HomeContext } from 'home-screen/templates/HomeTemplate/HomeTemplate';
-// Announcement Organisms
+import HomeContext from 'home-screen/logic/HomeLogic/HomeContext';
+// Announcement Molecules
 import LikeStrip from '../LikeStrip/LikeStrip';
 // Announcement Constants
 import { IMAGES } from '../../constants';
-// Constants
-import { NAV } from 'utils/constants';
 
 // AnnouncementStrip
 
-const AnnouncementStrip = ({ announcement, onImgPress, onImgDoublePress, ...props }) => {
+const AnnouncementStrip = ({
+  announcement,
+  onImgPress,
+  onImgDoublePress,
+  onLike,
+  onPress,
+  ...props
+}) => {
   // Global
 
   const [user] = useGlobal('user');
-
-  // Context
-
-  const { navigation, viewAnnouncement } = useContext(HomeContext);
 
   // Dimensions
 
@@ -37,27 +38,18 @@ const AnnouncementStrip = ({ announcement, onImgPress, onImgDoublePress, ...prop
   // Functions
 
   const handleImgDoublePress = e => {
-    handleLike(e);
+    onLike?.({ announcement, e });
     onImgDoublePress?.(e);
-  };
-
-  const handleLike = e => {
-    // TODO ADD LIKE VIA SOCKET
-    console.log('liking...');
-    console.log('e: ', e);
-  };
-
-  const handleStripPress = e => {
-    navigation.navigate(NAV.WEB_VIEW, { url: announcement.url });
-    if (!announcement.viewedBy.includes(user._id)) {
-      viewAnnouncement({ announcementId: announcement._id, viewedByUserId: user._id });
-    }
   };
 
   // Return
 
   return (
-    <TouchableIOSHighlight marginBottom={20} marginTop={20} onPress={handleStripPress}>
+    <TouchableIOSHighlight
+      marginBottom={20}
+      marginTop={20}
+      onPress={e => onPress({ announcement, e })}
+    >
       <Box backgroundColor='darkslateblue' flex={1} paddingBottom={20} paddingTop={20} {...props}>
         {announcement?.image?.cloudinary?.croppedUrl ? (
           <Box marginBottom={20} marginLeft={margin} marginRight={margin}>
@@ -84,10 +76,11 @@ const AnnouncementStrip = ({ announcement, onImgPress, onImgDoublePress, ...prop
           {announcement.description}
         </Text>
         <LikeStrip
+          isLiked={announcement?.likedBy?.includes(user?._id)}
           likes={announcement.likedBy.length}
           marginLeft={margin}
           marginRight={margin}
-          onHeartPress={handleLike}
+          onHeartPress={e => onLike?.({ announcement, e })}
           width={width - margin * 2}
         />
       </Box>
@@ -99,12 +92,16 @@ AnnouncementStrip.propTypes = {
   announcement: PropTypes.object, // announcement db object
   onImgPress: PropTypes.func,
   onImgDoublePress: PropTypes.func,
+  onLike: PropTypes.func.isRequired,
+  onPress: PropTypes.func,
 };
 
 AnnouncementStrip.defaultProps = {
   announcement: null,
   onImgPress: null,
   onImgDoublePress: null,
+  onLike: null,
+  onPress: null,
 };
 
 export default AnnouncementStrip;

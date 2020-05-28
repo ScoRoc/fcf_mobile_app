@@ -19,7 +19,6 @@ const PageCarousel = ({ children, onTitlePress, showSlider, styles, titles, ...p
   // State
 
   const [currentTitle, setCurrentTitle] = useState(titles[0]);
-  const [intervals, setIntervals] = useState(children.length);
   const [scrollX, setScrollX] = useState(0); // current scroll x position
   const [scrollToX, setScrollToX] = useState(0); // x position to scroll to
   const [titleDimensions, setTitleDimensions] = useState({});
@@ -31,18 +30,14 @@ const PageCarousel = ({ children, onTitlePress, showSlider, styles, titles, ...p
   // Effects
 
   useEffect(() => {
-    setIntervals(children.length);
-  }, [children.length]);
-
-  useEffect(() => {
-    Object.entries(titleRefs.current).forEach(([key, val]) => {
-      val?.measure((x, y, width, height, pageX, pageY) => {
+    Object.entries(titleRefs?.current).forEach(([title, node]) => {
+      node?.measure((x, y, width, height, pageX, pageY) => {
         const newDimensions = titleDimensions;
-        newDimensions[key] = { x, y, width, height, pageX, pageY };
+        newDimensions[title] = { x, y, width, height, pageX, pageY };
         setTitleDimensions(newDimensions);
       });
     });
-  }, [titleRefs.current]);
+  }, [titles]);
 
   // Functions
 
@@ -81,7 +76,7 @@ const PageCarousel = ({ children, onTitlePress, showSlider, styles, titles, ...p
           fontSize={30}
           marginLeft={10}
           marginRight={10}
-          ref={ref => (titleRefs.current[title] = ref)}
+          ref={node => (titleRefs.current[title] = node)}
           style={titleTextStyle}
         >
           {title}

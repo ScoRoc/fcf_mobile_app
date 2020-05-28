@@ -1,13 +1,18 @@
 // Libraries
-import React, { useDispatch, useEffect, useGlobal } from 'reactn';
+import React, { useDispatch, useEffect } from 'reactn';
+import PropTypes from 'prop-types';
 import axios from 'axios';
+import io from 'socket.io-client';
+// Home Context
+import HomeContext from './HomeContext';
 // Home Templates
 import HomeTemplate from '../../templates';
 // Constants
+import { API, PATHS, SOCKETS } from 'utils/constants';
 
-import { API, PATHS } from 'utils/constants';
-// Announcement Constants
-// import { IMG_UPDATE } from '../../constants';
+// Sockets
+
+const socket = io(`${API.DEV}${SOCKETS.NAMESPACES.ANNOUNCEMENTS}`);
 
 // URL Deets
 
@@ -19,7 +24,6 @@ const baseUrl = `${API.DEV}${PATHS.ANNOUNCEMENTS}`;
 const HomeLogic = ({ navigation, route }) => {
   // Global
 
-  const [announcements] = useGlobal('announcements');
   // const [isLoading, setIsLoading] = useGlobal('isLoading');
   // const [user] = useGlobal('user');
 
@@ -126,17 +130,22 @@ const HomeLogic = ({ navigation, route }) => {
   // Return
 
   return (
-    <HomeTemplate
-      announcements={announcements}
-      // announcements={sortedWods}
-      getAnnouncements={getAnnouncements}
-      // isLoading={isLoading}
-      navigation={navigation}
-      route={route}
-      // patchAnnouncement={patchAnnouncement}
-      viewAnnouncement={viewAnnouncement}
-    />
+    <HomeContext.Provider
+      value={{ getAnnouncements, navigation, route, setAnnouncement, socket, viewAnnouncement }}
+    >
+      <HomeTemplate />
+    </HomeContext.Provider>
   );
+};
+
+HomeTemplate.propTypes = {
+  navigation: PropTypes.object, // react-navigation navigation object
+  route: PropTypes.object, // react-navigation route object
+};
+
+HomeTemplate.defaultProps = {
+  navigation: null,
+  route: null,
 };
 
 export default HomeLogic;

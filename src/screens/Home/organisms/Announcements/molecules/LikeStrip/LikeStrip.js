@@ -6,7 +6,7 @@ import { Box, Text, TouchableIOSOpacity } from 'atoms';
 
 // LikeStrip
 
-const LikeStrip = ({ children, likes, onHeartPress, ...props }) => {
+const LikeStrip = ({ children, isLiked, likes, onHeartPress, ...props }) => {
   return (
     <Box
       alignItems='center'
@@ -17,7 +17,7 @@ const LikeStrip = ({ children, likes, onHeartPress, ...props }) => {
       {...props}
     >
       <TouchableIOSOpacity onPress={onHeartPress}>
-        <Text>[heart]</Text>
+        <Text color={isLiked ? 'red' : 'black'}>[heart]</Text>
       </TouchableIOSOpacity>
       <Text>{likes}</Text>
     </Box>
@@ -25,11 +25,13 @@ const LikeStrip = ({ children, likes, onHeartPress, ...props }) => {
 };
 
 LikeStrip.propTypes = {
+  isLiked: PropTypes.bool,
   likes: PropTypes.number.isRequired,
   onHeartPress: PropTypes.func,
 };
 
 LikeStrip.defaultProps = {
+  isLiked: false,
   likes: null,
   onHeartPress: null,
 };
