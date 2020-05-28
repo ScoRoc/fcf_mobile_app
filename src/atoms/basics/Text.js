@@ -6,6 +6,9 @@ import StyledText from './StyledText';
 
 // Text
 
+// IMPORTANT
+// Doesn't work with forwardRef, use StyledText instead
+
 const Text = props => {
   return <StyledText {...props}>{props.children}</StyledText>;
 };

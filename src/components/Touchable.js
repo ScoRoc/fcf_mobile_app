@@ -5,25 +5,22 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   TouchableNativeFeedback,
-  View
+  View,
 } from 'react-native';
 // String Constants
-import { IOS } from '../utils/stringConstants';
+import { IOS } from '../utils-OLD/stringConstants';
 
 export default Touchable = props => {
   const iosTouchables = {
     highlight: TouchableHighlight,
     opacity: TouchableOpacity,
   };
-  const OSSpecificTouchable = Platform.OS === IOS
-                            ? iosTouchables[props.iosType]
-                            : TouchableNativeFeedback;
+  const OSSpecificTouchable =
+    Platform.OS === IOS ? iosTouchables[props.iosType] : TouchableNativeFeedback;
   // console.log( Platform.OS );
   return (
     <OSSpecificTouchable {...props}>
-      <View style={props.viewStyle}>
-        {props.children}
-      </View>
+      <View style={props.viewStyle}>{props.children}</View>
     </OSSpecificTouchable>
   );
 };

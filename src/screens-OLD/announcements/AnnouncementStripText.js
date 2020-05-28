@@ -6,14 +6,14 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Touchable from '../../components/Touchable';
 import ImgSection from './ImgSection';
 // String Constants
-import { HIGHLIGHT, WEB_VIEW } from '../../utils/stringConstants';
+import { HIGHLIGHT, WEB_VIEW } from '../../utils-OLD/stringConstants';
 
 const AnnouncementStripText = props => {
   const { announcement, imgWidth, textWrapWidth } = props;
   const { announcementText, url } = announcement;
   return (
     <Touchable
-      activeOpacity={.8}
+      activeOpacity={0.8}
       iosType={HIGHLIGHT}
       onPress={() => props.navigation.navigate(WEB_VIEW, { url })}
       viewStyle={{ width: imgWidth }}
@@ -21,7 +21,7 @@ const AnnouncementStripText = props => {
     >
       <Text style={styles.text}>{announcementText}</Text>
     </Touchable>
-  )
+  );
 };
 
 const styles = EStyleSheet.create({
@@ -31,7 +31,7 @@ const styles = EStyleSheet.create({
     marginTop: '20rem',
     color: '$white',
     fontSize: '16rem',
-  }
+  },
 });
 
 export default AnnouncementStripText;

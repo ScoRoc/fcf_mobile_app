@@ -1,14 +1,17 @@
 // Libraries
 import React, { addReducers, setGlobal, useGlobal } from 'reactn';
 import { NavigationContainer } from '@react-navigation/native';
-import { YellowBox } from 'react-native';
+import { ThemeProvider } from 'emotion-theming';
+// import { YellowBox } from 'react-native';
 // Components
 import SplashScreen from './src/screens-OLD/Splash/SplashScreen';
 // Navigators
 import AuthNavigator from './src/navigation/AuthNavigator';
-import MainTabsNavigator from './src/navigation/MainTabsNavigator';
+import MainNavigator from './src/navigation/MainNavigator';
 // Reducers
-// import homeReducers from './src/screens/Home/logic/HomeLogic/reducers';
+import homeReducers from './src/screens/Home/logic/HomeLogic/reducers';
+// Themes
+import themes, { THEME_NAMES } from 'theme/themes';
 
 // TODO delete after refactor (also delete the extended stylesheet package)
 
@@ -17,21 +20,25 @@ import buildStyleSheet from './src/style-sheet';
 
 buildStyleSheet(); // Init Extended Style Sheet
 
-YellowBox.ignoreWarnings([
-  'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?',
-]);
+// YellowBox.ignoreWarnings([
+//   'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?',
+// ]);
 
 setGlobal({
+  announcements: {},
+  events: {},
   isAppLoading: false,
   isLoggingOut: false,
+  themeName: THEME_NAMES.MAIN,
   user: {
     self: null,
     token: null,
   },
+  wods: {},
 });
 
 addReducers({
-  // ...homeReducers,
+  ...homeReducers,
   //  ...eventReducers,
   //  ...usersReducers,
   //  ...wodToolsReducers,
@@ -47,11 +54,9 @@ addReducers({
   //     await dispatch.clearUser();
   //     await dispatch.deauthenticateUser();
   //   },
-  //   setCache: (globalState, dispatch, { data, key }) => {
-  //     console.log('key: ', key);
-  //     console.log('data: ', data);
-  //     return { cache: { ...globalState.cache, [key]: data } };
-  //   },
+  setCache: (globalState, dispatch, { data, key }) => {
+    return { cache: { ...globalState.cache, [key]: data } };
+  },
   //   setUser: async (globalState, dispatch, user) => {
   //     await dispatch.setCache({ data: user, key: 'user' });
   //     return { user };
@@ -67,14 +72,21 @@ addReducers({
 export default function App() {
   // Global State
   const [isAppLoading] = useGlobal('isLoading');
+  const [themeName] = useGlobal('themeName');
   const [user] = useGlobal('user');
 
+  const theme = themes[themeName];
+
   // Return
-  return isAppLoading ? (
-    <SplashScreen />
-  ) : (
-    <NavigationContainer>
-      {user.token === null ? <AuthNavigator /> : <MainTabsNavigator />}
-    </NavigationContainer>
+  return (
+    <ThemeProvider theme={theme}>
+      {isAppLoading ? (
+        <SplashScreen />
+      ) : (
+        <NavigationContainer>
+          {user.token === null ? <AuthNavigator /> : <MainNavigator />}
+        </NavigationContainer>
+      )}
+    </ThemeProvider>
   );
 }

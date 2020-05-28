@@ -6,11 +6,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 // Components
 import Touchable from '../../components/Touchable';
 // Helpers
-import { urlHostName, getColor } from '../../utils/global-variables';
+import { urlHostName, getColor } from '../../utils-OLD/global-variables';
 import { blackBG } from '../../style-sheet';
-import useAxios from '../../utils/axios-helpers';
-import { setTokenOnDevice } from '../../utils/token-helpers';
-import { _EMPTYSTRING, HEIGHT_$, WIDTH_$, YELLOW_$ } from '../../utils/stringConstants';
+import useAxios from '../../utils-OLD/axios-helpers';
+import { setTokenOnDevice } from '../../utils-OLD/token-helpers';
+import { _EMPTYSTRING, HEIGHT_$, WIDTH_$, YELLOW_$ } from '../../utils-OLD/stringConstants';
 
 const path = `${urlHostName}/user/create`;
 const { postWithAxios } = useAxios(path);
@@ -32,19 +32,21 @@ const SignupScreen = props => {
     setUser({ self: user, token });
     // props.liftUser({ user, token });
     // props.navigation.navigate('Main');
-  }
+  };
 
   const handleErr = errMsg => {
     console.log('signup failed with err: ', errMsg);
-  }
+  };
 
   const handleSubmit = () => {
-    postWithAxios({ firstName, lastName, email, password }).then(result => {
-      result.data.user
-        ? handleSuccess({ user: result.data.user, token: result.data.token })
-        : handleErr(result.data._message);
-    }).catch(err => console.log('err: ', err));
-  }
+    postWithAxios({ firstName, lastName, email, password })
+      .then(result => {
+        result.data.user
+          ? handleSuccess({ user: result.data.user, token: result.data.token })
+          : handleErr(result.data._message);
+      })
+      .catch(err => console.log('err: ', err));
+  };
 
   const yellow = () => EStyleSheet.value(YELLOW_$);
   // temp
@@ -59,17 +61,15 @@ const SignupScreen = props => {
       resetScrollToCoords={{ x: 0, y: 0 }}
       style={{ backgroundColor: blackBG }}
     >
-      <ImageBackground blurRadius={4} source={{uri: imgUri}} style={styles.imgBgStyle}>
-
+      <ImageBackground blurRadius={4} source={{ uri: imgUri }} style={styles.imgBgStyle}>
         <View style={styles.contentWrapper}>
-
           <View style={styles.logoPlaceholder}></View>
 
           <TextInput
             onChangeText={setFirstName}
             placeholder='First Name'
             placeholderTextColor={yellow()}
-            style={[ styles.text, styles.textInput, styles.inputMargin ]}
+            style={[styles.text, styles.textInput, styles.inputMargin]}
             textContentType='givenName'
             value={firstName}
           />
@@ -78,7 +78,7 @@ const SignupScreen = props => {
             onChangeText={setLastName}
             placeholder='Last Name'
             placeholderTextColor={yellow()}
-            style={[ styles.text, styles.textInput, styles.inputMargin ]}
+            style={[styles.text, styles.textInput, styles.inputMargin]}
             textContentType='familyName'
             value={lastName}
           />
@@ -88,7 +88,7 @@ const SignupScreen = props => {
             onChangeText={setEmail}
             placeholder='Email'
             placeholderTextColor={yellow()}
-            style={[ styles.text, styles.textInput, styles.inputMargin ]}
+            style={[styles.text, styles.textInput, styles.inputMargin]}
             textContentType='emailAddress'
             value={email}
           />
@@ -98,34 +98,32 @@ const SignupScreen = props => {
             onChangeText={setPassword}
             placeholder='Password'
             placeholderTextColor={yellow()}
-            style={[ styles.text, styles.textInput, styles.inputMargin ]}
+            style={[styles.text, styles.textInput, styles.inputMargin]}
             secureTextEntry={true}
             textContentType='password'
             value={password}
           />
 
-          <View style={[ styles.loginTextWrap, styles.inputMargin ]}>
+          <View style={[styles.loginTextWrap, styles.inputMargin]}>
             <Touchable iosType='opacity' onPress={() => props.navigation.navigate('Login')}>
-              <Text style={[ styles.text, styles.smallText, styles.loginTextLink ]}>Log In</Text>
+              <Text style={[styles.text, styles.smallText, styles.loginTextLink]}>Log In</Text>
             </Touchable>
           </View>
-
         </View>
 
         <Touchable
-          activeOpacity={.5}
+          activeOpacity={0.5}
           iosType='highlight'
           onPress={handleSubmit}
-          underlayColor={ getColor('yellow') }
+          underlayColor={getColor('yellow')}
           style={styles.submitButton}
-          >
-            <Text style={[ styles.text, styles.submitButtonText ]}>Sign Up</Text>
-          </Touchable>
-
+        >
+          <Text style={[styles.text, styles.submitButtonText]}>Sign Up</Text>
+        </Touchable>
       </ImageBackground>
     </KeyboardAwareScrollView>
   );
-}
+};
 
 const styles = EStyleSheet.create({
   $fontSize: '28rem',

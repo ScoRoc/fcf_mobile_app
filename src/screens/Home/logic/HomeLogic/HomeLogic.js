@@ -1,83 +1,70 @@
 // Libraries
-import React, { useDispatch, useEffect, useGlobal } from 'reactn';
+import React, { useDispatch, useEffect } from 'reactn';
+import PropTypes from 'prop-types';
 import axios from 'axios';
+import io from 'socket.io-client';
+// Home Context
+import HomeContext from './HomeContext';
 // Home Templates
 import HomeTemplate from '../../templates';
-// Announcement Constants
-// import { IMG_UPDATE } from '../../constants';
-// Announcement API Helpers
-// import { buildPatch } from './apiHelpers';
 // Constants
-// import { API, PATHS, QUERY_STRING } from 'utils/constants';
+import { API, PATHS, SOCKETS } from 'utils/constants';
+
+// Sockets
+
+const socket = io(`${API.DEV}${SOCKETS.NAMESPACES.ANNOUNCEMENTS}`);
 
 // URL Deets
 
 // const baseUrl = `${API.PROD}${PATHS.ANNOUNCEMENTS}`;
-// const baseUrl = PATHS.ANNOUNCEMENTS;
+const baseUrl = `${API.DEV}${PATHS.ANNOUNCEMENTS}`;
 
 // HomeLogic
 
-const HomeLogic = () => {
+const HomeLogic = ({ navigation, route }) => {
   // Global
 
-  // const [announcements] = useGlobal('announcements');
   // const [isLoading, setIsLoading] = useGlobal('isLoading');
   // const [user] = useGlobal('user');
 
   // Dispatch
 
   // const removeAnnouncement = useDispatch('removeAnnouncement');
-  // const setAnnouncement = useDispatch('setAnnouncement');
-  // const setHome = useDispatch('setHome');
+  const setAnnouncement = useDispatch('setAnnouncement');
+  const setAnnouncements = useDispatch('setAnnouncements');
 
   // Effects
 
-  // useEffect(() => {
-  // getHome().then(res => {
-  //   console.log('res in HomeLogic: ', res);
-  //   // res.status === 200 ? handleSuccess(res) : handleErrors(res);
-  //   setIsLoading(false);
-  //   setHome(res.data.announcements);
-  // });
-  // getHome({ direction: 'desc' });
-  // }, []);
+  useEffect(() => {
+    getAnnouncements();
+  }, []);
 
   // API Callbacks
 
-  // const deleteAnnouncement = async _id => {
-  //   const url = `${baseUrl}/${_id}`;
+  const getAnnouncements = async () => {
+    try {
+      const res = await axios.get(baseUrl);
+      // console.log('res in AnnouncementsLogic: ', res);
+      // console.log('res.data in AnnouncementsLogic: ', res.data);
+      // res.status === 200 ? handleSuccess(res) : handleErrors(res);
+      // TODO Fix return to be based off if error or not
+      setAnnouncements({ announcements: res.data.announcements });
+      return true;
+    } catch (err) {
+      console.log('err: ', err);
+    }
+  };
 
-  //   // setIsLoading(true);
-  //   await axios.delete(url).then(res => {
-  //     console.log('res: ', res);
-  //     // const updatedHome = {};
-  //     // setIsLoading(false);
-  //     removeAnnouncement(_id);
-  //     // TODO Fix return to be based off if error or not
-  //   });
-  //   return true;
-  // };
-
-  // const getHome = ({ direction = QUERY_STRING.DIRECTION.DESC.value } = {}) => {
-  // const getHome = async () => {
-  //   setIsLoading(true);
-  //   // need to build queryString iterator
-  //   await axios
-  //     .get(baseUrl, {
-  //       // params: {
-  //       //   [QUERY_STRING.DIRECTION.PARAM.value]: direction,
-  //       // },
-  //     })
-  //     .then(res => {
-  //       console.log('res in HomeLogic: ', res);
-  //       // res.status === 200 ? handleSuccess(res) : handleErrors(res);
-  //       setIsLoading(false);
-  //       // setHome({ data: res.data.announcements, direction });
-  //       setHome({ data: res.data.announcements });
-  //       // TODO Fix return to be based off if error or not
-  //     });
-  //   return true;
-  // };
+  const viewAnnouncement = async ({ announcementId, viewedByUserId }) => {
+    const url = `${API.DEV}${PATHS.ANNOUNCEMENTS}/${announcementId}${PATHS.VIEWED_BY}`;
+    try {
+      const res = await axios.patch(url, {}, { params: { viewedByUserId } });
+      console.log('res: ', res);
+      setAnnouncement({ announcement: res.data });
+    } catch (err) {
+      console.log('err: ', err);
+    }
+  };
 
   // const patchAnnouncement = async ({
   //   _id,
@@ -127,46 +114,6 @@ const HomeLogic = () => {
   //   return true;
   // };
 
-  // const postAnnouncement = async ({ crop, description, dimensions, imgFile, url }) => {
-  //   console.log('in post');
-  //   // TODO handle error validation
-  //   // if (!date) throw new Error();
-  //   if (!description || !dimensions || !imgFile || !url) {
-  //     console.log('description, dimensions, imgFile, and url need to be filled out');
-  //     return false;
-  //   }
-
-  //   if (!crop || crop.height <= 0 || crop.width <= 0) {
-  //     console.log('crop must exist and have a height and width larger than 0');
-  //     return false;
-  //   }
-
-  //   const formData = new FormData();
-  //   formData.set('cropHeight', crop.height);
-  //   formData.set('cropWidth', crop.width);
-  //   formData.set('cropX', crop.x);
-  //   formData.set('cropY', crop.y);
-  //   formData.set('description', description);
-  //   formData.append('imgFile', imgFile);
-  //   formData.set('imgHeight', dimensions.height);
-  //   formData.set('imgWidth', dimensions.width);
-  //   formData.set('url', url);
-
-  //   const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-
-  //   const qs = `?${QUERY_STRING.CREATED_BY_USER.PARAM.value}=${user._id}`;
-  //   const postUrl = `${baseUrl}${qs}`;
-  //   // setIsLoading(true);
-  //   await axios.post(postUrl, formData, config).then(res => {
-  //     console.log('res: ', res);
-  //     // res.status === 200 ? handleSuccess(res) : handleErrors(res);
-  //     // setIsLoading(false);
-  //     setAnnouncement({ announcement: res.data.announcement });
-  //     // TODO Fix return to be based off if error or not
-  //   });
-  //   return true;
-  // };
-
   // Sorted Home
 
   // TODO fix sorting
@@ -183,15 +130,22 @@ const HomeLogic = () => {
   // Return
 
   return (
-    <HomeTemplate
-    // deleteAnnouncement={deleteAnnouncement}
-    // isLoading={isLoading}
-    // patchAnnouncement={patchAnnouncement}
-    // postAnnouncement={postAnnouncement}
-    // announcements={sortedWods}
-    // announcements={Object.values(announcements.data)}
-    />
+    <HomeContext.Provider
+      value={{ getAnnouncements, navigation, route, setAnnouncement, socket, viewAnnouncement }}
+    >
+      <HomeTemplate />
+    </HomeContext.Provider>
   );
+};
+
+HomeTemplate.propTypes = {
+  navigation: PropTypes.object, // react-navigation navigation object
+  route: PropTypes.object, // react-navigation route object
+};
+
+HomeTemplate.defaultProps = {
+  navigation: null,
+  route: null,
 };
 
 export default HomeLogic;

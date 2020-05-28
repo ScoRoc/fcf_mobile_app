@@ -6,7 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 // Components
 import Touchable from './Touchable';
 // String Constants
-import { OPACITY, STRING } from '../utils/stringConstants';
+import { OPACITY, STRING } from '../utils-OLD/stringConstants';
 // Variables
 import { white, yellow } from '../style-sheet';
 
@@ -19,9 +19,15 @@ const PagingTitleBar = props => {
         iosType={OPACITY}
         key={title + i}
         onPress={() => props.onPress({ i, title })}
-        viewStyle={[ styles.view, { borderBottomColor: color }, props.styles && props.styles.titleTouchable ]}
+        viewStyle={[
+          styles.view,
+          { borderBottomColor: color },
+          props.styles && props.styles.titleTouchable,
+        ]}
       >
-        <Text style={[ styles.text, { color }, props.styles && props.styles.titleText ]}>{title}</Text>
+        <Text style={[styles.text, { color }, props.styles && props.styles.titleText]}>
+          {title}
+        </Text>
       </Touchable>
     );
   });
@@ -29,7 +35,7 @@ const PagingTitleBar = props => {
   return (
     <View>
       <ScrollView
-        contentContainerStyle={[ styles.scrollView, props.styles && props.styles.scrollView ]}
+        contentContainerStyle={[styles.scrollView, props.styles && props.styles.scrollView]}
         horizontal={true}
         scrollEnabled={props.scrollEnabled}
         showsHorizontalScrollIndicator={false}
@@ -38,7 +44,7 @@ const PagingTitleBar = props => {
       </ScrollView>
     </View>
   );
-}
+};
 
 const styles = EStyleSheet.create({
   view: {
@@ -66,7 +72,7 @@ PagingTitleBar.propTypes = {
   selectedColor: PropTypes.string,
   styles: PropTypes.object,
   unselectedColor: PropTypes.string,
-}
+};
 
 PagingTitleBar.defaultProps = {
   currentPage: null,
@@ -76,6 +82,6 @@ PagingTitleBar.defaultProps = {
   selectedColor: yellow,
   styles: null,
   unselectedColor: white,
-}
+};
 
 export default PagingTitleBar;

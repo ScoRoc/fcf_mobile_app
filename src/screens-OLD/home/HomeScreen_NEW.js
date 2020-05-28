@@ -5,14 +5,14 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import moment from 'moment';
 // Components
 import HorizontalPagingScroller from '../../components/HorizontalPagingScroller';
-import Touchable from '../../components/Touchable'
+import Touchable from '../../components/Touchable';
 // Utils
-import useAxios from '../../utils/axios-helpers';
+import useAxios from '../../utils-OLD/axios-helpers';
 // Variables
 import { white, yellow } from '../../style-sheet';
-import { urlHostName } from '../../utils/global-variables';
+import { urlHostName } from '../../utils-OLD/global-variables';
 // String Constants
-import { ANNOUNCEMENTS, EVENTS, WIDTH_$ } from '../../utils/stringConstants';
+import { ANNOUNCEMENTS, EVENTS, WIDTH_$ } from '../../utils-OLD/stringConstants';
 // Pages
 import homePages from './home-pages';
 
@@ -23,19 +23,19 @@ const url = 'https://fcf.sites.zenplanner.com/calendar.cfm';
 
 const HomeScreen_NEW = props => {
   // State
-  const [currentPage, setCurrentPage] = useState(homePages[0])
+  const [currentPage, setCurrentPage] = useState(homePages[0]);
   const [scrolledViaPress, setScrolledViaPress] = useState(false);
 
   const getPageByX = x => {
     return homePages.filter(page => {
       return x > page.lowerScrollBounds && x < page.upperScrollBounds;
     })[0];
-  }
+  };
 
   const handleTitlePress = ({ i, title }) => {
     setCurrentPage(homePages[i]);
     setScrolledViaPress(true);
-  }
+  };
 
   const handleScroll = e => {
     if (!scrolledViaPress) {
@@ -43,13 +43,13 @@ const HomeScreen_NEW = props => {
       const newPage = getPageByX(x);
       setCurrentPage(newPage);
     }
-  }
+  };
 
   const blackBG = () => EStyleSheet.value('$blackBG');
   const blueGradDark = () => EStyleSheet.value('$blueGradDark');
 
   const width = () => EStyleSheet.value('$width');
-  const padding = width() * .1;
+  const padding = width() * 0.1;
 
   return (
     <View style={styles.screen}>
@@ -66,10 +66,9 @@ const HomeScreen_NEW = props => {
         titleScrollEnabled={false}
         unselectedColor={white}
       />
-
     </View>
   );
-}
+};
 
 const styles = EStyleSheet.create({
   $pagingBarSpacing: '20rem',
@@ -107,11 +106,11 @@ const styles = EStyleSheet.create({
     fontSize: '20rem',
     fontWeight: 'bold',
     textAlign: 'center',
-  }
+  },
 });
 
 HomeScreen_NEW.navigationOptions = {
   header: null,
-}
+};
 
 export default HomeScreen_NEW;

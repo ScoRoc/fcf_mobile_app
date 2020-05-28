@@ -8,6 +8,7 @@ import {
   TouchableIOSHighlight,
 } from './basics/TouchableIOSHighlight';
 import { AnimatedTouchableIOSOpacity, TouchableIOSOpacity } from './basics/TouchableIOSOpacity';
+import Scrollview from './basics/Scrollview';
 
 export {
   AnimatedBox,
@@ -20,6 +21,7 @@ export {
   Box,
   Img,
   Input,
+  Scrollview,
   Text,
   TouchableAndroid,
   TouchableIOSHighlight,
