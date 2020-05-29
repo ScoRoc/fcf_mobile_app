@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 // Atoms
 import { Box, Text, TouchableIOSHighlight } from 'atoms';
 // Event Molecules
-import { DateBox, EventStripDetails } from '../';
+import DateBox from '../DateBox/DateBox';
+import EventStripDetails from '../EventStripDetails/EventStripDetails';
+
+import { LikeStrip } from 'molecules';
 
 // EventStrip
 
@@ -17,7 +20,16 @@ const EventStrip = ({ event, onPress, ...props }) => {
       {...props}
     >
       <Box backgroundColor='lemonchiffon' flexDirection='row' height={80}>
-        <DateBox
+        {/* TODO WHY DOES DATEBOX WORK WHEN PULLED IN HERE BUT NOT WHEN IMPORTED ???? */}
+        {/* <Box backgroundColor='indianred' height='100%' width={70}>
+          <Box alignItems='center' flex={1} justifyContent='space-evenly'>
+            <Text fontSize={15}>month</Text>
+            <Text fontSize={30}>date</Text>
+          </Box>
+          <LikeStrip height={20} isLiked={true} likes={3} onHeartPress={onPress} />
+        </Box> */}
+
+        <DateBox // TODO WHY IS THIS CAUSING PAGE CAROUSEL SLIDER BAR TO NOT SLIDE??????
           date={event.startDate}
           isLiked={false}
           likes={2}

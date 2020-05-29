@@ -51,18 +51,6 @@ const PageCarousel = ({ children, onTitlePress, showSlider, styles, titles, ...p
     setScrollX(event.nativeEvent.contentOffset.x);
   };
 
-  // Style
-
-  // removing custom style objects from RN style object
-  const { activeColor, inActiveColor, ...titleTextStyle } = styles.titleTextStyle;
-
-  // Animations
-
-  const sliderSpringProps = useSpring({
-    marginLeft: titleDimensions[currentTitle]?.pageX || 10,
-    width: titleDimensions[currentTitle]?.width || 50,
-  });
-
   // Titles
 
   const _titles = titles.map((title, i) => {
@@ -75,6 +63,11 @@ const PageCarousel = ({ children, onTitlePress, showSlider, styles, titles, ...p
     if (currentTitle !== title && isActive) {
       setCurrentTitle(title);
     }
+
+    // Style
+
+    // removing custom style objects from RN style object
+    const { activeColor, inActiveColor, ...titleTextStyle } = styles.titleTextStyle;
 
     return (
       <TouchableIOSOpacity
@@ -94,6 +87,13 @@ const PageCarousel = ({ children, onTitlePress, showSlider, styles, titles, ...p
         </StyledText>
       </TouchableIOSOpacity>
     );
+  });
+
+  // Animations
+
+  const sliderSpringProps = useSpring({
+    marginLeft: titleDimensions[currentTitle]?.pageX || 10,
+    width: titleDimensions[currentTitle]?.width || 50,
   });
 
   // Return
