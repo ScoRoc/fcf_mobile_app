@@ -2,24 +2,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // Atoms
-import { Box, Text } from 'atoms';
+import { Box } from 'atoms';
+// Event Organisms
+import { EventsList, Legend } from './organisms';
+// Constants
+import { NAV } from 'utils/constants';
 
 // Events
 
-const Events = ({ children }) => {
+const Events = ({ context, ...props }) => {
   return (
-    <Box backgroundColor='green' flex={1}>
-      <Text>Events Page...</Text>
+    <Box backgroundColor='lightsalmon' flex={1} {...props}>
+      <Legend />
+      <EventsList />
     </Box>
   );
 };
 
-Events.propTypes = {
-  children: PropTypes.element,
+Events.propType = {
+  context: PropTypes.element.isRequired, // TODO context element ??
 };
 
 Events.defaultProps = {
-  children: null,
+  context: null,
 };
 
 export default Events;

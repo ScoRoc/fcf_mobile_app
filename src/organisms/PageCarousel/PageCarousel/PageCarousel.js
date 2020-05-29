@@ -41,9 +41,27 @@ const PageCarousel = ({ children, onTitlePress, showSlider, styles, titles, ...p
 
   // Functions
 
+  const handlePress = ({ e, i, pageStartX, title }) => {
+    onTitlePress?.({ event: e, index: i, title });
+    setScrollToX(pageStartX);
+    setCurrentTitle(title);
+  };
+
   const handleScroll = ({ currentInterval, event }) => {
     setScrollX(event.nativeEvent.contentOffset.x);
   };
+
+  // Style
+
+  // removing custom style objects from RN style object
+  const { activeColor, inActiveColor, ...titleTextStyle } = styles.titleTextStyle;
+
+  // Animations
+
+  const sliderSpringProps = useSpring({
+    marginLeft: titleDimensions[currentTitle]?.pageX || 10,
+    width: titleDimensions[currentTitle]?.width || 50,
+  });
 
   // Titles
 
@@ -58,20 +76,13 @@ const PageCarousel = ({ children, onTitlePress, showSlider, styles, titles, ...p
       setCurrentTitle(title);
     }
 
-    const handlePress = e => {
-      onTitlePress?.({ event: e, index: i, title });
-      setScrollToX(width * i);
-      setCurrentTitle(title);
-    };
-
-    // Style
-
-    // removing custom style objects from RN style object
-    const { activeColor, inActiveColor, ...titleTextStyle } = styles.titleTextStyle;
-
     return (
-      <TouchableIOSOpacity key={title} onPress={handlePress} style={styles?.titleTouchableStyle}>
-        <StyledText // need ref so much use StyledText, not custom Text component
+      <TouchableIOSOpacity
+        key={title}
+        onPress={e => handlePress({ e, i, pageStartX: width * i, title })}
+        style={styles?.titleTouchableStyle}
+      >
+        <StyledText // need ref so must use StyledText, not custom Text component
           color={isActive ? activeColor : inActiveColor}
           fontSize={30}
           marginLeft={10}
@@ -85,13 +96,6 @@ const PageCarousel = ({ children, onTitlePress, showSlider, styles, titles, ...p
     );
   });
 
-  // Animation
-
-  const springProps = useSpring({
-    marginLeft: titleDimensions[currentTitle]?.pageX || 10,
-    width: titleDimensions[currentTitle]?.width || 50,
-  });
-
   // Return
 
   return (
@@ -103,7 +107,7 @@ const PageCarousel = ({ children, onTitlePress, showSlider, styles, titles, ...p
             backgroundColor={styles.titleTextStyle.activeColor}
             borderRadius='50%'
             height={3}
-            style={springProps}
+            style={sliderSpringProps}
           />
         )}
       </Box>

@@ -32,7 +32,7 @@ const HomeTemplate = () => {
         titles={['Announcements', 'Events']}
       >
         <Announcements context={HomeContext} />
-        <Events />
+        <Events context={HomeContext} />
         {/* <HomeScreen /> */}
         {/* <EventsScreen /> */}
       </PageCarousel>

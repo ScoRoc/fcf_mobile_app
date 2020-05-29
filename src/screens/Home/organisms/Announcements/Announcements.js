@@ -1,6 +1,6 @@
 // Libraries
 import React, { useContext, useEffect, useGlobal, useState } from 'reactn';
-import { RefreshControl, StatusBar } from 'react-native';
+import { RefreshControl } from 'react-native';
 import PropTypes from 'prop-types';
 // Atoms
 import { Box, Scrollview } from 'atoms';
@@ -77,7 +77,6 @@ const Announcements = ({ context, ...props }) => {
 
   return (
     <Box backgroundColor='green' flex={1} paddingtop={50}>
-      <StatusBar barStyle={'light-content'} />
       <Scrollview
         refreshControl={
           <RefreshControl
