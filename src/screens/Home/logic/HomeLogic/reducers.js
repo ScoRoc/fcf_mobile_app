@@ -2,14 +2,6 @@
 // import { API, PATHS, QUERY_STRING } from 'utils/constants';
 
 const homeReducers = {
-  // removeAnnouncement: async (globalState, dispatch, _id) => {
-  //   const cachedAnnouncements = globalState.cache.announcements;
-  //   delete cachedAnnouncements[_id];
-  //   await dispatch.setCache({ data: cachedAnnouncements, key: 'announcements' });
-  //   const { announcements } = globalState;
-  //   delete announcements.data[_id];
-  //   return { announcements };
-  // },
   setAnnouncement: async (globalState, dispatch, { announcement }) => {
     console.log('announcement in setAnnouncement: ', announcement);
     await dispatch.setCache({
@@ -43,6 +35,40 @@ const homeReducers = {
 
     await dispatch.setCache({ data: newAnnouncementsState, key: 'announcements' });
     return { announcements: newAnnouncementsState };
+  },
+  setEvent: async (globalState, dispatch, { event }) => {
+    console.log('event in setEvent: ', event);
+    await dispatch.setCache({
+      data: {
+        ...globalState.events,
+        data: { ...globalState.events.data, [event._id]: event },
+      },
+      key: 'events',
+    });
+    return {
+      events: {
+        data: { ...globalState.events.data, [event._id]: event },
+        // events:
+        // direction === QUERY_STRING.DIRECTION.DESC.value
+        //   ? [event, ...globalState.events.data]
+        //   : [...globalState.events.data, event],
+      },
+    };
+  },
+  setEvents: async (globalState, dispatch, { events }) => {
+    const eventData = events.reduce((_events, event) => {
+      _events[event._id] = event;
+      return _events;
+    }, {});
+
+    const newEventsState = {
+      ...globalState.events,
+      data: eventData,
+      // direction: direction || globalState.events.direction,
+    };
+
+    await dispatch.setCache({ data: newEventsState, key: 'events' });
+    return { events: newEventsState };
   },
 };
 

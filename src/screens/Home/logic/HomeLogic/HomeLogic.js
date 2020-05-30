@@ -16,8 +16,8 @@ const socket = io(`${API.DEV}${SOCKETS.NAMESPACES.ANNOUNCEMENTS}`);
 
 // URL Deets
 
-// const baseUrl = `${API.PROD}${PATHS.ANNOUNCEMENTS}`;
-const baseUrl = `${API.DEV}${PATHS.ANNOUNCEMENTS}`;
+// const baseUrl = API.PROD;
+const baseUrl = API.DEV;
 
 // HomeLogic
 
@@ -25,25 +25,28 @@ const HomeLogic = ({ navigation, route }) => {
   // Global
 
   // const [isLoading, setIsLoading] = useGlobal('isLoading');
-  // const [user] = useGlobal('user');
 
   // Dispatch
 
-  // const removeAnnouncement = useDispatch('removeAnnouncement');
   const setAnnouncement = useDispatch('setAnnouncement');
   const setAnnouncements = useDispatch('setAnnouncements');
+  const setEvent = useDispatch('setEvent');
+  const setEvents = useDispatch('setEvents');
 
   // Effects
 
   useEffect(() => {
     getAnnouncements();
+    getEvents();
   }, []);
 
-  // API Callbacks
+  // Announcements API
 
   const getAnnouncements = async () => {
+    const url = `${baseUrl}${PATHS.ANNOUNCEMENTS}`;
+
     try {
-      const res = await axios.get(baseUrl);
+      const res = await axios.get(url);
       // console.log('res in AnnouncementsLogic: ', res);
       // console.log('res.data in AnnouncementsLogic: ', res.data);
       // res.status === 200 ? handleSuccess(res) : handleErrors(res);
@@ -66,53 +69,34 @@ const HomeLogic = ({ navigation, route }) => {
     }
   };
 
-  // const patchAnnouncement = async ({
-  //   _id,
-  //   crop,
-  //   description,
-  //   dimensions,
-  //   imgFile,
-  //   originalAnnouncement,
-  //   url,
-  // }) => {
-  //   console.log('in patch');
+  // Events API
 
-  //   if (!description || !url) {
-  //     console.log('description, imgFile, and url need to be filled out');
-  //     return false;
-  //   }
+  const getEvents = async () => {
+    const url = `${baseUrl}${PATHS.EVENTS}`;
 
-  //   if (!crop || crop.height <= 0 || crop.width <= 0) {
-  //     console.log('crop must exist and have a height and width larger than 0');
-  //     return false;
-  //   }
+    try {
+      const res = await axios.get(url);
+      // console.log('res in EventsLogic: ', res);
+      // console.log('res.data in EventsLogic: ', res.data);
+      // res.status === 200 ? handleSuccess(res) : handleErrors(res);
+      // TODO Fix return to be based off if error or not
+      setEvents({ events: res.data.events });
+      return true;
+    } catch (err) {
+      console.log('err: ', err);
+    }
+  };
 
-  //   const { config, data } = buildPatch({
-  //     crop,
-  //     description,
-  //     dimensions,
-  //     imgFile,
-  //     originalAnnouncement,
-  //     url,
-  //     userId: user._id,
-  //   });
-
-  //   const patchUrl = `${baseUrl}/${_id}`;
-
-  //   console.log('patchUrl: ', patchUrl);
-  //   console.log('data: ', data);
-  //   console.log('config: ', config);
-
-  //   // setIsLoading(true);
-  //   await axios.patch(patchUrl, data, config).then(res => {
-  //     console.log('res: ', res);
-  //     // setIsLoading(false);
-  //     // res.status === 200 ? handleSuccess(res) : handleErrors(res);
-  //     setAnnouncement({ announcement: res.data.announcement });
-  //     // TODO Fix return to be based off if error or not
-  //   });
-  //   return true;
-  // };
+  const viewEvent = async ({ eventId, viewedByUserId }) => {
+    const url = `${API.DEV}${PATHS.EVENTS}/${eventId}${PATHS.VIEWED_BY}`;
+    try {
+      const res = await axios.patch(url, {}, { params: { viewedByUserId } });
+      console.log('res: ', res);
+      setEvent({ event: res.data });
+    } catch (err) {
+      console.log('err: ', err);
+    }
+  };
 
   // Sorted Home
 
@@ -131,19 +115,28 @@ const HomeLogic = ({ navigation, route }) => {
 
   return (
     <HomeContext.Provider
-      value={{ getAnnouncements, navigation, route, setAnnouncement, socket, viewAnnouncement }}
+      value={{
+        getAnnouncements,
+        navigation,
+        route,
+        setAnnouncement,
+        setEvent,
+        socket,
+        viewAnnouncement,
+        viewEvent,
+      }}
     >
       <HomeTemplate />
     </HomeContext.Provider>
   );
 };
 
-HomeTemplate.propTypes = {
+HomeLogic.propTypes = {
   navigation: PropTypes.object, // react-navigation navigation object
   route: PropTypes.object, // react-navigation route object
 };
 
-HomeTemplate.defaultProps = {
+HomeLogic.defaultProps = {
   navigation: null,
   route: null,
 };

@@ -26,7 +26,7 @@ const DateBox = ({ date, isLiked, likes, onLike, ...props }) => {
 };
 
 DateBox.propTypes = {
-  date: PropTypes.array.isRequired,
+  date: PropTypes.string.isRequired, // valid date string
   isLiked: PropTypes.bool.isRequired,
   likes: PropTypes.number.isRequired,
   onLike: PropTypes.func,

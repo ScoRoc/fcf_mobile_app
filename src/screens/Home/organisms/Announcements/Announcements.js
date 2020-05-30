@@ -58,7 +58,7 @@ const Announcements = ({ context, ...props }) => {
     setRefreshing(false);
   };
 
-  // Components
+  // Announcement Strips
 
   const announcementStrips = announcements?.data
     ? Object.values(announcements.data).map(announcement => {

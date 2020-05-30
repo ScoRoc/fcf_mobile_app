@@ -12,6 +12,7 @@ import { LikeStrip } from 'molecules';
 // EventStrip
 
 const EventStrip = ({ event, onPress, ...props }) => {
+  console.log('event: ', event);
   return (
     <TouchableIOSHighlight
       marginBottom={10}
@@ -36,7 +37,12 @@ const EventStrip = ({ event, onPress, ...props }) => {
           onLike={() => console.log('liked...')}
         />
 
-        <EventStripDetails name={event.name} />
+        <EventStripDetails
+          endDate={event.endDate}
+          name={event.name}
+          startDate={event.startDate}
+          type={event.type}
+        />
       </Box>
     </TouchableIOSHighlight>
   );

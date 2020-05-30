@@ -1,5 +1,5 @@
 // Libraries
-import React from 'react';
+import React, { useGlobal } from 'reactn';
 import PropTypes from 'prop-types';
 // Atoms
 import { Box, Text } from 'atoms';
@@ -9,14 +9,18 @@ import { EventStrip } from '../../molecules';
 // EventsList
 
 const EventsList = ({ children, ...props }) => {
-  const events = [
-    { _id: 'foo1', name: 'event name 1', startDate: Date.now() },
-    { _id: 'foo2', name: 'event name 2', startDate: Date.now() },
-  ];
+  // Global
 
-  const eventStrips = events.map(event => (
-    <EventStrip event={event} key={event._id} onPress={() => console.log('pressed strip...')} />
-  ));
+  const [events] = useGlobal('events');
+  const [user] = useGlobal('user');
+
+  // Event Strips
+
+  const eventStrips = events?.data
+    ? Object.values(events.data).map(event => (
+        <EventStrip event={event} key={event._id} onPress={() => console.log('pressed strip...')} />
+      ))
+    : [];
 
   return <Box {...props}>{eventStrips}</Box>;
 };
