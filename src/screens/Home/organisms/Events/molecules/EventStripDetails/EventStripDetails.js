@@ -1,28 +1,16 @@
 // Libraries
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 // Atoms
 import { Box, Text } from 'atoms';
+// DateRange
+import DateRange from './DateRange';
 
 const paddingLR = 10;
 
 // EventStripDetails
 
 const EventStripDetails = ({ endDate, name, startDate, type, ...props }) => {
-  const momentEndDate = moment(endDate);
-  const momentStartDate = moment(startDate);
-
-  const formattedEndDate = momentEndDate.format('Do');
-  const formattedEndMonth = momentEndDate.format('MMM');
-  const _endDate = `${formattedEndMonth} ${formattedEndDate}`;
-
-  const formattedStartDate = momentStartDate.format('Do');
-  const formattedStartMonth = momentStartDate.format('MMM');
-  const _startDate = `${formattedStartMonth} ${formattedStartDate}`;
-
-  const dateRange = `${_startDate} - ${_endDate}`;
-
   return (
     <Box flex={1} position='relative' {...props}>
       <Box
@@ -36,6 +24,7 @@ const EventStripDetails = ({ endDate, name, startDate, type, ...props }) => {
         <Text>{name}</Text>
         <Text>[goTo icon]</Text>
       </Box>
+
       <Box
         bottom={0}
         flexDirection='row'
@@ -47,22 +36,15 @@ const EventStripDetails = ({ endDate, name, startDate, type, ...props }) => {
         paddingRight={paddingLR}
         position='absolute'
       >
-        <Text>[type icon]</Text>
+        <Text>[{type} icon]</Text>
       </Box>
       {endDate && (
-        <Box
-          backgroundColor='goldenrod'
-          borderTopLeftRadius={4}
-          bottom={0}
-          height={25}
-          justifyContent='center'
+        <DateRange
+          endDate={endDate}
           paddingLeft={paddingLR}
           paddingRight={paddingLR}
-          position='absolute'
-          right={0}
-        >
-          <Text>{dateRange}</Text>
-        </Box>
+          startDate={startDate}
+        />
       )}
     </Box>
   );

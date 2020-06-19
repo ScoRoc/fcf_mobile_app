@@ -2,9 +2,9 @@
 import React, { useGlobal } from 'reactn';
 import PropTypes from 'prop-types';
 // Atoms
-import { Box, Text } from 'atoms';
-// Event Molecules
-import { EventStrip } from '../../molecules';
+import { Box } from 'atoms';
+// Event Organisms
+import { EventStrip } from '../../organisms';
 
 // EventsList
 
@@ -18,7 +18,11 @@ const EventsList = ({ children, ...props }) => {
 
   const eventStrips = events?.data
     ? Object.values(events.data).map(event => (
-        <EventStrip event={event} key={event._id} onPress={() => console.log('pressed strip...')} />
+        <EventStrip
+          event={event}
+          key={event._id}
+          onStripDetailsPress={() => console.log('pressed strip details...')}
+        />
       ))
     : [];
 

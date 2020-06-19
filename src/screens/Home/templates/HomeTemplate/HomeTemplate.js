@@ -17,6 +17,10 @@ import HomeScreen from '../../../../screens-OLD/home/HomeScreen';
 // HomeTemplate
 
 const HomeTemplate = () => {
+  // Announcements and Events have slightly different implementations
+  // That's why Announcements takes a context prop, but Events does not
+  // Seeing which I like better
+  // TODO make them consistent once everything is done
   return (
     <Box backgroundColor='darkgrey' flex={1} paddingTop={60}>
       <StatusBar barStyle='light-content' />
@@ -32,7 +36,7 @@ const HomeTemplate = () => {
         titles={['Announcements', 'Events']}
       >
         <Announcements context={HomeContext} />
-        <Events context={HomeContext} />
+        <Events />
         {/* <HomeScreen /> */}
         {/* <EventsScreen /> */}
       </PageCarousel>
