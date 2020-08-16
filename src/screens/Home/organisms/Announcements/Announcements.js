@@ -23,9 +23,10 @@ const Announcements = ({ context, ...props }) => {
 
   // Context
 
-  const { getAnnouncements, navigation, setAnnouncement, socket, viewAnnouncement } = useContext(
-    context,
-  );
+  const {
+    announcementContext: { getAnnouncements, setAnnouncement, socket, viewAnnouncement },
+    navigation,
+  } = useContext(context);
 
   // Effects
 

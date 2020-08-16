@@ -70,6 +70,7 @@ export const PATHS = {
 export const SOCKETS = {
   NAMESPACES: {
     ANNOUNCEMENTS: '/announcements',
+    EVENTS: '/events',
   },
 };
 

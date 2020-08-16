@@ -12,7 +12,8 @@ import { API, PATHS, SOCKETS } from 'utils/constants';
 
 // Sockets
 
-const socket = io(`${API.DEV}${SOCKETS.NAMESPACES.ANNOUNCEMENTS}`);
+const announcementSocket = io(`${API.DEV}${SOCKETS.NAMESPACES.ANNOUNCEMENTS}`);
+const eventSocket = io(`${API.DEV}${SOCKETS.NAMESPACES.EVENTS}`);
 
 // URL Deets
 
@@ -116,14 +117,19 @@ const HomeLogic = ({ navigation, route }) => {
   return (
     <HomeContext.Provider
       value={{
-        getAnnouncements,
+        announcementContext: {
+          getAnnouncements,
+          setAnnouncement,
+          socket: announcementSocket,
+          viewAnnouncement,
+        },
+        eventContext: {
+          setEvent,
+          socket: eventSocket,
+          viewEvent,
+        },
         navigation,
         route,
-        setAnnouncement,
-        setEvent,
-        socket,
-        viewAnnouncement,
-        viewEvent,
       }}
     >
       <HomeTemplate />

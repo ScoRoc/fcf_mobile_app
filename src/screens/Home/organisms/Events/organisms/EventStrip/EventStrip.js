@@ -18,9 +18,21 @@ const EventStrip = ({ event, onStripDetailsPress, ...props }) => {
   const [user] = useGlobal('user');
 
   // Context
-  const { navigation, viewEvent } = useContext(HomeContext);
+  const {
+    eventContext: { setEvent, socket, viewEvent },
+    navigation,
+  } = useContext(HomeContext);
 
   // Functions
+
+  const handleLike = ({ event, e }) => {
+    console.log('liked...');
+    event.likedBy.includes(user._id)
+      ? event.likedBy.splice(event.likedBy.indexOf(user._id), 1)
+      : event.likedBy.push(user._id);
+    setEvent({ event });
+    socket.emit('like', { eventId: event._id, userId: user._id });
+  };
 
   const handleStripDetailsPress = ({ e, event }) => {
     navigation.navigate(NAV.WEB_VIEW, { url: event.url });
@@ -45,9 +57,9 @@ const EventStrip = ({ event, onStripDetailsPress, ...props }) => {
     >
       <DateBox
         date={event.startDate}
-        isLiked={false}
-        likes={2}
-        onLike={() => console.log('liked...')}
+        isLiked={event?.likedBy?.includes(user?._id)}
+        likes={event.likedBy.length}
+        onLike={e => handleLike({ event, e })}
       />
 
       <TouchableIOSHighlight flex={1} onPress={e => handleStripDetailsPress({ e, event })}>

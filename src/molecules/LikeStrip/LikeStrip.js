@@ -17,9 +17,9 @@ const LikeStrip = ({ children, isLiked, likes, onHeartPress, ...props }) => {
       {...props}
     >
       <TouchableIOSOpacity onPress={onHeartPress}>
-        <Text color={isLiked ? 'red' : 'black'}>[heart]</Text>
+        <Text>[heart]</Text>
       </TouchableIOSOpacity>
-      <Text>{likes}</Text>
+      <Text color={isLiked ? 'red' : 'black'}>{likes}</Text>
     </Box>
   );
 };
