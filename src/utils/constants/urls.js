@@ -26,6 +26,7 @@ export const PATHS = {
   AUTH: '/auth',
   DASHBOARD: '/dashboard',
   EVENTS: '/events',
+  EVENT_TYPES: '/eventTypes',
   LOGIN: '/login',
   ROOT: '/',
   USERS: '/users',

@@ -6,12 +6,14 @@ import LoginScreen from '../screens-OLD/auth/LoginScreen';
 import SignupScreen from '../screens-OLD/auth/SignupScreen';
 // Constants
 import { NAV } from 'utils/constants';
+// Helpers
+import { isLoggedIn } from 'utils/functions';
 
 const Stack = createStackNavigator();
 
 export default function AuthNavigator() {
   // Global State
-  const [isLoggingOut] = useGlobal('isLoggingOut');
+  const [loginStatus] = useGlobal('loginStatus');
 
   // Return
   return (
@@ -19,13 +21,16 @@ export default function AuthNavigator() {
       <Stack.Screen
         component={LoginScreen}
         name={NAV.LOGIN}
-        options={{ animationTypeForReplace: isLoggingOut ? 'pop' : 'push', headerShown: false }}
+        options={{
+          animationTypeForReplace: isLoggedIn(loginStatus) ? 'pop' : 'push',
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         component={SignupScreen}
         name={NAV.SIGNUP}
         options={{
-          animationTypeForReplace: isLoggingOut ? 'pop' : 'push',
+          animationTypeForReplace: isLoggedIn(loginStatus) ? 'pop' : 'push',
           headerShown: false,
           title: NAV.SIGNUP,
         }}

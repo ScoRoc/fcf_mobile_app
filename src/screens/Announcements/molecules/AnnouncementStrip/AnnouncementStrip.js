@@ -8,8 +8,6 @@ import { Box, Img, Text, TouchableIOSHighlight } from 'atoms';
 import { LikeStrip } from 'molecules';
 // Organisms
 import DoubleTouch from 'organisms/DoubleTouch';
-// Home Context
-import HomeContext from 'home-screen/logic/HomeLogic/HomeContext';
 // Announcement Constants
 import { IMAGES } from '../../constants';
 

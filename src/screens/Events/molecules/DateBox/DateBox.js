@@ -15,7 +15,7 @@ const DateBox = ({ date, isLiked, likes, onLike, ...props }) => {
   const formattedMonth = _moment.format('MMMM');
 
   return (
-    <Box backgroundColor='indianred' height='100%' width={70} {...props}>
+    <Box backgroundColor='indianred' height='100%' width={80} {...props}>
       <Box alignItems='center' flex={1} justifyContent='space-evenly'>
         <Text fontSize={15}>{formattedMonth}</Text>
         <Text fontSize={30}>{formattedDate}</Text>

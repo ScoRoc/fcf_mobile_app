@@ -11,6 +11,8 @@ const paddingLR = 10;
 // EventStripDetails
 
 const EventStripDetails = ({ endDate, name, startDate, type, ...props }) => {
+  const showDateRange = endDate !== null && endDate !== startDate;
+
   return (
     <Box flex={1} position='relative' {...props}>
       <Box
@@ -38,7 +40,7 @@ const EventStripDetails = ({ endDate, name, startDate, type, ...props }) => {
       >
         <Text>[{type} icon]</Text>
       </Box>
-      {endDate && (
+      {showDateRange && (
         <DateRange
           endDate={endDate}
           paddingLeft={paddingLR}

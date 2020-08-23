@@ -3,12 +3,10 @@ import React, { useDispatch, useEffect } from 'reactn';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import io from 'socket.io-client';
-// Home Context
-import HomeContext from './HomeContext';
 // Home Templates
 import HomeTemplate from '../../templates';
 // Constants
-import { API, PATHS, SOCKETS } from 'utils/constants';
+import { API, NAV, PATHS, SOCKETS } from 'utils/constants';
 
 // Sockets
 
@@ -25,7 +23,7 @@ const baseUrl = API.DEV;
 const HomeLogic = ({ navigation, route }) => {
   // Global
 
-  // const [isLoading, setIsLoading] = useGlobal('isLoading');
+  // const [appLoadingStatus, setAppLoadingStatus] = useGlobal('appLoadingStatus');
 
   // Dispatch
 
@@ -88,6 +86,18 @@ const HomeLogic = ({ navigation, route }) => {
     }
   };
 
+  const getEventTypes = async () => {
+    const url = `${baseUrl}${PATHS.EVENT_TYPES}`;
+
+    try {
+      const res = await axios.get(url);
+      setEventTypes({ eventTypes: res.data.eventTypes });
+      return true;
+    } catch (err) {
+      console.log('err: ', err);
+    }
+  };
+
   const viewEvent = async ({ eventId, viewedByUserId }) => {
     const url = `${API.DEV}${PATHS.EVENTS}/${eventId}${PATHS.VIEWED_BY}`;
     try {
@@ -97,6 +107,14 @@ const HomeLogic = ({ navigation, route }) => {
     } catch (err) {
       console.log('err: ', err);
     }
+  };
+
+  // Functions
+
+  const handleStripPress = item => navigation.navigate(NAV.WEB_VIEW, { url: item.url });
+
+  const onLoadHome = () => {
+    console.log('onLoadHome...');
   };
 
   // Sorted Home
@@ -115,25 +133,24 @@ const HomeLogic = ({ navigation, route }) => {
   // Return
 
   return (
-    <HomeContext.Provider
-      value={{
-        announcementContext: {
-          getAnnouncements,
-          setAnnouncement,
-          socket: announcementSocket,
-          viewAnnouncement,
-        },
-        eventContext: {
-          setEvent,
-          socket: eventSocket,
-          viewEvent,
-        },
-        navigation,
-        route,
+    <HomeTemplate
+      announcementProps={{
+        announcementSocket,
+        getAnnouncements,
+        onAnnouncementStripPress: handleStripPress,
+        setAnnouncement,
+        viewAnnouncement,
       }}
-    >
-      <HomeTemplate />
-    </HomeContext.Provider>
+      eventProps={{
+        eventSocket,
+        getEvents,
+        getEventTypes,
+        onEventStripPress: handleStripPress,
+        setEvent,
+        viewEvent,
+      }}
+      onLoadHome={onLoadHome}
+    />
   );
 };
 

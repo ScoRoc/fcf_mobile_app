@@ -1,27 +1,30 @@
 // Libraries
-import React, { useContext, useGlobal } from 'reactn';
+import React, { useContext, useEffect, useGlobal } from 'reactn';
 import PropTypes from 'prop-types';
 // Atoms
 import { Box, TouchableIOSHighlight } from 'atoms';
 // Event Molecules
 import { DateBox, EventStripDetails } from '../../molecules';
-// Home Context
-import HomeContext from 'home-screen/logic/HomeLogic/HomeContext';
-// Constants
-import { NAV } from 'utils/constants';
+// Events Context
+import EventsContext from '../../logic/EventsContext';
 
 // EventStrip
 
-const EventStrip = ({ event, onStripDetailsPress, ...props }) => {
+const EventStrip = ({ event, onStripPress, ...props }) => {
   // Global
 
   const [user] = useGlobal('user');
 
   // Context
-  const {
-    eventContext: { setEvent, socket, viewEvent },
-    navigation,
-  } = useContext(HomeContext);
+  const { setEvent, socket, viewEvent } = useContext(EventsContext);
+
+  // Effects
+
+  useEffect(() => {
+    socket.on('invalidLike', msg => console.log('msg: ', msg));
+    // TODO verify is other sockets are receiving an update here
+    socket.on('likeUpdate', event => setEvent({ event }));
+  }, []);
 
   // Functions
 
@@ -35,14 +38,11 @@ const EventStrip = ({ event, onStripDetailsPress, ...props }) => {
   };
 
   const handleStripDetailsPress = ({ e, event }) => {
-    navigation.navigate(NAV.WEB_VIEW, { url: event.url });
     if (!event.viewedBy.includes(user._id)) {
       viewEvent({ eventId: event._id, viewedByUserId: user._id });
     }
-    onStripDetailsPress?.({ e, event });
+    onStripPress?.({ e, event });
   };
-
-  console.log('event: ', event);
 
   // Return
 
@@ -76,12 +76,12 @@ const EventStrip = ({ event, onStripDetailsPress, ...props }) => {
 
 EventStrip.propTypes = {
   event: PropTypes.object, // event db object
-  onStripDetailsPress: PropTypes.func,
+  onStripPress: PropTypes.func,
 };
 
 EventStrip.defaultProps = {
   event: null,
-  onStripDetailsPress: null,
+  onStripPress: null,
 };
 
 export default EventStrip;

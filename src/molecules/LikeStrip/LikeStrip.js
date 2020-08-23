@@ -6,20 +6,19 @@ import { Box, Text, TouchableIOSOpacity } from 'atoms';
 
 // LikeStrip
 
-const LikeStrip = ({ children, isLiked, likes, onHeartPress, ...props }) => {
+const LikeStrip = ({ isLiked, likes, onHeartPress, ...props }) => {
   return (
-    <Box
-      alignItems='center'
-      bg='darkslategrey'
-      flexDirection='row'
-      height={40}
-      justifyContent='space-evenly'
-      {...props}
-    >
-      <TouchableIOSOpacity onPress={onHeartPress}>
+    <Box bg='darkslategrey' height={40} {...props}>
+      <TouchableIOSOpacity
+        alignItems='center'
+        flexDirection='row'
+        height='100%'
+        justifyContent='space-evenly'
+        onPress={onHeartPress}
+      >
         <Text>[heart]</Text>
+        <Text color={isLiked ? 'red' : 'black'}>{likes}</Text>
       </TouchableIOSOpacity>
-      <Text color={isLiked ? 'red' : 'black'}>{likes}</Text>
     </Box>
   );
 };
