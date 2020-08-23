@@ -10,7 +10,7 @@ const paddingLR = 10;
 
 // EventStripDetails
 
-const EventStripDetails = ({ endDate, name, startDate, type, ...props }) => {
+const EventStripDetails = ({ color, endDate, name, startDate, type, ...props }) => {
   const showDateRange = endDate !== null && endDate !== startDate;
 
   return (
@@ -23,7 +23,7 @@ const EventStripDetails = ({ endDate, name, startDate, type, ...props }) => {
         paddingLeft={paddingLR}
         paddingRight={paddingLR}
       >
-        <Text>{name}</Text>
+        <Text color={color}>{name}</Text>
         <Text>[goTo icon]</Text>
       </Box>
 
@@ -38,7 +38,7 @@ const EventStripDetails = ({ endDate, name, startDate, type, ...props }) => {
         paddingRight={paddingLR}
         position='absolute'
       >
-        <Text>[{type} icon]</Text>
+        <Text color={color}>[{type} icon]</Text>
       </Box>
       {showDateRange && (
         <DateRange

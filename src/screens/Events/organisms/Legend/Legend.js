@@ -10,7 +10,9 @@ const Legend = ({ eventTypes, ...props }) => {
   console.log('eventTypes: ', eventTypes);
   const createEachKey = ([key, value]) => {
     return (
-      <Text color={value.color}>{value.label}</Text>
+      <Text color={value.color} key={value.label}>
+        {value.label}
+      </Text>
       // <EventKey
       //   eventKey={value}
       //   filterEventTypes={props.filterEventTypes}

@@ -9,13 +9,13 @@ import { LikeStrip } from 'molecules';
 
 // DateBox
 
-const DateBox = ({ date, isLiked, likes, onLike, ...props }) => {
+const DateBox = ({ bgColor, date, isLiked, likes, onLike, ...props }) => {
   const _moment = moment(date);
   const formattedDate = _moment.format('D');
   const formattedMonth = _moment.format('MMMM');
 
   return (
-    <Box backgroundColor='indianred' height='100%' width={80} {...props}>
+    <Box backgroundColor={bgColor} height='100%' width={80} {...props}>
       <Box alignItems='center' flex={1} justifyContent='space-evenly'>
         <Text fontSize={15}>{formattedMonth}</Text>
         <Text fontSize={30}>{formattedDate}</Text>

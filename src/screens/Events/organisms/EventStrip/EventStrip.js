@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 // Atoms
 import { Box, TouchableIOSHighlight } from 'atoms';
 // Event Molecules
-import { DateBox, EventStripDetails } from '../../molecules';
+import { DateBox, EventStripDetails } from 'events-screen/molecules';
 // Events Context
-import EventsContext from '../../logic/EventsContext';
+import EventsContext from 'events-screen/logic/EventsContext';
 
 // EventStrip
 
@@ -16,7 +16,7 @@ const EventStrip = ({ event, onStripPress, ...props }) => {
   const [user] = useGlobal('user');
 
   // Context
-  const { setEvent, socket, viewEvent } = useContext(EventsContext);
+  const { eventTypes, setEvent, socket, viewEvent } = useContext(EventsContext);
 
   // Effects
 
@@ -44,6 +44,10 @@ const EventStrip = ({ event, onStripPress, ...props }) => {
     onStripPress?.({ e, event });
   };
 
+  // Variables
+
+  const typeColor = eventTypes[event.type].color;
+
   // Return
 
   return (
@@ -56,6 +60,7 @@ const EventStrip = ({ event, onStripPress, ...props }) => {
       {...props}
     >
       <DateBox
+        bgColor={typeColor}
         date={event.startDate}
         isLiked={event?.likedBy?.includes(user?._id)}
         likes={event.likedBy.length}
@@ -64,6 +69,7 @@ const EventStrip = ({ event, onStripPress, ...props }) => {
 
       <TouchableIOSHighlight flex={1} onPress={e => handleStripDetailsPress({ e, event })}>
         <EventStripDetails
+          color={typeColor}
           endDate={event.endDate}
           name={event.name}
           startDate={event.startDate}

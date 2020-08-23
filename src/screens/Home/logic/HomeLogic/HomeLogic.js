@@ -31,14 +31,12 @@ const HomeLogic = ({ navigation, route }) => {
   const setAnnouncements = useDispatch('setAnnouncements');
   const setEvent = useDispatch('setEvent');
   const setEvents = useDispatch('setEvents');
-  const setEventTypes = useDispatch('setEventTypes');
 
   // Effects
 
   useEffect(() => {
     getAnnouncements();
     getEvents();
-    getEventTypes();
   }, []);
 
   // Announcements API
@@ -82,18 +80,6 @@ const HomeLogic = ({ navigation, route }) => {
       // res.status === 200 ? handleSuccess(res) : handleErrors(res);
       // TODO Fix return to be based off if error or not
       setEvents({ events: res.data.events });
-      return true;
-    } catch (err) {
-      console.log('err: ', err);
-    }
-  };
-
-  const getEventTypes = async () => {
-    const url = `${baseUrl}${PATHS.EVENT_TYPES}`;
-
-    try {
-      const res = await axios.get(url);
-      setEventTypes({ eventTypes: res.data.eventTypes });
       return true;
     } catch (err) {
       console.log('err: ', err);
@@ -146,7 +132,6 @@ const HomeLogic = ({ navigation, route }) => {
       eventProps={{
         eventSocket,
         getEvents,
-        getEventTypes,
         onEventStripPress: handleStripPress,
         setEvent,
         viewEvent,

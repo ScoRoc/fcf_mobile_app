@@ -1,15 +1,4 @@
 export default {
-  setEventTypes: async (globalState, dispatch, { eventTypes }) => {
-    console.log('eventTypes: ', eventTypes);
-    await dispatch.setCacheAt({
-      data: {
-        ...globalState.events,
-        eventTypes,
-      },
-      key: 'events',
-    });
-    return { events: { ...globalState.events, eventTypes } };
-  },
   setEvent: async (globalState, dispatch, { event }) => {
     await dispatch.setCacheAt({
       data: {

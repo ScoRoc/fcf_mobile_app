@@ -1,16 +1,14 @@
-const EVENT_TYPES = {
+export default {
   community: {
     color: 'purple',
-    label: 'community',
+    label: 'Community',
   },
   competition: {
     color: 'blue',
-    label: 'competition',
+    label: 'Competition',
   },
   social: {
     color: 'green',
-    label: 'social',
+    label: 'Social',
   },
 };
-
-export default EVENT_TYPES;

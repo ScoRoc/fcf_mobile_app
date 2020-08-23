@@ -12,7 +12,7 @@ import Events from 'events-screen';
 // import EventsScreen from '../../../../screens-OLD/events/EventsScreen';
 // import HomeScreen from '../../../../screens-OLD/home/HomeScreen';
 // Constants
-import EVENT_TYPES from '../../constants/eventTypes';
+import eventTypes from '../../constants/eventTypes';
 
 // const url = 'https://fcf.sites.zenplanner.com/calendar.cfm';
 
@@ -26,7 +26,7 @@ const HomeTemplate = ({
     setAnnouncement,
     viewAnnouncement,
   },
-  eventProps: { eventSocket, getEvents, getEventTypes, onEventStripPress, setEvent, viewEvent },
+  eventProps: { eventSocket, getEvents, onEventStripPress, setEvent, viewEvent },
   onHomeLoad,
   ...props
 }) => {
@@ -63,10 +63,9 @@ const HomeTemplate = ({
           viewAnnouncement={viewAnnouncement}
         />
         <Events
-          eventTypes={EVENT_TYPES}
+          eventTypes={eventTypes}
           getEvents={getEvents}
           getEvents={getEvents}
-          getEventTypes={getEventTypes}
           onStripPress={onEventStripPress}
           setEvent={setEvent}
           socket={eventSocket}

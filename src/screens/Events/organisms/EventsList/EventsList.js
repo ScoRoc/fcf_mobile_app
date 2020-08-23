@@ -8,7 +8,7 @@ import EventStrip from '../EventStrip/EventStrip';
 // EventsList Molecules
 import SectionHeader from './molecules/SectionHeader';
 // Events Context
-import EventsContext from '../../logic/EventsContext';
+import EventsContext from 'events-screen/logic/EventsContext';
 
 const getEventsArray = events => (events?.data ? Object.values(events.data) : []);
 

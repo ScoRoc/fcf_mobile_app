@@ -7,11 +7,11 @@ import { Scrollview } from 'atoms';
 // Announcement Molecules
 import { AnnouncementStrip } from '../molecules';
 // Announcements Context
-import AnnouncementsContext from '../logic/AnnouncementsContext';
+import AnnouncementsContext from 'announcements-screen/logic/AnnouncementsContext';
 
 // AnnouncementsList
 
-const AnnouncementsList = ({ announcements, onStripPress }) => {
+const AnnouncementsList = ({ announcements, onStripPress, user }) => {
   // State
 
   const [refreshing, setRefreshing] = useState(false);

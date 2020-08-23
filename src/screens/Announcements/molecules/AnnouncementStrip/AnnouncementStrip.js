@@ -9,7 +9,7 @@ import { LikeStrip } from 'molecules';
 // Organisms
 import DoubleTouch from 'organisms/DoubleTouch';
 // Announcement Constants
-import { IMAGES } from '../../constants';
+import { IMAGES } from 'announcements-screen/constants';
 
 // AnnouncementStrip
 
