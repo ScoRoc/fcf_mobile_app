@@ -6,22 +6,22 @@ import { Box, Text } from 'atoms';
 
 // Legend
 
-const Legend = ({ children, ...props }) => {
-  // const createEachKey = (evtKey, i) => {
-  //   const [key, value] = evtKey;
-  //   return (
-  //     <EventKey
-  //       eventKey={value}
-  //       filterEventTypes={props.filterEventTypes}
-  //       removedTypes={props.removedTypes}
-  //       width={width() / numOfKeys}
-  //       key={i}
-  //     />
-  //   );
-  // };
-  // const keys = Object.entries(getEventKeys).map(createEachKey);
+const Legend = ({ eventTypes, ...props }) => {
+  console.log('eventTypes: ', eventTypes);
+  const createEachKey = ([key, value]) => {
+    return (
+      <Text color={value.color}>{value.label}</Text>
+      // <EventKey
+      //   eventKey={value}
+      //   filterEventTypes={props.filterEventTypes}
+      //   removedTypes={props.removedTypes}
+      //   width={width() / numOfKeys}
+      //   key={i}
+      // />
+    );
+  };
+  const keys = Object.entries(eventTypes).map(createEachKey);
 
-  const keys = <Text>legend...</Text>;
   return (
     <Box flexDirection='row' justifyContent='space-around' paddingBottom={10} paddingTop={10}>
       {keys}
@@ -30,11 +30,11 @@ const Legend = ({ children, ...props }) => {
 };
 
 Legend.propTypes = {
-  children: PropTypes.element,
+  eventTypes: PropTypes.object,
 };
 
 Legend.defaultProps = {
-  children: null,
+  eventTypes: null,
 };
 
 export default Legend;

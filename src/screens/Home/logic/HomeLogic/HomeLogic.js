@@ -31,12 +31,14 @@ const HomeLogic = ({ navigation, route }) => {
   const setAnnouncements = useDispatch('setAnnouncements');
   const setEvent = useDispatch('setEvent');
   const setEvents = useDispatch('setEvents');
+  const setEventTypes = useDispatch('setEventTypes');
 
   // Effects
 
   useEffect(() => {
     getAnnouncements();
     getEvents();
+    getEventTypes();
   }, []);
 
   // Announcements API
@@ -113,8 +115,8 @@ const HomeLogic = ({ navigation, route }) => {
 
   const handleStripPress = item => navigation.navigate(NAV.WEB_VIEW, { url: item.url });
 
-  const onLoadHome = () => {
-    console.log('onLoadHome...');
+  const onHomeLoad = () => {
+    console.log('onHomeLoad...');
   };
 
   // Sorted Home
@@ -149,7 +151,7 @@ const HomeLogic = ({ navigation, route }) => {
         setEvent,
         viewEvent,
       }}
-      onLoadHome={onLoadHome}
+      onHomeLoad={onHomeLoad}
     />
   );
 };

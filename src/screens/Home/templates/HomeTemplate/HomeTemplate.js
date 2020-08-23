@@ -11,13 +11,14 @@ import Announcements from 'announcements-screen';
 import Events from 'events-screen';
 // import EventsScreen from '../../../../screens-OLD/events/EventsScreen';
 // import HomeScreen from '../../../../screens-OLD/home/HomeScreen';
+// Constants
+import EVENT_TYPES from '../../constants/eventTypes';
 
 // const url = 'https://fcf.sites.zenplanner.com/calendar.cfm';
 
 // HomeTemplate
 
 const HomeTemplate = ({
-  onLoadHome,
   announcementProps: {
     announcementSocket,
     getAnnouncements,
@@ -26,12 +27,13 @@ const HomeTemplate = ({
     viewAnnouncement,
   },
   eventProps: { eventSocket, getEvents, getEventTypes, onEventStripPress, setEvent, viewEvent },
+  onHomeLoad,
   ...props
 }) => {
   // Effects
 
   useEffect(() => {
-    onLoadHome?.();
+    onHomeLoad?.();
     console.log('calling useEffect on home page...');
   }, []);
 
@@ -61,6 +63,8 @@ const HomeTemplate = ({
           viewAnnouncement={viewAnnouncement}
         />
         <Events
+          eventTypes={EVENT_TYPES}
+          getEvents={getEvents}
           getEvents={getEvents}
           getEventTypes={getEventTypes}
           onStripPress={onEventStripPress}
@@ -76,11 +80,11 @@ const HomeTemplate = ({
 };
 
 HomeTemplate.propTypes = {
-  onLoadHome: PropTypes.func,
+  onHomeLoad: PropTypes.func,
 };
 
 HomeTemplate.defaultProps = {
-  onLoadHome: null,
+  onHomeLoad: null,
 };
 
 HomeTemplate.navigationOptions = {

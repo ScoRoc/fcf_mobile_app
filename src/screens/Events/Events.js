@@ -11,6 +11,7 @@ import EventsContext from './logic/EventsContext';
 // Events
 
 const Events = ({
+  eventTypes,
   getEvents,
   getEventTypes,
   onStripPress,
@@ -22,7 +23,7 @@ const Events = ({
   return (
     <EventsContext.Provider value={{ getEvents, getEventTypes, setEvent, socket, viewEvent }}>
       <Box backgroundColor='lightsalmon' flex={1} {...props}>
-        <Legend />
+        <Legend eventTypes={eventTypes} />
         <EventsList onStripPress={onStripPress} />
       </Box>
     </EventsContext.Provider>
@@ -31,6 +32,7 @@ const Events = ({
 
 Events.propType = {
   eventSocket: PropTypes.func.isRequired,
+  eventTypes: PropTypes.object.isRequired,
   getEvents: PropTypes.func.isRequired,
   getEventTypes: PropTypes.func.isRequired,
   onStripPress: PropTypes.func,
@@ -40,6 +42,7 @@ Events.propType = {
 
 Events.defaultProps = {
   eventSocket: null,
+  eventTypes: {},
   getEvents: null,
   getEventTypes: null,
   onStripPress: null,
