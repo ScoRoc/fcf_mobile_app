@@ -80,6 +80,7 @@ const MainTabsNavigator = () => (
     }}
   >
     <MainTabs.Screen component={Home} name={NAV.HOME} />
+    {/* TODO remove HomeScreen_OLD now ??? */}
     {/* <MainTabs.Screen component={HomeScreen_OLD} name={NAV.HOME} /> */}
     <MainTabs.Screen component={WodScreen} name={NAV.WOD} />
     <MainTabs.Screen component={Blog} name={NAV.BLOG} />
