@@ -102,6 +102,7 @@ const HomeLogic = ({ navigation, route }) => {
   // Functions
 
   const handleLegendKeyPress = ({ legendKey, selectedEventTypes }) => {
+    // TODO should I call API instead of just filtering like this ???
     const updatedSelectedEventTypes = selectedEventTypes.includes(legendKey)
       ? selectedEventTypes.filter(key => key !== legendKey)
       : selectedEventTypes.concat(legendKey);
