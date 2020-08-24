@@ -9,6 +9,7 @@ export default {
     });
     return {
       events: {
+        ...globalState.events,
         data: { ...globalState.events.data, [event._id]: event },
         // events:
         // direction === QUERY_STRING.DIRECTION.DESC.value
@@ -31,5 +32,10 @@ export default {
 
     await dispatch.setCacheAt({ data: newEventsState, key: 'events' });
     return { events: newEventsState };
+  },
+  setEventTypes: async (globalState, dispatch, { selectedEventTypes }) => {
+    const newState = { ...globalState.events, selectedEventTypes };
+    await dispatch.setCacheAt({ data: newState, key: 'events' });
+    return { events: newState };
   },
 };

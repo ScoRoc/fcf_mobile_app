@@ -2,30 +2,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // Atoms
-import { Box, Text } from 'atoms';
+import { Box } from 'atoms';
+// LegendKey
+import LegendKey from './LegendKey';
 
 // Legend
 
-const Legend = ({ eventTypes, ...props }) => {
-  console.log('eventTypes: ', eventTypes);
-  const createEachKey = ([key, value]) => {
+const Legend = ({ eventTypes, onLegendKeyPress, selectedEventTypes, ...props }) => {
+  const makeKey = ([key, value]) => {
+    const color = selectedEventTypes?.includes(key) ? value.color : 'brown';
     return (
-      <Text color={value.color} key={value.label}>
-        {value.label}
-      </Text>
-      // <EventKey
-      //   eventKey={value}
-      //   filterEventTypes={props.filterEventTypes}
-      //   removedTypes={props.removedTypes}
-      //   width={width() / numOfKeys}
-      //   key={i}
-      // />
+      <LegendKey
+        color={color}
+        iconLibrary={value.iconLibrary}
+        iconName={value.iconName}
+        key={key}
+        label={value.label}
+        onPress={() => onLegendKeyPress?.({ legendKey: key })}
+      />
     );
   };
-  const keys = Object.entries(eventTypes).map(createEachKey);
+  const keys = Object.entries(eventTypes).map(makeKey);
 
   return (
-    <Box flexDirection='row' justifyContent='space-around' paddingBottom={10} paddingTop={10}>
+    <Box
+      flexDirection='row'
+      justifyContent='space-around'
+      paddingBottom={10}
+      paddingTop={10}
+      {...props}
+    >
       {keys}
     </Box>
   );
@@ -33,10 +39,14 @@ const Legend = ({ eventTypes, ...props }) => {
 
 Legend.propTypes = {
   eventTypes: PropTypes.object,
+  onLegendKeyPress: PropTypes.func,
+  selectedEventTypes: PropTypes.array.isRequired,
 };
 
 Legend.defaultProps = {
   eventTypes: null,
+  onLegendKeyPress: null,
+  selectedEventTypes: [],
 };
 
 export default Legend;

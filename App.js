@@ -17,6 +17,7 @@ import themes, { THEME_NAMES } from 'theme/themes';
 // Helpers
 import { isAppLoading, isUserLoggedIn } from './src/utils/functions/statuses';
 // Constants
+import eventTypes from './src/screens/Home/constants/eventTypes';
 import { APP_STATUS, LOGIN_STATUS } from './src/utils/constants/status';
 
 // TODO delete after refactor (also delete the extended stylesheet package)
@@ -38,7 +39,9 @@ addReactNDevTools();
 setGlobal({
   announcements: {},
   appLoadingStatus: APP_STATUS.IDLE,
-  events: {},
+  events: {
+    selectedEventTypes: Object.keys(eventTypes),
+  },
   loginStatus: LOGIN_STATUS.LOGGED_OUT,
   themeName: THEME_NAMES.MAIN,
   user: {

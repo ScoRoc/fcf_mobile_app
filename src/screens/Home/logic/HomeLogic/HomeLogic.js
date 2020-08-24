@@ -1,5 +1,5 @@
 // Libraries
-import React, { useDispatch, useEffect } from 'reactn';
+import React, { useDispatch, useEffect, useGlobal } from 'reactn';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import io from 'socket.io-client';
@@ -24,6 +24,7 @@ const HomeLogic = ({ navigation, route }) => {
   // Global
 
   // const [appLoadingStatus, setAppLoadingStatus] = useGlobal('appLoadingStatus');
+  const [{ selectedEventTypes }] = useGlobal('events');
 
   // Dispatch
 
@@ -31,6 +32,7 @@ const HomeLogic = ({ navigation, route }) => {
   const setAnnouncements = useDispatch('setAnnouncements');
   const setEvent = useDispatch('setEvent');
   const setEvents = useDispatch('setEvents');
+  const setEventTypes = useDispatch('setEventTypes');
 
   // Effects
 
@@ -99,6 +101,13 @@ const HomeLogic = ({ navigation, route }) => {
 
   // Functions
 
+  const handleLegendKeyPress = ({ legendKey, selectedEventTypes }) => {
+    const updatedSelectedEventTypes = selectedEventTypes.includes(legendKey)
+      ? selectedEventTypes.filter(key => key !== legendKey)
+      : selectedEventTypes.concat(legendKey);
+    setEventTypes({ selectedEventTypes: updatedSelectedEventTypes });
+  };
+
   const handleStripPress = item => navigation.navigate(NAV.WEB_VIEW, { url: item.url });
 
   const onHomeLoad = () => {
@@ -126,6 +135,8 @@ const HomeLogic = ({ navigation, route }) => {
         announcementSocket,
         getAnnouncements,
         onAnnouncementStripPress: handleStripPress,
+        onLegendKeyPress: ({ legendKey }) =>
+          handleLegendKeyPress({ legendKey, selectedEventTypes }),
         setAnnouncement,
         viewAnnouncement,
       }}

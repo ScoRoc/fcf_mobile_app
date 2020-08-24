@@ -10,7 +10,10 @@ import SectionHeader from './molecules/SectionHeader';
 // Events Context
 import EventsContext from 'events-screen/logic/EventsContext';
 
-const getEventsArray = events => (events?.data ? Object.values(events.data) : []);
+const getEventsWithSelectedTypes = ({ events }) =>
+  events?.data
+    ? Object.values(events.data).filter(event => events.selectedEventTypes.includes(event.type))
+    : [];
 
 // EventsList
 
@@ -54,7 +57,7 @@ const EventsList = ({ onStripPress, ...props }) => {
     return Object.entries(months).map(([key, val]) => ({ data: val, title: key }));
   };
 
-  const sections = createSections(getEventsArray(events));
+  const sections = createSections(getEventsWithSelectedTypes({ events }));
 
   return (
     <SectionList

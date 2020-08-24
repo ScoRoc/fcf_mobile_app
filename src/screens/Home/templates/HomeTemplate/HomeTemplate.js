@@ -1,5 +1,5 @@
 // Libraries
-import React, { useEffect } from 'react';
+import React, { useEffect, useGlobal } from 'reactn';
 import PropTypes from 'prop-types';
 import { StatusBar } from 'react-native';
 // Atoms
@@ -23,6 +23,7 @@ const HomeTemplate = ({
     announcementSocket,
     getAnnouncements,
     onAnnouncementStripPress,
+    onLegendKeyPress,
     setAnnouncement,
     viewAnnouncement,
   },
@@ -30,6 +31,10 @@ const HomeTemplate = ({
   onHomeLoad,
   ...props
 }) => {
+  // Global
+
+  const [{ selectedEventTypes }] = useGlobal('events');
+
   // Effects
 
   useEffect(() => {
@@ -66,7 +71,9 @@ const HomeTemplate = ({
           eventTypes={eventTypes}
           getEvents={getEvents}
           getEvents={getEvents}
+          onLegendKeyPress={onLegendKeyPress}
           onStripPress={onEventStripPress}
+          selectedEventTypes={selectedEventTypes}
           setEvent={setEvent}
           socket={eventSocket}
           viewEvent={viewEvent}
