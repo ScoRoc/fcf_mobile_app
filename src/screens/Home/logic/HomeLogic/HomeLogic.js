@@ -1,49 +1,53 @@
 // Libraries
-import React, { useDispatch, useEffect } from 'reactn';
+import React, { useDispatch, useEffect, useGlobal } from 'reactn';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import io from 'socket.io-client';
-// Home Context
-import HomeContext from './HomeContext';
 // Home Templates
 import HomeTemplate from '../../templates';
 // Constants
-import { API, PATHS, SOCKETS } from 'utils/constants';
+import { API, NAV, PATHS, SOCKETS } from 'utils/constants';
 
 // Sockets
 
-const socket = io(`${API.DEV}${SOCKETS.NAMESPACES.ANNOUNCEMENTS}`);
+const announcementSocket = io(`${API.DEV}${SOCKETS.NAMESPACES.ANNOUNCEMENTS}`);
+const eventSocket = io(`${API.DEV}${SOCKETS.NAMESPACES.EVENTS}`);
 
 // URL Deets
 
-// const baseUrl = `${API.PROD}${PATHS.ANNOUNCEMENTS}`;
-const baseUrl = `${API.DEV}${PATHS.ANNOUNCEMENTS}`;
+// const baseUrl = API.PROD;
+const baseUrl = API.DEV;
 
 // HomeLogic
 
 const HomeLogic = ({ navigation, route }) => {
   // Global
 
-  // const [isLoading, setIsLoading] = useGlobal('isLoading');
-  // const [user] = useGlobal('user');
+  // const [appLoadingStatus, setAppLoadingStatus] = useGlobal('appLoadingStatus');
+  const [{ selectedEventTypes }] = useGlobal('events');
 
   // Dispatch
 
-  // const removeAnnouncement = useDispatch('removeAnnouncement');
   const setAnnouncement = useDispatch('setAnnouncement');
   const setAnnouncements = useDispatch('setAnnouncements');
+  const setEvent = useDispatch('setEvent');
+  const setEvents = useDispatch('setEvents');
+  const setEventTypes = useDispatch('setEventTypes');
 
   // Effects
 
   useEffect(() => {
     getAnnouncements();
+    getEvents();
   }, []);
 
-  // API Callbacks
+  // Announcements API
 
   const getAnnouncements = async () => {
+    const url = `${baseUrl}${PATHS.ANNOUNCEMENTS}`;
+
     try {
-      const res = await axios.get(baseUrl);
+      const res = await axios.get(url);
       // console.log('res in AnnouncementsLogic: ', res);
       // console.log('res.data in AnnouncementsLogic: ', res.data);
       // res.status === 200 ? handleSuccess(res) : handleErrors(res);
@@ -66,53 +70,50 @@ const HomeLogic = ({ navigation, route }) => {
     }
   };
 
-  // const patchAnnouncement = async ({
-  //   _id,
-  //   crop,
-  //   description,
-  //   dimensions,
-  //   imgFile,
-  //   originalAnnouncement,
-  //   url,
-  // }) => {
-  //   console.log('in patch');
+  // Events API
 
-  //   if (!description || !url) {
-  //     console.log('description, imgFile, and url need to be filled out');
-  //     return false;
-  //   }
+  const getEvents = async () => {
+    const url = `${baseUrl}${PATHS.EVENTS}`;
 
-  //   if (!crop || crop.height <= 0 || crop.width <= 0) {
-  //     console.log('crop must exist and have a height and width larger than 0');
-  //     return false;
-  //   }
+    try {
+      const res = await axios.get(url);
+      // console.log('res in EventsLogic: ', res);
+      // console.log('res.data in EventsLogic: ', res.data);
+      // res.status === 200 ? handleSuccess(res) : handleErrors(res);
+      // TODO Fix return to be based off if error or not
+      setEvents({ events: res.data.events });
+      return true;
+    } catch (err) {
+      console.log('err: ', err);
+    }
+  };
 
-  //   const { config, data } = buildPatch({
-  //     crop,
-  //     description,
-  //     dimensions,
-  //     imgFile,
-  //     originalAnnouncement,
-  //     url,
-  //     userId: user._id,
-  //   });
+  const viewEvent = async ({ eventId, viewedByUserId }) => {
+    const url = `${API.DEV}${PATHS.EVENTS}/${eventId}${PATHS.VIEWED_BY}`;
+    try {
+      const res = await axios.patch(url, {}, { params: { viewedByUserId } });
+      console.log('res: ', res);
+      setEvent({ event: res.data });
+    } catch (err) {
+      console.log('err: ', err);
+    }
+  };
 
-  //   const patchUrl = `${baseUrl}/${_id}`;
+  // Functions
 
-  //   console.log('patchUrl: ', patchUrl);
-  //   console.log('data: ', data);
-  //   console.log('config: ', config);
+  const handleLegendKeyPress = ({ legendKey, selectedEventTypes }) => {
+    // TODO should I call API instead of just filtering like this ???
+    const updatedSelectedEventTypes = selectedEventTypes.includes(legendKey)
+      ? selectedEventTypes.filter(key => key !== legendKey)
+      : selectedEventTypes.concat(legendKey);
+    setEventTypes({ selectedEventTypes: updatedSelectedEventTypes });
+  };
 
-  //   // setIsLoading(true);
-  //   await axios.patch(patchUrl, data, config).then(res => {
-  //     console.log('res: ', res);
-  //     // setIsLoading(false);
-  //     // res.status === 200 ? handleSuccess(res) : handleErrors(res);
-  //     setAnnouncement({ announcement: res.data.announcement });
-  //     // TODO Fix return to be based off if error or not
-  //   });
-  //   return true;
-  // };
+  const handleStripPress = item => navigation.navigate(NAV.WEB_VIEW, { url: item.url });
+
+  const onHomeLoad = () => {
+    console.log('onHomeLoad...');
+  };
 
   // Sorted Home
 
@@ -130,20 +131,34 @@ const HomeLogic = ({ navigation, route }) => {
   // Return
 
   return (
-    <HomeContext.Provider
-      value={{ getAnnouncements, navigation, route, setAnnouncement, socket, viewAnnouncement }}
-    >
-      <HomeTemplate />
-    </HomeContext.Provider>
+    <HomeTemplate
+      announcementProps={{
+        announcementSocket,
+        getAnnouncements,
+        onAnnouncementStripPress: handleStripPress,
+        onLegendKeyPress: ({ legendKey }) =>
+          handleLegendKeyPress({ legendKey, selectedEventTypes }),
+        setAnnouncement,
+        viewAnnouncement,
+      }}
+      eventProps={{
+        eventSocket,
+        getEvents,
+        onEventStripPress: handleStripPress,
+        setEvent,
+        viewEvent,
+      }}
+      onHomeLoad={onHomeLoad}
+    />
   );
 };
 
-HomeTemplate.propTypes = {
+HomeLogic.propTypes = {
   navigation: PropTypes.object, // react-navigation navigation object
   route: PropTypes.object, // react-navigation route object
 };
 
-HomeTemplate.defaultProps = {
+HomeLogic.defaultProps = {
   navigation: null,
   route: null,
 };

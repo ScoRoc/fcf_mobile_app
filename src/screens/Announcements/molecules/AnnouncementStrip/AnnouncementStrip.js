@@ -4,14 +4,12 @@ import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 // Atoms
 import { Box, Img, Text, TouchableIOSHighlight } from 'atoms';
+// Molecules
+import { LikeStrip } from 'molecules';
 // Organisms
 import DoubleTouch from 'organisms/DoubleTouch';
-// Home Context
-import HomeContext from 'home-screen/logic/HomeLogic/HomeContext';
-// Announcement Molecules
-import LikeStrip from '../LikeStrip/LikeStrip';
 // Announcement Constants
-import { IMAGES } from '../../constants';
+import { IMAGES } from 'announcements-screen/constants';
 
 // AnnouncementStrip
 

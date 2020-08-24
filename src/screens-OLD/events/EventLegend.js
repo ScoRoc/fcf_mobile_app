@@ -12,7 +12,7 @@ import { WIDTH_$ } from '../../utils-OLD/stringConstants';
 const { getEventKeys, getKeysText } = eventKeys();
 const numOfKeys = getKeysText.length;
 
-export default EventLegend = props => {
+const EventLegend = props => {
   const width = () => EStyleSheet.value(WIDTH_$);
   const createEachKey = (evtKey, i) => {
     const [key, value] = evtKey;
@@ -35,6 +35,8 @@ export default EventLegend = props => {
   );
 };
 
+EventLegend.displayName = 'EventLegend';
+
 const styles = EStyleSheet.create({
   $padding: '14rem',
   view: {
@@ -44,3 +46,5 @@ const styles = EStyleSheet.create({
     justifyContent: 'space-around',
   },
 });
+
+export default EventLegend;

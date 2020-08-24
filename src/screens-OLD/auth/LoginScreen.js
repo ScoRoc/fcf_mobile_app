@@ -12,12 +12,15 @@ import useAxios from '../../utils-OLD/axios-helpers';
 import { getToken, setTokenOnDevice } from '../../utils-OLD/token-helpers';
 import { blackBG } from '../../style-sheet';
 import { _EMPTYSTRING, HEIGHT_$, WIDTH_$, YELLOW_$ } from '../../utils-OLD/stringConstants';
+// Constants
+import { LOGIN_STATUS } from 'utils/constants/status';
 
 const path = `${urlHostName}/user/login`;
 const { postWithAxios } = useAxios(path);
 
 const LoginScreen = props => {
   // Global State
+  const [loginStatus, setLoginStatus] = useGlobal('loginStatus');
   const [user, setUser] = useGlobal('user');
   // State
   const [email, setEmail] = useState('super@super.com');
@@ -53,6 +56,8 @@ const LoginScreen = props => {
         },
       );
       res ? setUser(res.data.user) : handleErr(res.data._message);
+      // res ? setUser(res.data.user) : handleErr(res.data._message);
+      res && setLoginStatus(LOGIN_STATUS.LOGGED_IN);
     };
     fakeLogin();
 

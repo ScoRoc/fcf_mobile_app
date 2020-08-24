@@ -7,12 +7,12 @@ import Blog from 'screens/Blog';
 import BlogScreen from '../screens-OLD/blog/BlogScreen';
 import ChangePasswordScreen from '../screens-OLD/profile/ChangePasswordScreen';
 import Home from 'screens/Home';
-import HomeScreen_NEW from '../screens-OLD/home/HomeScreen_NEW';
+// import HomeScreen_OLD from '../screens-OLD/home/HomeScreen_OLD';
 import PercentTableScreen from '../screens-OLD/wod-tools/percent-table/PercentTableScreen';
 import ProfileScreen from '../screens-OLD/profile/ProfileScreen';
 import UnitConverterScreen from '../screens-OLD/wod-tools/unit-converter/UnitConverterScreen';
 import Webview from 'screens/Webview';
-import WebViewScreen from '../screens-OLD/webview/WebViewScreen';
+// import WebViewScreen from '../screens-OLD/webview/WebViewScreen';
 import WodScreen from '../screens-OLD/wod/WodScreen';
 import WodToolsScreen from '../screens-OLD/wod-tools/WodToolsScreen';
 // Constants
@@ -80,7 +80,7 @@ const MainTabsNavigator = () => (
     }}
   >
     <MainTabs.Screen component={Home} name={NAV.HOME} />
-    {/* <MainTabs.Screen component={HomeScreen_NEW} name={NAV.HOME} /> */}
+    {/* <MainTabs.Screen component={HomeScreen_OLD} name={NAV.HOME} /> */}
     <MainTabs.Screen component={WodScreen} name={NAV.WOD} />
     <MainTabs.Screen component={Blog} name={NAV.BLOG} />
     {/* <MainTabs.Screen component={BlogScreen} name={NAV.BLOG} /> */}
