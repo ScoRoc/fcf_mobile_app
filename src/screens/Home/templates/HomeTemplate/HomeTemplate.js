@@ -20,14 +20,14 @@ import eventTypes from '../../constants/eventTypes';
 
 const HomeTemplate = ({
   announcementProps: {
-    announcementSocket,
+    announcementsSocket,
     getAnnouncements,
     onAnnouncementStripPress,
     onLegendKeyPress,
     setAnnouncement,
     viewAnnouncement,
   },
-  eventProps: { eventSocket, getEvents, onEventStripPress, setEvent, viewEvent },
+  eventProps: { eventsSocket, getEvents, onEventStripPress, setEvent, viewEvent },
   onHomeLoad,
   ...props
 }) => {
@@ -64,7 +64,7 @@ const HomeTemplate = ({
           getAnnouncements={getAnnouncements}
           onStripPress={onAnnouncementStripPress}
           setAnnouncement={setAnnouncement}
-          socket={announcementSocket}
+          socket={announcementsSocket}
           viewAnnouncement={viewAnnouncement}
         />
         <Events
@@ -75,7 +75,7 @@ const HomeTemplate = ({
           onStripPress={onEventStripPress}
           selectedEventTypes={selectedEventTypes}
           setEvent={setEvent}
-          socket={eventSocket}
+          socket={eventsSocket}
           viewEvent={viewEvent}
         />
         {/* <HomeScreen /> */}

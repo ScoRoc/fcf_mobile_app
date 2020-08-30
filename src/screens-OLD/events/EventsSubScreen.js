@@ -34,7 +34,7 @@ const url = `${urlHostName}${path}`;
 const urlSortByMonth = `${url}${_QUESTION_MARK}${SORT}${_EQUALS}${BYMONTH}`;
 const { getWithAxios } = useAxios(urlSortByMonth);
 
-const eventSocket = io(url);
+const eventsSocket = io(url);
 
 const { getEventKeys, getEventTypes } = eventKeys();
 
@@ -103,7 +103,7 @@ class EventsSubScreen extends React.Component {
   };
 
   componentDidMount() {
-    eventSocket.on(EVENT_LIKE_UPDATE, data => {
+    eventsSocket.on(EVENT_LIKE_UPDATE, data => {
       const { event, userId } = data;
       const eventMonth =
         moment(event.startDate).format(YYYY) === moment().year()
@@ -130,7 +130,7 @@ class EventsSubScreen extends React.Component {
   }
 
   componentWillUnmount() {
-    eventSocket.close();
+    eventsSocket.close();
   }
 
   render() {

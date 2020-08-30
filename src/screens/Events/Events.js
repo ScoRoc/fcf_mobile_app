@@ -36,7 +36,7 @@ const Events = ({
 };
 
 Events.propType = {
-  eventSocket: PropTypes.func.isRequired,
+  eventsSocket: PropTypes.func.isRequired,
   eventTypes: PropTypes.object.isRequired,
   getEvents: PropTypes.func.isRequired,
   onLegendKeyPress: PropTypes.func,
@@ -47,7 +47,7 @@ Events.propType = {
 };
 
 Events.defaultProps = {
-  eventSocket: null,
+  eventsSocket: null,
   eventTypes: {},
   getEvents: null,
   onLegendKeyPress: null,

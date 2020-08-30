@@ -72,6 +72,7 @@ export const SOCKETS = {
   NAMESPACES: {
     ANNOUNCEMENTS: '/announcements',
     EVENTS: '/events',
+    WODS: '/wods',
   },
 };
 

@@ -10,8 +10,8 @@ import { API, NAV, PATHS, SOCKETS } from 'utils/constants';
 
 // Sockets
 
-const announcementSocket = io(`${API.DEV}${SOCKETS.NAMESPACES.ANNOUNCEMENTS}`);
-const eventSocket = io(`${API.DEV}${SOCKETS.NAMESPACES.EVENTS}`);
+const announcementsSocket = io(`${API.DEV}${SOCKETS.NAMESPACES.ANNOUNCEMENTS}`);
+const eventsSocket = io(`${API.DEV}${SOCKETS.NAMESPACES.EVENTS}`);
 
 // URL Deets
 
@@ -133,7 +133,7 @@ const HomeLogic = ({ navigation, route }) => {
   return (
     <HomeTemplate
       announcementProps={{
-        announcementSocket,
+        announcementsSocket,
         getAnnouncements,
         onAnnouncementStripPress: handleStripPress,
         onLegendKeyPress: ({ legendKey }) =>
@@ -142,7 +142,7 @@ const HomeLogic = ({ navigation, route }) => {
         viewAnnouncement,
       }}
       eventProps={{
-        eventSocket,
+        eventsSocket,
         getEvents,
         onEventStripPress: handleStripPress,
         setEvent,

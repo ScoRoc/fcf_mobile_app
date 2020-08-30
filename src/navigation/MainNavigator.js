@@ -4,16 +4,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 // Components
 import Blog from 'screens/Blog';
-import BlogScreen from '../screens-OLD/blog/BlogScreen';
 import ChangePasswordScreen from '../screens-OLD/profile/ChangePasswordScreen';
 import Home from 'screens/Home';
-// import HomeScreen_OLD from '../screens-OLD/home/HomeScreen_OLD';
 import PercentTableScreen from '../screens-OLD/wod-tools/percent-table/PercentTableScreen';
 import ProfileScreen from '../screens-OLD/profile/ProfileScreen';
 import UnitConverterScreen from '../screens-OLD/wod-tools/unit-converter/UnitConverterScreen';
 import Webview from 'screens/Webview';
 // import WebViewScreen from '../screens-OLD/webview/WebViewScreen';
-import WodScreen from '../screens-OLD/wod/WodScreen';
+import Wods from 'screens/Wods';
+// import WodScreen_OLD from '../screens-OLD/wod/WodScreen_OLD';
 import WodToolsScreen from '../screens-OLD/wod-tools/WodToolsScreen';
 // Constants
 import { FULL_URLS, NAV } from 'utils/constants';
@@ -80,11 +79,9 @@ const MainTabsNavigator = () => (
     }}
   >
     <MainTabs.Screen component={Home} name={NAV.HOME} />
-    {/* TODO remove HomeScreen_OLD now ??? */}
-    {/* <MainTabs.Screen component={HomeScreen_OLD} name={NAV.HOME} /> */}
-    <MainTabs.Screen component={WodScreen} name={NAV.WOD} />
+    <MainTabs.Screen component={Wods} name={NAV.WODS} />
+    {/* <MainTabs.Screen component={WodScreen_OLD} name={NAV.WODS} /> */}
     <MainTabs.Screen component={Blog} name={NAV.BLOG} />
-    {/* <MainTabs.Screen component={BlogScreen} name={NAV.BLOG} /> */}
     <MainTabs.Screen component={WodToolsNavigator} name={NAV.WOD_TOOLS} />
     <MainTabs.Screen component={ProfileNavigator} name={NAV.PROFILE} />
   </MainTabs.Navigator>

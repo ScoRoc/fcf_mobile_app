@@ -9,6 +9,6 @@ export const NAV = {
   MAIN_TABS: 'MainTabs',
   UNIT_CONVERTER: 'UnitConverter',
   WEB_VIEW: 'WebView',
-  WOD: 'Wod',
+  WODS: 'Wods',
   WOD_TOOLS: 'WodTools',
 };
