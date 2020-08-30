@@ -8,9 +8,18 @@ export default {
       },
       key: 'announcements',
     });
-    const { announcementsState } = globalState;
-    announcementsState.data.announcements[announcement._id] = announcement;
-    return { ...announcementsState };
+    return {
+      announcementsState: {
+        ...globalState.announcementsState,
+        data: {
+          ...globalState.announcementsState.data,
+          announcements: {
+            ...globalState.announcementsState.data.announcements,
+            [announcement._id]: announcement,
+          },
+        },
+      },
+    };
   },
   setAnnouncements: async (globalState, dispatch, { announcements: _announcements }) => {
     const announcements = _announcements.reduce((allAnnouncements, announcement) => {

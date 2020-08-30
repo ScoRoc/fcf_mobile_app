@@ -28,6 +28,7 @@ const AnnouncementsList = ({ announcements, onStripPress, user }) => {
     announcement.likedBy.includes(user._id)
       ? announcement.likedBy.splice(announcement.likedBy.indexOf(user._id), 1)
       : announcement.likedBy.push(user._id);
+
     setAnnouncement({ announcement });
     socket.emit('like', { announcementId: announcement._id, userId: user._id });
   };

@@ -8,6 +8,7 @@ export default {
         currentWeekWods,
       },
     };
+
     await dispatch.setCacheAt({ data: currentWeekWods, key: 'currentWeekWods' });
     return { wodsState: newWodsState };
   },
@@ -23,6 +24,25 @@ export default {
     const { wodsState } = globalState;
     wodsState.data.wods[wod._id] = wod;
     return { ...wodsState };
+  },
+  setWodInCurrentWeekWods: async (globalState, dispatch, { wod }) => {
+    await dispatch.setCacheAt({
+      data: globalState.wodsState.data.currentWeekWods.map(_wod =>
+        _wod._id === wod._id ? wod : _wod,
+      ),
+      key: 'currentWeekWods',
+    });
+    return {
+      wodsState: {
+        ...globalState.wodsState,
+        data: {
+          ...globalState.wodsState.data,
+          currentWeekWods: globalState.wodsState.data.currentWeekWods.map(_wod =>
+            _wod._id === wod._id ? wod : _wod,
+          ),
+        },
+      },
+    };
   },
   setWods: async (globalState, dispatch, { wods: _wods }) => {
     const wods = _wods.reduce((allWods, wod) => {

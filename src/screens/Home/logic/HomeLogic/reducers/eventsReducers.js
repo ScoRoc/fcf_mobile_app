@@ -7,9 +7,18 @@ export default {
       },
       key: 'events',
     });
-    const { eventsState } = globalState;
-    eventsState.data.events[event._id] = event;
-    return { ...eventsState };
+    return {
+      eventsState: {
+        ...globalState.eventsState,
+        data: {
+          ...globalState.eventsState.data,
+          events: {
+            ...globalState.eventsState.data.events,
+            [event._id]: event,
+          },
+        },
+      },
+    };
   },
   setEvents: async (globalState, dispatch, { events: _events }) => {
     const events = _events.reduce((allEvents, event) => {

@@ -5,6 +5,7 @@ export const API = {
 
 export const FULL_URLS = {
   FCF_BLOG: 'http://www.foundationcrossfit.com/blog/',
+  RSVP: 'https://foundation.pushpress.com/',
 };
 
 // export const FULL_PATHS = { // TODO

@@ -6,71 +6,55 @@ import { StatusBar } from 'react-native';
 import { Box, Text, TouchableIOSHighlight } from 'atoms';
 // Wods Organisms
 import { WodsList } from '../organisms';
+// Wods Context
+import WodsContext from '../logic/WodsContext';
 
 // const url = 'https://fcf.sites.zenplanner.com/calendar.cfm';
 
 // WodsTemplate
 
-const WodsTemplate = ({
-  getCurrentWeekWods,
-  // announcementProps: {
-  //   announcementsSocket,
-  //   getAnnouncements,
-  //   onAnnouncementStripPress,
-  //   onLegendKeyPress,
-  //   setAnnouncement,
-  //   viewAnnouncement,
-  // },
-  // eventProps: { eventsSocket, getEvents, onEventStripPress, setEvent, viewEvent },
-  // onHomeLoad,
-  ...props
-}) => {
+const WodsTemplate = ({ getCurrentWeekWods, handleLike, onRsvpPress, ...props }) => {
   // Global
 
   const [wodsState] = useGlobal('wodsState');
 
-  // Effects
-
-  // useEffect(() => {
-  //   onHomeLoad?.();
-  //   console.log('calling useEffect on home page...');
-  // }, []);
-
-  // Announcements and Events have slightly different implementations
-  // That's why Announcements takes a context prop, but Events does not
-  // Seeing which I like better
-  // TODO make them consistent once everything is done
   return (
-    <Box backgroundColor='darkslategrey' flex={1} paddingTop={60}>
-      <StatusBar barStyle='light-content' />
+    <WodsContext.Provider value={{ getCurrentWeekWods, handleLike }}>
+      <Box backgroundColor='darkslategrey' flex={1} paddingTop={60} {...props}>
+        <StatusBar barStyle='light-content' />
 
-      <Text color='deeppink' fontSize={30} marginBottom={20} marginLeft={10} textAlign='center'>
-        This Week's Workouts
-      </Text>
-
-      <WodsList flex={1} wods={wodsState.data.currentWeekWods} />
-
-      <TouchableIOSHighlight
-        backgroundColor='lightsalmon'
-        onPress={() => console.log('pressed RSVP')}
-        paddingBottom={2}
-        paddingTop={2}
-        width='100%'
-      >
-        <Text fontSize={30} textAlign='center'>
-          RSVP
+        <Text color='deeppink' fontSize={30} marginBottom={20} marginLeft={10} textAlign='center'>
+          This Week's Workouts
         </Text>
-      </TouchableIOSHighlight>
-    </Box>
+
+        <WodsList flex={1} wods={wodsState.data.currentWeekWods} />
+
+        <TouchableIOSHighlight
+          backgroundColor='lightsalmon'
+          onPress={onRsvpPress}
+          paddingBottom={2}
+          paddingTop={2}
+          width='100%'
+        >
+          <Text fontSize={30} textAlign='center'>
+            RSVP
+          </Text>
+        </TouchableIOSHighlight>
+      </Box>
+    </WodsContext.Provider>
   );
 };
 
 WodsTemplate.propTypes = {
-  onHomeLoad: PropTypes.func,
+  getCurrentWeekWods: PropTypes.func.isRequired,
+  handleLike: PropTypes.func,
+  onRsvpPress: PropTypes.func.isRequired,
 };
 
 WodsTemplate.defaultProps = {
-  onHomeLoad: null,
+  getCurrentWeekWods: null,
+  handleLike: null,
+  onRsvpPress: null,
 };
 
 WodsTemplate.navigationOptions = {

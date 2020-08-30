@@ -7,6 +7,8 @@ import { Box, TouchableIOSHighlight } from 'atoms';
 import { DateBox, EventStripDetails } from 'events-screen/molecules';
 // Events Context
 import EventsContext from 'events-screen/logic/EventsContext';
+// Utils
+import { isItemLikedByUser } from 'utils/functions';
 
 // EventStrip
 
@@ -16,6 +18,7 @@ const EventStrip = ({ event, onStripPress, ...props }) => {
   const [user] = useGlobal('user');
 
   // Context
+
   const { eventTypes, setEvent, socket, viewEvent } = useContext(EventsContext);
 
   // Effects
@@ -62,7 +65,7 @@ const EventStrip = ({ event, onStripPress, ...props }) => {
       <DateBox
         bgColor={typeColor}
         date={event.startDate}
-        isLiked={event?.likedBy?.includes(user?._id)}
+        isLiked={isItemLikedByUser({ item: event, user })}
         likes={event.likedBy.length}
         onLike={e => handleLike({ event, e })}
       />

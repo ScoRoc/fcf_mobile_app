@@ -6,11 +6,11 @@ import io from 'socket.io-client';
 // Wods Templates
 import WodsTemplate from '../templates/WodsTemplate';
 // Constants
-import { API, NAV, PATHS, SOCKETS } from 'utils/constants';
+import { API, FULL_URLS, NAV, PATHS, SOCKETS } from 'utils/constants';
 
 // Sockets
 
-const wodsSocket = io(`${API.DEV}${SOCKETS.NAMESPACES.WODS}`);
+const socket = io(`${API.DEV}${SOCKETS.NAMESPACES.WODS}`);
 
 // URL Deets
 
@@ -20,20 +20,22 @@ const baseUrl = API.DEV;
 // WodsLogic
 
 const WodsLogic = ({ navigation, route }) => {
-  // Global
-
-  // const [appLoadingStatus, setAppLoadingStatus] = useGlobal('appLoadingStatus');
-  // const [{ selectedEventTypes }] = useGlobal('events');
-
   // Dispatch
 
   const setCurrentWeekWods = useDispatch('setCurrentWeekWods');
-  // const setWods = useDispatch('setWods');
+  const setWod = useDispatch('setWod');
+  const setWodInCurrentWeekWods = useDispatch('setWodInCurrentWeekWods');
 
   // Effects
 
   useEffect(() => {
     getCurrentWeekWods();
+  }, []);
+
+  useEffect(() => {
+    socket.on('invalidLike', msg => console.log('msg: ', msg));
+    // TODO verify is other sockets are receiving an update here
+    socket.on('likeUpdate', wod => setWod({ wod }));
   }, []);
 
   // Wods API
@@ -85,50 +87,19 @@ const WodsLogic = ({ navigation, route }) => {
   //   }
   // };
 
-  // Events API
-
-  // const getEvents = async () => {
-  //   const url = `${baseUrl}${PATHS.EVENTS}`;
-
-  //   try {
-  //     const res = await axios.get(url);
-  //     // console.log('res in EventsLogic: ', res);
-  //     // console.log('res.data in EventsLogic: ', res.data);
-  //     // res.status === 200 ? handleSuccess(res) : handleErrors(res);
-  //     // TODO Fix return to be based off if error or not
-  //     setEvents({ events: res.data.events });
-  //     return true;
-  //   } catch (err) {
-  //     console.log('err: ', err);
-  //   }
-  // };
-
-  // const viewEvent = async ({ eventId, viewedByUserId }) => {
-  //   const url = `${API.DEV}${PATHS.EVENTS}/${eventId}${PATHS.VIEWED_BY}`;
-  //   try {
-  //     const res = await axios.patch(url, {}, { params: { viewedByUserId } });
-  //     console.log('res: ', res);
-  //     setEvent({ event: res.data });
-  //   } catch (err) {
-  //     console.log('err: ', err);
-  //   }
-  // };
-
   // Functions
 
-  // const handleLegendKeyPress = ({ legendKey, selectedEventTypes }) => {
-  //   // TODO should I call API instead of just filtering like this ???
-  //   const updatedSelectedEventTypes = selectedEventTypes.includes(legendKey)
-  //     ? selectedEventTypes.filter(key => key !== legendKey)
-  //     : selectedEventTypes.concat(legendKey);
-  //   setEventTypes({ selectedEventTypes: updatedSelectedEventTypes });
-  // };
+  const handleLike = ({ user, wod }) => {
+    wod.likedBy.includes(user._id)
+      ? wod.likedBy.splice(wod.likedBy.indexOf(user._id), 1)
+      : wod.likedBy.push(user._id);
+    setWodInCurrentWeekWods({ wod });
+    socket.emit('like', { userId: user._id, wodId: wod._id });
+  };
 
-  // const handleStripPress = item => navigation.navigate(NAV.WEB_VIEW, { url: item.url });
-
-  // const onHomeLoad = () => {
-  //   console.log('onHomeLoad...');
-  // };
+  const handleRsvpPress = () => {
+    navigation.navigate(NAV.WEB_VIEW, { url: FULL_URLS.RSVP });
+  };
 
   // Sorted Home
 
@@ -148,23 +119,8 @@ const WodsLogic = ({ navigation, route }) => {
   return (
     <WodsTemplate
       getCurrentWeekWods={getCurrentWeekWods}
-      // announcementProps={{
-      //   announcementsSocket,
-      //   getWods,
-      //   onAnnouncementStripPress: handleStripPress,
-      //   onLegendKeyPress: ({ legendKey }) =>
-      //     handleLegendKeyPress({ legendKey, selectedEventTypes }),
-      //   setAnnouncement,
-      //   viewAnnouncement,
-      // }}
-      // eventProps={{
-      //   eventsSocket,
-      //   getEvents,
-      //   onEventStripPress: handleStripPress,
-      //   setEvent,
-      //   viewEvent,
-      // }}
-      // onHomeLoad={onHomeLoad}
+      handleLike={handleLike}
+      onRsvpPress={handleRsvpPress}
     />
   );
 };
