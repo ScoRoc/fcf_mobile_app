@@ -53,6 +53,7 @@ const EventStripDetails = ({ color, endDate, name, startDate, type, ...props }) 
 };
 
 EventStripDetails.propTypes = {
+  color: PropTypes.string,
   endDate: PropTypes.string, // valid date string
   name: PropTypes.string.isRequired,
   startDate: PropTypes.string, // valid date string
@@ -60,6 +61,7 @@ EventStripDetails.propTypes = {
 };
 
 EventStripDetails.defaultProps = {
+  color: null,
   endDate: null,
   name: null,
   startDate: null,

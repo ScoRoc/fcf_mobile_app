@@ -28,6 +28,7 @@ const AnnouncementsList = ({ announcements, onStripPress, user }) => {
     announcement.likedBy.includes(user._id)
       ? announcement.likedBy.splice(announcement.likedBy.indexOf(user._id), 1)
       : announcement.likedBy.push(user._id);
+
     setAnnouncement({ announcement });
     socket.emit('like', { announcementId: announcement._id, userId: user._id });
   };
@@ -47,18 +48,16 @@ const AnnouncementsList = ({ announcements, onStripPress, user }) => {
 
   // Announcement Strips
 
-  const announcementStrips = announcements?.data
-    ? Object.values(announcements.data).map(announcement => {
-        return (
-          <AnnouncementStrip
-            announcement={announcement}
-            onLike={handleLike}
-            onPress={handleStripPress}
-            key={announcement._id}
-          />
-        );
-      })
-    : [];
+  const announcementStrips = announcements.map(announcement => {
+    return (
+      <AnnouncementStrip
+        announcement={announcement}
+        onLike={handleLike}
+        onPress={handleStripPress}
+        key={announcement._id}
+      />
+    );
+  });
 
   // Return
 
@@ -79,11 +78,15 @@ const AnnouncementsList = ({ announcements, onStripPress, user }) => {
 };
 
 AnnouncementsList.propTypes = {
-  announcements: PropTypes.object,
+  announcements: PropTypes.array,
+  onStripPress: PropTypes.func,
+  user: PropTypes.object,
 };
 
 AnnouncementsList.defaultProps = {
   announcements: null,
+  onStripPress: null,
+  user: null,
 };
 
 export default AnnouncementsList;

@@ -10,8 +10,8 @@ import { API, NAV, PATHS, SOCKETS } from 'utils/constants';
 
 // Sockets
 
-const announcementSocket = io(`${API.DEV}${SOCKETS.NAMESPACES.ANNOUNCEMENTS}`);
-const eventSocket = io(`${API.DEV}${SOCKETS.NAMESPACES.EVENTS}`);
+const announcementsSocket = io(`${API.DEV}${SOCKETS.NAMESPACES.ANNOUNCEMENTS}`);
+const eventsSocket = io(`${API.DEV}${SOCKETS.NAMESPACES.EVENTS}`);
 
 // URL Deets
 
@@ -24,7 +24,7 @@ const HomeLogic = ({ navigation, route }) => {
   // Global
 
   // const [appLoadingStatus, setAppLoadingStatus] = useGlobal('appLoadingStatus');
-  const [{ selectedEventTypes }] = useGlobal('events');
+  const [{ selectedEventTypes }] = useGlobal('eventsState');
 
   // Dispatch
 
@@ -109,7 +109,10 @@ const HomeLogic = ({ navigation, route }) => {
     setEventTypes({ selectedEventTypes: updatedSelectedEventTypes });
   };
 
-  const handleStripPress = item => navigation.navigate(NAV.WEB_VIEW, { url: item.url });
+  const handleStripPress = item => {
+    console.log('item: ', item);
+    navigation.navigate(NAV.WEB_VIEW, { url: item.url });
+  };
 
   const onHomeLoad = () => {
     console.log('onHomeLoad...');
@@ -133,7 +136,7 @@ const HomeLogic = ({ navigation, route }) => {
   return (
     <HomeTemplate
       announcementProps={{
-        announcementSocket,
+        announcementsSocket,
         getAnnouncements,
         onAnnouncementStripPress: handleStripPress,
         onLegendKeyPress: ({ legendKey }) =>
@@ -142,7 +145,7 @@ const HomeLogic = ({ navigation, route }) => {
         viewAnnouncement,
       }}
       eventProps={{
-        eventSocket,
+        eventsSocket,
         getEvents,
         onEventStripPress: handleStripPress,
         setEvent,

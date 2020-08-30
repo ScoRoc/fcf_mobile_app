@@ -20,20 +20,20 @@ import eventTypes from '../../constants/eventTypes';
 
 const HomeTemplate = ({
   announcementProps: {
-    announcementSocket,
+    announcementsSocket,
     getAnnouncements,
     onAnnouncementStripPress,
     onLegendKeyPress,
     setAnnouncement,
     viewAnnouncement,
   },
-  eventProps: { eventSocket, getEvents, onEventStripPress, setEvent, viewEvent },
+  eventProps: { eventsSocket, getEvents, onEventStripPress, setEvent, viewEvent },
   onHomeLoad,
   ...props
 }) => {
   // Global
 
-  const [{ selectedEventTypes }] = useGlobal('events');
+  const [{ selectedEventTypes }] = useGlobal('eventsState');
 
   // Effects
 
@@ -62,20 +62,19 @@ const HomeTemplate = ({
       >
         <Announcements
           getAnnouncements={getAnnouncements}
-          onStripPress={onAnnouncementStripPress}
+          onStripPress={({ announcement }) => onAnnouncementStripPress(announcement)}
           setAnnouncement={setAnnouncement}
-          socket={announcementSocket}
+          socket={announcementsSocket}
           viewAnnouncement={viewAnnouncement}
         />
         <Events
           eventTypes={eventTypes}
           getEvents={getEvents}
-          getEvents={getEvents}
           onLegendKeyPress={onLegendKeyPress}
-          onStripPress={onEventStripPress}
+          onStripPress={({ event }) => onEventStripPress(event)}
           selectedEventTypes={selectedEventTypes}
           setEvent={setEvent}
-          socket={eventSocket}
+          socket={eventsSocket}
           viewEvent={viewEvent}
         />
         {/* <HomeScreen /> */}

@@ -10,6 +10,8 @@ import { LikeStrip } from 'molecules';
 import DoubleTouch from 'organisms/DoubleTouch';
 // Announcement Constants
 import { IMAGES } from 'announcements-screen/constants';
+// Utils
+import { isItemLikedByUser } from 'utils/functions';
 
 // AnnouncementStrip
 
@@ -74,7 +76,7 @@ const AnnouncementStrip = ({
           {announcement.description}
         </Text>
         <LikeStrip
-          isLiked={announcement?.likedBy?.includes(user?._id)}
+          isLiked={isItemLikedByUser({ item: announcement, user })}
           likes={announcement.likedBy.length}
           marginLeft={margin}
           marginRight={margin}

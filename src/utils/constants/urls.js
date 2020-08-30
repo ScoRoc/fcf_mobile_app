@@ -5,6 +5,7 @@ export const API = {
 
 export const FULL_URLS = {
   FCF_BLOG: 'http://www.foundationcrossfit.com/blog/',
+  RSVP: 'https://foundation.pushpress.com/',
 };
 
 // export const FULL_PATHS = { // TODO
@@ -24,6 +25,7 @@ export const PATHS = {
   ANNOUNCEMENTS: '/announcements',
   APP: '/app',
   AUTH: '/auth',
+  CURRENT_WEEK: '/current-week',
   DASHBOARD: '/dashboard',
   EVENTS: '/events',
   EVENT_TYPES: '/eventTypes',
@@ -72,6 +74,7 @@ export const SOCKETS = {
   NAMESPACES: {
     ANNOUNCEMENTS: '/announcements',
     EVENTS: '/events',
+    WODS: '/wods',
   },
 };
 

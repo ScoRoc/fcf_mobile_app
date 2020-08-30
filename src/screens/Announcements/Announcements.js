@@ -20,7 +20,7 @@ const Announcements = ({
 }) => {
   // Global
 
-  const [announcements] = useGlobal('announcements');
+  const [announcementsState] = useGlobal('announcementsState');
   const [user] = useGlobal('user');
 
   // Effects
@@ -43,7 +43,11 @@ const Announcements = ({
       }}
     >
       <Box backgroundColor='green' flex={1} paddingtop={50}>
-        <AnnouncementList announcements={announcements} onStripPress={onStripPress} user={user} />
+        <AnnouncementList
+          announcements={Object.values(announcementsState.data.announcements)}
+          onStripPress={onStripPress}
+          user={user}
+        />
       </Box>
     </AnnouncementsContext.Provider>
   );
