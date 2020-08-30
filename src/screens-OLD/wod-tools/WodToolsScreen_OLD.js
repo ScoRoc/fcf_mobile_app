@@ -50,7 +50,7 @@ const allWodTools = () => {
 };
 const { getAllTools, getToolInfoByName } = allWodTools();
 
-export default class WodToolsScreen extends React.Component {
+export default class WodToolsScreen_OLD extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -59,9 +59,9 @@ export default class WodToolsScreen extends React.Component {
     const height = () => EStyleSheet.value('$height');
     const width = () => EStyleSheet.value('$width');
     const imgUri = `https://www.placecage.com/c/${width()}/${height()}`;
-    const imgBgStyle = {height: height(), width: width()};
+    const imgBgStyle = { height: height(), width: width() };
     const wodTools = Object.entries(getAllTools).map((tool, i) => {
-      const [ key, value ] = tool;
+      const [key, value] = tool;
       const { iconName, library, screen, text } = value;
       return (
         <WodToolTile
@@ -77,17 +77,15 @@ export default class WodToolsScreen extends React.Component {
     return (
       <View style={styles.screen}>
         <StatusBar barStyle='light-content' />
-        <ImageBackground blurRadius={4} source={{uri: imgUri}} style={imgBgStyle}>
+        <ImageBackground blurRadius={4} source={{ uri: imgUri }} style={imgBgStyle}>
           <View style={styles.outerGrid}>
-            <View style={styles.grid}>
-              {wodTools}
-            </View>
+            <View style={styles.grid}>{wodTools}</View>
           </View>
         </ImageBackground>
       </View>
     );
-  };
-};
+  }
+}
 
 const styles = EStyleSheet.create({
   $padding: '50rem',

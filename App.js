@@ -13,6 +13,7 @@ import MainNavigator from './src/navigation/MainNavigator';
 import announcementsReducers from './src/screens/Home/logic/HomeLogic/reducers/announcementsReducers';
 import eventsReducers from './src/screens/Home/logic/HomeLogic/reducers/eventsReducers';
 import wodsReducers from './src/screens/Wods/logic/reducers/wodsReducers';
+import wodToolsReducers from './src/screens/WodTools/logic/reducers/wodToolsReducers';
 // Themes
 import themes, { THEME_NAMES } from 'theme/themes';
 // Helpers
@@ -74,8 +75,8 @@ addReducers({
   ...announcementsReducers,
   ...eventsReducers,
   ...wodsReducers,
+  ...wodToolsReducers,
   //  ...usersReducers,
-  //  ...wodToolsReducers,
   //  ...profileReducers,
   // authenticateUser: (globalState, dispatch) => ({ isUserAuthenticated: true }),
   //   clearUser: (globalState, dispatch) => ({ user: null }),

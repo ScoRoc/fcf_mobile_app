@@ -1,5 +1,5 @@
 // Libraries
-import React, { useEffect, useGlobal } from 'reactn';
+import React, { useGlobal } from 'reactn';
 import PropTypes from 'prop-types';
 import { StatusBar } from 'react-native';
 // Atoms
@@ -8,8 +8,6 @@ import { Box, Text, TouchableIOSHighlight } from 'atoms';
 import { WodsList } from '../organisms';
 // Wods Context
 import WodsContext from '../logic/WodsContext';
-
-// const url = 'https://fcf.sites.zenplanner.com/calendar.cfm';
 
 // WodsTemplate
 
@@ -55,10 +53,6 @@ WodsTemplate.defaultProps = {
   getCurrentWeekWods: null,
   handleLike: null,
   onRsvpPress: null,
-};
-
-WodsTemplate.navigationOptions = {
-  header: null,
 };
 
 export default WodsTemplate;

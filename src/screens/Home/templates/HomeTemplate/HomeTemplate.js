@@ -77,8 +77,6 @@ const HomeTemplate = ({
           socket={eventsSocket}
           viewEvent={viewEvent}
         />
-        {/* <HomeScreen /> */}
-        {/* <EventsScreen /> */}
       </PageCarousel>
     </Box>
   );
@@ -90,10 +88,6 @@ HomeTemplate.propTypes = {
 
 HomeTemplate.defaultProps = {
   onHomeLoad: null,
-};
-
-HomeTemplate.navigationOptions = {
-  header: null,
 };
 
 export default HomeTemplate;

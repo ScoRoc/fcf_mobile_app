@@ -12,7 +12,9 @@ import UnitConverterScreen from '../screens-OLD/wod-tools/unit-converter/UnitCon
 import Webview from 'screens/Webview';
 import Wods from 'screens/Wods';
 // import WodScreen_OLD from '../screens-OLD/wod/WodScreen_OLD';
-import WodToolsScreen from '../screens-OLD/wod-tools/WodToolsScreen';
+// import WodToolsScreen_OLD from '../screens-OLD/wod-tools/WodToolsScreen_OLD';
+import WodTools from 'screens/WodTools';
+
 // Constants
 import { FULL_URLS, NAV } from 'utils/constants';
 
@@ -25,8 +27,20 @@ import { greyDarkExtra, greyMedium, greyMediumDark, tabHeight, white } from '../
 const WodToolsStack = createStackNavigator();
 
 const WodToolsNavigator = () => (
-  <WodToolsStack.Navigator headerMode='none' initialRouteName={NAV.WOD_TOOLS}>
-    <WodToolsStack.Screen component={WodToolsScreen} name={NAV.WOD_TOOLS} />
+  <WodToolsStack.Navigator
+    initialRouteName={NAV.WOD_TOOLS}
+    screenOptions={{
+      headerBackTitleStyle: { color: 'springgreen' }, // back label style
+      headerTintColor: 'blueviolet', // color for arrow, back label, page label
+      headerTitleStyle: { color: 'cyan' }, // title style
+      headerStyle: { backgroundColor: 'indianred' },
+    }}
+  >
+    <WodToolsStack.Screen
+      component={WodTools}
+      options={{ headerShown: false }}
+      name={NAV.WOD_TOOLS}
+    />
     <WodToolsStack.Screen component={UnitConverterScreen} name={NAV.UNIT_CONVERTER} />
     <WodToolsStack.Screen component={PercentTableScreen} name={NAV.PERCENT_TABLE} />
   </WodToolsStack.Navigator>
