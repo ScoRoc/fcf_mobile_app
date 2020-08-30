@@ -1,5 +1,5 @@
 // Libraries
-import React, { useDispatch, useEffect, useGlobal } from 'reactn';
+import React, { useDispatch, useEffect } from 'reactn';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import io from 'socket.io-client';
@@ -19,7 +19,7 @@ const baseUrl = API.DEV;
 
 // WodsLogic
 
-const WodsLogic = ({ navigation, route }) => {
+const WodsLogic = ({ navigation }) => {
   // Dispatch
 
   const setCurrentWeekWods = useDispatch('setCurrentWeekWods');
@@ -76,17 +76,6 @@ const WodsLogic = ({ navigation, route }) => {
   //   }
   // };
 
-  // const viewAnnouncement = async ({ announcementId, viewedByUserId }) => {
-  //   const url = `${API.DEV}${PATHS.ANNOUNCEMENTS}/${announcementId}${PATHS.VIEWED_BY}`;
-  //   try {
-  //     const res = await axios.patch(url, {}, { params: { viewedByUserId } });
-  //     console.log('res: ', res);
-  //     setAnnouncement({ announcement: res.data });
-  //   } catch (err) {
-  //     console.log('err: ', err);
-  //   }
-  // };
-
   // Functions
 
   const handleLike = ({ user, wod }) => {
@@ -101,19 +90,6 @@ const WodsLogic = ({ navigation, route }) => {
     navigation.navigate(NAV.WEB_VIEW, { url: FULL_URLS.RSVP });
   };
 
-  // Sorted Home
-
-  // TODO fix sorting
-  // const sortedWods = Object.values(announcements.data).sort((a, b) => {
-  //   return announcements.direction === QUERY_STRING.DIRECTION.ASC
-  //     ? moment(a.date).isBefore(moment(b.date))
-  //       ? -1
-  //       : 1
-  //     : moment(a.date).isBefore(moment(b.date))
-  //     ? 1
-  //     : -1;
-  // });
-
   // Return
 
   return (
@@ -127,12 +103,10 @@ const WodsLogic = ({ navigation, route }) => {
 
 WodsLogic.propTypes = {
   navigation: PropTypes.object, // react-navigation navigation object
-  route: PropTypes.object, // react-navigation route object
 };
 
 WodsLogic.defaultProps = {
   navigation: null,
-  route: null,
 };
 
 export default WodsLogic;
