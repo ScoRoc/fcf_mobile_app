@@ -24,7 +24,7 @@ const HomeLogic = ({ navigation, route }) => {
   // Global
 
   // const [appLoadingStatus, setAppLoadingStatus] = useGlobal('appLoadingStatus');
-  const [{ selectedEventTypes }] = useGlobal('events');
+  const [{ selectedEventTypes }] = useGlobal('eventsState');
 
   // Dispatch
 
@@ -109,7 +109,10 @@ const HomeLogic = ({ navigation, route }) => {
     setEventTypes({ selectedEventTypes: updatedSelectedEventTypes });
   };
 
-  const handleStripPress = item => navigation.navigate(NAV.WEB_VIEW, { url: item.url });
+  const handleStripPress = item => {
+    console.log('item: ', item);
+    navigation.navigate(NAV.WEB_VIEW, { url: item.url });
+  };
 
   const onHomeLoad = () => {
     console.log('onHomeLoad...');

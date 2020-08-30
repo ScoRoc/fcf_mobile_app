@@ -10,7 +10,6 @@ import PercentTableScreen from '../screens-OLD/wod-tools/percent-table/PercentTa
 import ProfileScreen from '../screens-OLD/profile/ProfileScreen';
 import UnitConverterScreen from '../screens-OLD/wod-tools/unit-converter/UnitConverterScreen';
 import Webview from 'screens/Webview';
-// import WebViewScreen from '../screens-OLD/webview/WebViewScreen';
 import Wods from 'screens/Wods';
 // import WodScreen_OLD from '../screens-OLD/wod/WodScreen_OLD';
 import WodToolsScreen from '../screens-OLD/wod-tools/WodToolsScreen';

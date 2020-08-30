@@ -3,13 +3,16 @@ import React, { useEffect, useGlobal } from 'reactn';
 import PropTypes from 'prop-types';
 import { StatusBar } from 'react-native';
 // Atoms
-import { Box, Text } from 'atoms';
+import { Box, Text, TouchableIOSHighlight } from 'atoms';
+// Wods Organisms
+import { WodsList } from '../organisms';
 
 // const url = 'https://fcf.sites.zenplanner.com/calendar.cfm';
 
 // WodsTemplate
 
 const WodsTemplate = ({
+  getCurrentWeekWods,
   // announcementProps: {
   //   announcementsSocket,
   //   getAnnouncements,
@@ -24,7 +27,7 @@ const WodsTemplate = ({
 }) => {
   // Global
 
-  // const [{ selectedEventTypes }] = useGlobal('events');
+  const [wodsState] = useGlobal('wodsState');
 
   // Effects
 
@@ -41,9 +44,23 @@ const WodsTemplate = ({
     <Box backgroundColor='darkslategrey' flex={1} paddingTop={60}>
       <StatusBar barStyle='light-content' />
 
-      <Text color='deeppink' fontSize={40} marginBottom={20} marginLeft={10}>
-        Wods Template
+      <Text color='deeppink' fontSize={30} marginBottom={20} marginLeft={10} textAlign='center'>
+        This Week's Workouts
       </Text>
+
+      <WodsList flex={1} wods={wodsState.data.currentWeekWods} />
+
+      <TouchableIOSHighlight
+        backgroundColor='lightsalmon'
+        onPress={() => console.log('pressed RSVP')}
+        paddingBottom={2}
+        paddingTop={2}
+        width='100%'
+      >
+        <Text fontSize={30} textAlign='center'>
+          RSVP
+        </Text>
+      </TouchableIOSHighlight>
     </Box>
   );
 };

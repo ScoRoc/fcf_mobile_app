@@ -27,31 +27,47 @@ const WodsLogic = ({ navigation, route }) => {
 
   // Dispatch
 
-  // const setAnnouncement = useDispatch('setAnnouncement');
-  // const setAnnouncements = useDispatch('setAnnouncements');
-  // const setEvent = useDispatch('setEvent');
-  // const setEvents = useDispatch('setEvents');
-  // const setEventTypes = useDispatch('setEventTypes');
+  const setCurrentWeekWods = useDispatch('setCurrentWeekWods');
+  // const setWods = useDispatch('setWods');
 
   // Effects
 
-  // useEffect(() => {
-  //   getAnnouncements();
-  //   getEvents();
-  // }, []);
+  useEffect(() => {
+    getCurrentWeekWods();
+  }, []);
 
-  // Announcements API
+  // Wods API
 
-  // const getAnnouncements = async () => {
-  //   const url = `${baseUrl}${PATHS.ANNOUNCEMENTS}`;
+  const getCurrentWeekWods = async () => {
+    const url = `${baseUrl}${PATHS.WODS}${PATHS.CURRENT_WEEK}`;
+
+    try {
+      const res = await axios.get(url);
+      // console.log('res in AnnouncementsLogic: ', res);
+      // console.log('res.data in AnnouncementsLogic: ', res.data);
+      // res.status === 200 ? handleSuccess(res) : handleErrors(res);
+      // TODO Fix return to be based off if error or not
+      setCurrentWeekWods({ currentWeekWods: res.data.currentWeekWods });
+      console.log('res.data.currentWeekWods: ', res.data.currentWeekWods);
+      return true;
+    } catch (err) {
+      console.log('err: ', err);
+    }
+  };
+
+  // const getWods = async () => {
+  //   const url = `${baseUrl}${PATHS.WODS}`;
 
   //   try {
   //     const res = await axios.get(url);
+  //     console.log('url: ', url);
+
   //     // console.log('res in AnnouncementsLogic: ', res);
   //     // console.log('res.data in AnnouncementsLogic: ', res.data);
   //     // res.status === 200 ? handleSuccess(res) : handleErrors(res);
   //     // TODO Fix return to be based off if error or not
-  //     setAnnouncements({ announcements: res.data.announcements });
+  //     setWods({ wods: res.data.wods });
+  //     console.log('res.data.wods: ', res.data.wods);
   //     return true;
   //   } catch (err) {
   //     console.log('err: ', err);
@@ -131,23 +147,24 @@ const WodsLogic = ({ navigation, route }) => {
 
   return (
     <WodsTemplate
-    // announcementProps={{
-    //   announcementsSocket,
-    //   getAnnouncements,
-    //   onAnnouncementStripPress: handleStripPress,
-    //   onLegendKeyPress: ({ legendKey }) =>
-    //     handleLegendKeyPress({ legendKey, selectedEventTypes }),
-    //   setAnnouncement,
-    //   viewAnnouncement,
-    // }}
-    // eventProps={{
-    //   eventsSocket,
-    //   getEvents,
-    //   onEventStripPress: handleStripPress,
-    //   setEvent,
-    //   viewEvent,
-    // }}
-    // onHomeLoad={onHomeLoad}
+      getCurrentWeekWods={getCurrentWeekWods}
+      // announcementProps={{
+      //   announcementsSocket,
+      //   getWods,
+      //   onAnnouncementStripPress: handleStripPress,
+      //   onLegendKeyPress: ({ legendKey }) =>
+      //     handleLegendKeyPress({ legendKey, selectedEventTypes }),
+      //   setAnnouncement,
+      //   viewAnnouncement,
+      // }}
+      // eventProps={{
+      //   eventsSocket,
+      //   getEvents,
+      //   onEventStripPress: handleStripPress,
+      //   setEvent,
+      //   viewEvent,
+      // }}
+      // onHomeLoad={onHomeLoad}
     />
   );
 };

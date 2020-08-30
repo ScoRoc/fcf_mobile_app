@@ -26,6 +26,7 @@ const DateBox = ({ bgColor, date, isLiked, likes, onLike, ...props }) => {
 };
 
 DateBox.propTypes = {
+  bgColor: PropTypes.string,
   date: PropTypes.string.isRequired, // valid date string
   isLiked: PropTypes.bool.isRequired,
   likes: PropTypes.number.isRequired,
@@ -33,6 +34,7 @@ DateBox.propTypes = {
 };
 
 DateBox.defaultProps = {
+  bgColor: null,
   date: null,
   isLiked: null,
   likes: null,

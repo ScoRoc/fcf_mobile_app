@@ -24,6 +24,7 @@ export const PATHS = {
   ANNOUNCEMENTS: '/announcements',
   APP: '/app',
   AUTH: '/auth',
+  CURRENT_WEEK: '/current-week',
   DASHBOARD: '/dashboard',
   EVENTS: '/events',
   EVENT_TYPES: '/eventTypes',

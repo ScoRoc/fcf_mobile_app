@@ -33,7 +33,7 @@ const HomeTemplate = ({
 }) => {
   // Global
 
-  const [{ selectedEventTypes }] = useGlobal('events');
+  const [{ selectedEventTypes }] = useGlobal('eventsState');
 
   // Effects
 
@@ -62,7 +62,7 @@ const HomeTemplate = ({
       >
         <Announcements
           getAnnouncements={getAnnouncements}
-          onStripPress={onAnnouncementStripPress}
+          onStripPress={({ announcement }) => onAnnouncementStripPress(announcement)}
           setAnnouncement={setAnnouncement}
           socket={announcementsSocket}
           viewAnnouncement={viewAnnouncement}
@@ -70,9 +70,8 @@ const HomeTemplate = ({
         <Events
           eventTypes={eventTypes}
           getEvents={getEvents}
-          getEvents={getEvents}
           onLegendKeyPress={onLegendKeyPress}
-          onStripPress={onEventStripPress}
+          onStripPress={({ event }) => onEventStripPress(event)}
           selectedEventTypes={selectedEventTypes}
           setEvent={setEvent}
           socket={eventsSocket}

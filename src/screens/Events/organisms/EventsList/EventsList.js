@@ -10,17 +10,15 @@ import SectionHeader from './molecules/SectionHeader';
 // Events Context
 import EventsContext from 'events-screen/logic/EventsContext';
 
-const getEventsWithSelectedTypes = ({ events }) =>
-  events?.data
-    ? Object.values(events.data).filter(event => events.selectedEventTypes.includes(event.type))
-    : [];
+const getEventsWithSelectedTypes = ({ events, selectedEventTypes }) =>
+  Object.values(events).filter(event => selectedEventTypes.includes(event.type));
 
 // EventsList
 
 const EventsList = ({ onStripPress, ...props }) => {
   // Global
 
-  const [events] = useGlobal('events');
+  const [eventsState] = useGlobal('eventsState');
 
   // State
 
@@ -57,7 +55,12 @@ const EventsList = ({ onStripPress, ...props }) => {
     return Object.entries(months).map(([key, val]) => ({ data: val, title: key }));
   };
 
-  const sections = createSections(getEventsWithSelectedTypes({ events }));
+  const sections = createSections(
+    getEventsWithSelectedTypes({
+      events: eventsState.data.events,
+      selectedEventTypes: eventsState.selectedEventTypes,
+    }),
+  );
 
   return (
     <SectionList

@@ -12,6 +12,7 @@ import MainNavigator from './src/navigation/MainNavigator';
 // Reducers
 import announcementsReducers from './src/screens/Home/logic/HomeLogic/reducers/announcementsReducers';
 import eventsReducers from './src/screens/Home/logic/HomeLogic/reducers/eventsReducers';
+import wodsReducers from './src/screens/Wods/logic/reducers/wodsReducers';
 // Themes
 import themes, { THEME_NAMES } from 'theme/themes';
 // Helpers
@@ -37,9 +38,22 @@ buildStyleSheet(); // Init Extended Style Sheet
 addReactNDevTools();
 
 setGlobal({
-  announcements: {},
+  announcementsState: {
+    data: {
+      announcements: {},
+    },
+  },
   appLoadingStatus: APP_STATUS.IDLE,
-  events: {
+  cache: {
+    announcements: {},
+    currentWeekWods: [],
+    events: {},
+    wods: {},
+  },
+  eventsState: {
+    data: {
+      events: {},
+    },
     selectedEventTypes: Object.keys(eventTypes),
   },
   loginStatus: LOGIN_STATUS.LOGGED_OUT,
@@ -48,12 +62,18 @@ setGlobal({
     self: null,
     token: null,
   },
-  wods: {},
+  wodsState: {
+    data: {
+      wods: {},
+      currentWeekWods: [],
+    },
+  },
 });
 
 addReducers({
   ...announcementsReducers,
   ...eventsReducers,
+  ...wodsReducers,
   //  ...usersReducers,
   //  ...wodToolsReducers,
   //  ...profileReducers,
