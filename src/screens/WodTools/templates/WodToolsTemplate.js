@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StatusBar } from 'react-native';
 // Atoms
-import { Box } from 'atoms';
+import { Box, Text, TouchableIOSOpacity } from 'atoms';
 // WodsTools Molecules
 import { WodToolsTile } from '../molecules';
 // WodTools List
@@ -17,7 +17,7 @@ const Line = props => (
 
 // WodToolsTemplate
 
-const WodToolsTemplate = ({ onTilePress, ...props }) => {
+const WodToolsTemplate = ({ navigation, onTilePress, ...props }) => {
   // Tiles
 
   const tiles = Object.values(wodTools)
@@ -53,6 +53,13 @@ const WodToolsTemplate = ({ onTilePress, ...props }) => {
       {...props}
     >
       <StatusBar barStyle='light-content' />
+      <TouchableIOSOpacity onPress={() => navigation.navigate('UNIT_CONVERTER-test')}>
+        <Text>Unit Converter New - test</Text>
+      </TouchableIOSOpacity>
+      <TouchableIOSOpacity onPress={() => navigation.navigate('PERCENT_TABLE-test')}>
+        <Text>Percent Table New - test</Text>
+      </TouchableIOSOpacity>
+
       {tiles}
     </Box>
     // </WodsContext.Provider>

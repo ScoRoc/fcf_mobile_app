@@ -6,7 +6,7 @@ import Calc from '../calc/Calc';
 
 import percents from './percents';
 
-export default class PercentTableScreen extends React.Component {
+export default class ProfileScreen_OLD extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,19 +21,19 @@ export default class PercentTableScreen extends React.Component {
     headerTitleStyle: {
       fontSize: 22,
     },
-  }
+  };
 
   updatePercent = (input, percent) => {
-    const perc = percent || this.state.percent
+    const perc = percent || this.state.percent;
     const returnedInput = (input * perc).toString();
     if (returnedInput === '0') return '0';
     return (input * perc).toFixed(1);
-  }
+  };
 
   clearInput = () => {
-    this.setState({input: '0', output: '0',});
+    this.setState({ input: '0', output: '0' });
     return '0';
-  }
+  };
 
   updateInput = (type, digit) => {
     const input = this.state.input === '0' ? '' : this.state.input;
@@ -43,23 +43,26 @@ export default class PercentTableScreen extends React.Component {
       delete: () => input.substring(0, input.length - 1),
     };
     const newInput = types[type]();
-    let returnedInput = newInput[0] === '.'
-                        ? newInput.length > 3
-                          ? `0${newInput}`.substring(0, 3)
-                          : `0${newInput}`
-                        : newInput.length > 3
-                          ? newInput.substring(0, 3)
-                          : newInput;
-    this.setState({input: returnedInput || '0', output: this.updatePercent(returnedInput)});
-  }
+    let returnedInput =
+      newInput[0] === '.'
+        ? newInput.length > 3
+          ? `0${newInput}`.substring(0, 3)
+          : `0${newInput}`
+        : newInput.length > 3
+        ? newInput.substring(0, 3)
+        : newInput;
+    this.setState({ input: returnedInput || '0', output: this.updatePercent(returnedInput) });
+  };
 
   handlePickerChange = (percent, i) => {
-    this.setState({percent, output: this.updatePercent(this.state.input, percent)});
-  }
+    this.setState({ percent, output: this.updatePercent(this.state.input, percent) });
+  };
 
   render() {
     const { input, output, percent } = this.state;
-    const pickerItems = percents.map((n, i) => <Picker.Item label={n.toString()} value={n / 100} key={i} />)
+    const pickerItems = percents.map((n, i) => (
+      <Picker.Item label={n.toString()} value={n / 100} key={i} />
+    ));
     return (
       <View style={styles.screen}>
         <View style={styles.input}>
@@ -83,14 +86,11 @@ export default class PercentTableScreen extends React.Component {
             <Text style={styles.outputText}>{output}</Text>
           </View>
         </View>
-        <Calc
-          clearInput={this.clearInput}
-          updateInput={this.updateInput}
-        />
+        <Calc clearInput={this.clearInput} updateInput={this.updateInput} />
       </View>
     );
   }
-};
+}
 
 const styles = EStyleSheet.create({
   $padding: '8rem',
@@ -158,6 +158,6 @@ const styles = EStyleSheet.create({
   },
   outputText: {
     color: '$white',
-    fontSize: '40rem'
-  }
+    fontSize: '40rem',
+  },
 });

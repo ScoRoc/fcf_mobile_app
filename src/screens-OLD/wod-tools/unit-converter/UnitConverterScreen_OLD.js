@@ -5,7 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import ArrowIO from './ArrowIO';
 import Calc from '../calc/Calc';
 
-export default class UnitConverterScreen extends React.Component {
+export default class UnitConverterScreen_OLD extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,12 +21,12 @@ export default class UnitConverterScreen extends React.Component {
       fontSize: 22,
       // fontWeight: 'bold',
     },
-  }
+  };
 
   clearInput = () => {
-    this.setState({input: '', outputLB: '0', outputKG: '0',});
+    this.setState({ input: '', outputLB: '0', outputKG: '0' });
     return '0';
-  }
+  };
 
   updateInput = (type, digit) => {
     const input = this.state.input === '0' ? '' : this.state.input;
@@ -36,15 +36,16 @@ export default class UnitConverterScreen extends React.Component {
       delete: () => input.substring(0, input.length - 1),
     };
     const newInput = types[type]();
-    let returnedInput = newInput[0] === '.'
-                        ? newInput.length > 3
-                          ? `0${newInput}`.substring(0, 3)
-                          : `0${newInput}`
-                        : newInput.length > 3
-                          ? newInput.substring(0, 3)
-                          : newInput;
-    this.setState({input: returnedInput, update: true});
-  }
+    let returnedInput =
+      newInput[0] === '.'
+        ? newInput.length > 3
+          ? `0${newInput}`.substring(0, 3)
+          : `0${newInput}`
+        : newInput.length > 3
+        ? newInput.substring(0, 3)
+        : newInput;
+    this.setState({ input: returnedInput, update: true });
+  };
 
   convert = (str, unit) => {
     if (str === '.') {
@@ -56,14 +57,14 @@ export default class UnitConverterScreen extends React.Component {
     };
     const converted = convertTo[unit]().toFixed(1);
     return converted === '0.0' ? '0' : converted;
-  }
+  };
 
   componentDidUpdate() {
     if (this.state.update) {
       this.setState({
         outputLB: this.convert(this.state.input, 'lb'),
         outputKG: this.convert(this.state.input, 'kg'),
-        update: false
+        update: false,
       });
     }
   }
@@ -77,7 +78,7 @@ export default class UnitConverterScreen extends React.Component {
       </View>
     );
   }
-};
+}
 
 const styles = EStyleSheet.create({
   $blue: 'blue',
@@ -87,6 +88,6 @@ const styles = EStyleSheet.create({
     backgroundColor: '$blackBG',
   },
   text: {
-    fontSize: '22rem'
-  }
+    fontSize: '22rem',
+  },
 });

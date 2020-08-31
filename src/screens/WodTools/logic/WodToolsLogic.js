@@ -15,7 +15,7 @@ const WodToolsLogic = ({ navigation }) => {
 
   // Return
 
-  return <WodToolsTemplate onTilePress={handleTilePress} />;
+  return <WodToolsTemplate navigation={navigation} onTilePress={handleTilePress} />;
 };
 
 WodToolsLogic.propTypes = {

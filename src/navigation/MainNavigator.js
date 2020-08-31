@@ -6,12 +6,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Blog from 'screens/Blog';
 import ChangePasswordScreen from '../screens-OLD/profile/ChangePasswordScreen';
 import Home from 'screens/Home';
-import PercentTableScreen from '../screens-OLD/wod-tools/percent-table/PercentTableScreen';
+import PercentTable from 'wod-tools-library/PercentTable';
+import PercentTableScreen_OLD from '../screens-OLD/wod-tools/percent-table/PercentTableScreen_OLD';
 import ProfileScreen from '../screens-OLD/profile/ProfileScreen';
-import UnitConverterScreen from '../screens-OLD/wod-tools/unit-converter/UnitConverterScreen';
+import UnitConverter from 'wod-tools-library/UnitConverter';
+import UnitConverterScreen_OLD from '../screens-OLD/wod-tools/unit-converter/UnitConverterScreen_OLD';
 import Webview from 'screens/Webview';
 import Wods from 'screens/Wods';
-// import WodScreen_OLD from '../screens-OLD/wod/WodScreen_OLD';
 // import WodToolsScreen_OLD from '../screens-OLD/wod-tools/WodToolsScreen_OLD';
 import WodTools from 'screens/WodTools';
 
@@ -41,8 +42,11 @@ const WodToolsNavigator = () => (
       options={{ headerShown: false }}
       name={NAV.WOD_TOOLS}
     />
-    <WodToolsStack.Screen component={UnitConverterScreen} name={NAV.UNIT_CONVERTER} />
-    <WodToolsStack.Screen component={PercentTableScreen} name={NAV.PERCENT_TABLE} />
+    <WodToolsStack.Screen component={UnitConverterScreen_OLD} name={NAV.UNIT_CONVERTER} />
+    <WodToolsStack.Screen component={PercentTableScreen_OLD} name={NAV.PERCENT_TABLE} />
+
+    <WodToolsStack.Screen component={UnitConverter} name={`${NAV.UNIT_CONVERTER}-test`} />
+    <WodToolsStack.Screen component={PercentTable} name={`${NAV.PERCENT_TABLE}-test`} />
   </WodToolsStack.Navigator>
 );
 
@@ -93,7 +97,6 @@ const MainTabsNavigator = () => (
   >
     <MainTabs.Screen component={Home} name={NAV.HOME} />
     <MainTabs.Screen component={Wods} name={NAV.WODS} />
-    {/* <MainTabs.Screen component={WodScreen_OLD} name={NAV.WODS} /> */}
     <MainTabs.Screen component={Blog} name={NAV.BLOG} />
     <MainTabs.Screen component={WodToolsNavigator} name={NAV.WOD_TOOLS} />
     <MainTabs.Screen component={ProfileNavigator} name={NAV.PROFILE} />
