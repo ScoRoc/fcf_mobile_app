@@ -53,10 +53,10 @@ const WodToolsTemplate = ({ navigation, onTilePress, ...props }) => {
       {...props}
     >
       <StatusBar barStyle='light-content' />
-      <TouchableIOSOpacity onPress={() => navigation.navigate('UNIT_CONVERTER-test')}>
+      <TouchableIOSOpacity onPress={() => navigation.navigate('UnitConverter-test')}>
         <Text>Unit Converter New - test</Text>
       </TouchableIOSOpacity>
-      <TouchableIOSOpacity onPress={() => navigation.navigate('PERCENT_TABLE-test')}>
+      <TouchableIOSOpacity onPress={() => navigation.navigate('PercentTable-test')}>
         <Text>Percent Table New - test</Text>
       </TouchableIOSOpacity>
 

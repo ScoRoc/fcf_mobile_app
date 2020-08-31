@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // Atoms
-import { Box, Icon, Text, TouchableIOSHighlight } from 'atoms';
+import { Box, Icon, Text, TouchableIOSOpacity } from 'atoms';
 
 // WodToolsTile
 
@@ -16,14 +16,14 @@ const WodToolsTile = ({
   ...props
 }) => {
   return (
-    <TouchableIOSHighlight onPress={onPress} {...props}>
+    <TouchableIOSOpacity onPress={onPress} {...props}>
       <Box alignItems='center'>
         <Icon iconLibrary={iconLibrary} iconName={iconName} color={iconColor} size={100} />
         <Text color={labelColor} fontSize={22} marginTop={3}>
           {label}
         </Text>
       </Box>
-    </TouchableIOSHighlight>
+    </TouchableIOSOpacity>
   );
 };
 
