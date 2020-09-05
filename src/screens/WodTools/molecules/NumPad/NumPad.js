@@ -3,13 +3,73 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 // Atoms
-import { Box } from 'atoms';
+import { Box, Icon } from 'atoms';
 // NumPadButton
 import NumPadButton from './NumPadButton';
 
 // Size
 
 const { width } = Dimensions.get('window');
+
+// Buttons
+
+const buttonsData = {
+  seven: {
+    label: '7',
+    value: 7,
+  },
+  eight: {
+    label: '8',
+    value: 8,
+  },
+  nine: {
+    label: '9',
+    value: 9,
+  },
+  four: {
+    label: '4',
+    value: 4,
+  },
+  five: {
+    label: '5',
+    value: 5,
+  },
+  six: {
+    label: '6',
+    value: 6,
+  },
+  one: {
+    label: '1',
+    value: 1,
+  },
+  two: {
+    label: '2',
+    value: 2,
+  },
+  three: {
+    label: '3',
+    value: 3,
+  },
+  clear: {
+    label: 'C',
+    value: 'clear',
+  },
+  zero: {
+    label: '0',
+    value: 0,
+  },
+  backspace: {
+    label: (
+      <Icon
+        color='black'
+        iconLibrary='MaterialCommunityIcons'
+        iconName='keyboard-backspace'
+        size={45}
+      />
+    ),
+    value: 'backspace',
+  },
+};
 
 // NumPad
 
@@ -18,88 +78,32 @@ const NumPad = ({ buttonWidthPercent, onPress, ...props }) => {
 
   const size = width * buttonWidthPercent;
 
+  const numPadWidth = size * 3;
+  const padding = (width - numPadWidth) / 2;
+
+  // Buttons
+
+  const buttons = Object.values(buttonsData).map(button => (
+    <NumPadButton
+      height={size}
+      key={button.value}
+      label={button.label}
+      onPress={() => onPress({ value: button.value })}
+      width={size}
+    />
+  ));
+
   // Return
 
   return (
     <Box
       flexDirection='row'
       flexWrap='wrap'
-      paddingLeft={size / 4}
-      paddingRight={size / 4}
+      paddingLeft={padding}
+      paddingRight={padding}
       {...props}
     >
-      <NumPadButton
-        height={size}
-        label='7'
-        onPress={() => onPress({ pressedValue: '7' })}
-        width={size}
-      />
-      <NumPadButton
-        height={size}
-        label='8'
-        onPress={() => onPress({ pressedValue: '8' })}
-        width={size}
-      />
-      <NumPadButton
-        height={size}
-        label='9'
-        onPress={() => onPress({ pressedValue: '9' })}
-        width={size}
-      />
-      <NumPadButton
-        height={size}
-        label='4'
-        onPress={() => onPress({ pressedValue: '4' })}
-        width={size}
-      />
-      <NumPadButton
-        height={size}
-        label='5'
-        onPress={() => onPress({ pressedValue: '5' })}
-        width={size}
-      />
-      <NumPadButton
-        height={size}
-        label='6'
-        onPress={() => onPress({ pressedValue: '6' })}
-        width={size}
-      />
-      <NumPadButton
-        height={size}
-        label='1'
-        onPress={() => onPress({ pressedValue: '1' })}
-        width={size}
-      />
-      <NumPadButton
-        height={size}
-        label='2'
-        onPress={() => onPress({ pressedValue: '2' })}
-        width={size}
-      />
-      <NumPadButton
-        height={size}
-        label='3'
-        onPress={() => onPress({ pressedValue: '3' })}
-        width={size}
-      />
-      <NumPadButton
-        height={size}
-        label='C'
-        onPress={() => onPress({ pressedValue: 'clear' })}
-        width={size}
-      />
-      <NumPadButton
-        height={size}
-        label='0'
-        onPress={() => onPress({ pressedValue: '0' })}
-        width={size}
-      />
-      <NumPadButton
-        height={size}
-        label='arrow'
-        onPress={() => onPress({ pressedValue: 'backspace' })}
-        width={size}
-      />
+      {buttons}
     </Box>
   );
 };
@@ -110,7 +114,7 @@ NumPad.propTypes = {
 };
 
 NumPad.defaultProps = {
-  buttonWidthPercent: 0.285,
+  buttonWidthPercent: 0.27,
   onPress: null,
 };
 

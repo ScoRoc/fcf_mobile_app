@@ -1,3 +1,4 @@
+import ConverterOutput from './ConverterOutput/ConverterOutput';
 import UnitsPicker from './UnitsPicker/UnitsPicker';
 
-export { UnitsPicker };
+export { ConverterOutput, UnitsPicker };

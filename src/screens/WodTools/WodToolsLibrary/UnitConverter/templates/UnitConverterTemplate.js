@@ -2,18 +2,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // Atoms
-import { Box, Text } from 'atoms';
+import { Box } from 'atoms';
 // WodTools Molecule
 import { NumPad } from 'wod-tools-screen/molecules';
 // UnitConverter Molecules
-import { UnitsPicker } from '../molecules';
+import { ConverterOutput, UnitsPicker } from '../molecules';
 // Constants
 import { UNITS } from 'utils/constants';
-
-// String and Unit Convertion
-
-const roundString = ({ decimals, val }) => parseFloat(val).toFixed(decimals);
-const stringToTwoDecimals = val => roundString({ decimals: 2, val });
 
 // UnitConverterTemplate
 
@@ -26,7 +21,7 @@ const UnitConverterTemplate = ({ ...props }) => {
 
   // Functions
 
-  const handleOnPress = ({ pressedValue }) => {
+  const handleOnPress = ({ value: pressedValue }) => {
     const types = {
       add: () => setValue(`${value}${pressedValue}`),
       backspace: () => setValue(value.substring(0, value.length - 1)),
@@ -43,31 +38,8 @@ const UnitConverterTemplate = ({ ...props }) => {
 
   return (
     <Box backgroundColor='midnightblue' flex={1} {...props}>
-      <Box
-        borderBottomColor='white'
-        borderBottomWidth={1}
-        flexDirection='row'
-        justifyContent='space-evenly'
-        paddingBottom={28.5}
-        paddingTop={28.5}
-      >
-        <Text color='white' fontSize={30} textAlign='center'>
-          {value ? value : '0'}
-        </Text>
-        <Text color='white' fontSize={30} textAlign='center'>
-          {UNITS[fromUnit].ABBREV}
-        </Text>
-        <Text color='white' fontSize={30} textAlign='center'>
-          {' '}
-          ={' '}
-        </Text>
-        <Text color='white' fontSize={30} textAlign='center'>
-          {stringToTwoDecimals(value * UNITS[fromUnit].CONVERT.TO[toUnit])}
-        </Text>
-        <Text color='white' fontSize={30} textAlign='center'>
-          {UNITS[toUnit].ABBREV}
-        </Text>
-      </Box>
+      <ConverterOutput fromUnit={fromUnit} toUnit={toUnit} value={value} />
+
       <UnitsPicker
         onChangeFromUnit={handleSetFromUnit}
         onChangeToUnit={handleSetToUnit}
