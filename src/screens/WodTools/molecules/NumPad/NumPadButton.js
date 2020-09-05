@@ -26,7 +26,7 @@ const NumPadButton = ({ label, onPress, ...props }) => {
 
 NumPadButton.propTypes = {
   label: PropTypes.string.isRequired,
-  onPress: PropTypes.element.isRequired,
+  onPress: PropTypes.func.isRequired,
 };
 
 NumPadButton.defaultProps = {
