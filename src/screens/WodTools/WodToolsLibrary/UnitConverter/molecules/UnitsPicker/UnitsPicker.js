@@ -22,9 +22,7 @@ const UnitsPicker = ({
     <Box
       alignItems='center'
       flexDirection='row'
-      height={70}
-      marginBottom={3}
-      marginTop={3}
+      height={90}
       justifyContent='space-around'
       overflow='hidden'
       {...props}

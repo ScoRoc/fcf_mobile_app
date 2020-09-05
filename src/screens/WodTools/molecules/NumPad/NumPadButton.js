@@ -6,7 +6,7 @@ import { Text, TouchableIOSHighlight } from 'atoms';
 
 // NumPadButton
 
-const NumPadButton = ({ label, onPress, ...props }) => {
+const NumPadButton = ({ color, label, onPress, ...props }) => {
   return (
     <TouchableIOSHighlight
       alignItems='center'
@@ -17,7 +17,7 @@ const NumPadButton = ({ label, onPress, ...props }) => {
       onPress={onPress}
       {...props}
     >
-      <Text fontSize={40} textAlign='center'>
+      <Text color={color} fontSize={40} textAlign='center'>
         {label}
       </Text>
     </TouchableIOSHighlight>
@@ -25,11 +25,13 @@ const NumPadButton = ({ label, onPress, ...props }) => {
 };
 
 NumPadButton.propTypes = {
-  label: PropTypes.string.isRequired,
+  color: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.element, PropTypes.string]).isRequired,
   onPress: PropTypes.func.isRequired,
 };
 
 NumPadButton.defaultProps = {
+  color: 'black',
   label: null,
   onPress: null,
 };

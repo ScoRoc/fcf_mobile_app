@@ -45,8 +45,8 @@ const ConverterOutput = ({ fromUnit, toUnit, value, ...props }) => {
 };
 
 ConverterOutput.propTypes = {
-  fromUnit: PropTypes.oneOf(Object.values(UNITS)).isRequired,
-  toUnit: PropTypes.oneOf(Object.values(UNITS)).isRequired,
+  fromUnit: PropTypes.oneOf(Object.keys(UNITS)).isRequired,
+  toUnit: PropTypes.oneOf(Object.keys(UNITS)).isRequired,
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 };
 

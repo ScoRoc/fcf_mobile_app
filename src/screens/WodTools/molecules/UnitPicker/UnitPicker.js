@@ -1,6 +1,8 @@
 // Libraries
 import React from 'react';
 import PropTypes from 'prop-types';
+// TODO deprecated -> moved to @react-native-community/picker
+// Will need to migrate but not supported by Expo 37
 import { Picker } from 'react-native';
 // Constants
 import { UNITS } from 'utils/constants';

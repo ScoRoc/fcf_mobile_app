@@ -22,13 +22,15 @@ const UnitConverterTemplate = ({ ...props }) => {
   // Functions
 
   const handleOnPress = ({ value: pressedValue }) => {
-    const types = {
-      add: () => setValue(`${value}${pressedValue}`),
-      backspace: () => setValue(value.substring(0, value.length - 1)),
-      clear: () => setValue(''),
+    const newValues = {
+      add: `${value}${pressedValue}`,
+      backspace: value.substring(0, value.length - 1),
+      clear: '',
     };
 
-    types[pressedValue] ? types[pressedValue]() : types.add();
+    const newValue =
+      newValues[pressedValue] !== undefined ? newValues[pressedValue] : newValues.add;
+    setValue(newValue);
   };
 
   const handleSetFromUnit = newFromUnit => setFromUnit(newFromUnit);
@@ -37,7 +39,7 @@ const UnitConverterTemplate = ({ ...props }) => {
   // Return
 
   return (
-    <Box backgroundColor='midnightblue' flex={1} {...props}>
+    <Box backgroundColor='midnightblue' flex={1} justifyContent='space-evenly' {...props}>
       <ConverterOutput fromUnit={fromUnit} toUnit={toUnit} value={value} />
 
       <UnitsPicker
