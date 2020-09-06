@@ -11,8 +11,8 @@ import { NumPad } from 'wod-tools-screen/molecules';
 
 const getPercents = ({ percentEnd = 110, percentStart = 40 } = {}) => {
   const numbers = [];
-  for (let i = percentStart; i <= percentEnd; i++) {
-    numbers.push(i);
+  for (let i = percentEnd; i >= percentStart; i--) {
+    numbers.push({ label: i, value: i / 100 });
   }
   return numbers;
 };
@@ -24,40 +24,59 @@ const percents = getPercents();
 const PercentTableTemplate = ({ text, ...props }) => {
   // State
 
-  const [value, setValue] = useState(50);
+  const [calculatedValue, setCalculatedValue] = useState(50);
+  const [percentage, setPercentage] = useState(0.5);
+  const [pressedValue, setPressedValue] = useState('');
 
   // Functions
 
-  const handleOnPress = ({ value: pressedValue }) => {
+  const handleOnPress = ({ value }) => {
     const newValues = {
-      add: `${value}${pressedValue}`,
-      backspace: value.substring(0, value.length - 1),
+      add: `${pressedValue}${value}`,
+      backspace: pressedValue.substring(0, pressedValue.length - 1),
       clear: '',
     };
 
-    const newValue =
-      newValues[pressedValue] !== undefined ? newValues[pressedValue] : newValues.add;
+    const newPressedValue = newValues[value] !== undefined ? newValues[value] : newValues.add;
 
-    setValue(newValue);
+    setPressedValue(newPressedValue);
   };
+
+  const handlePickerChange = val => {
+    console.log('val: ', val);
+  };
+
+  // Components
+
+  const pickerItems = percents.map(percent => (
+    <Picker.Item key={percent.label} label={percent.label.toString()} value={percent.value} />
+  ));
 
   // Return
 
-  const pickerItems = percents.map(percent => (
-    <Picker.Item key={percent} label={percent} value={percent} />
-  ));
-
   return (
     <Box backgroundColor='maroon' flex={1} {...props}>
-      <Picker
-        itemStyle={{ color: 'white', fontSize: 15 }}
-        onValueChange={setValue}
-        selectedValue={value}
-        style={{ width: 100 }}
-        {...props}
-      >
-        {pickerItems}
-      </Picker>
+      <Box alignItems='center' flexDirection='row' justifyContent='space-evenly'>
+        <Text color='white' fontSize={30} width={70}>
+          {pressedValue}
+        </Text>
+
+        <Box alignItems='center' flexDirection='row'>
+          <Picker
+            itemStyle={{ color: 'white', fontSize: 20 }}
+            onValueChange={handlePickerChange}
+            selectedValue={0.5}
+            style={{ width: 40 }}
+            {...props}
+          >
+            {pickerItems}
+          </Picker>
+          <Text color='white'>%</Text>
+        </Box>
+
+        <Text color='white'>=</Text>
+      </Box>
+
       <NumPad onPress={handleOnPress} />
     </Box>
   );
